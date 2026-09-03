@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { SpecialtyLpInput, LpSolution, GoalProgrammingSolution } from '../types';
 import { solveGoalProgramming } from '../solver/lpSolver';
+import { REAL_TARGET_OVERTIME_HOURS } from '../data/dataset';
 import { KatexMath } from './common/KatexMath';
 import {
   Target,
@@ -29,7 +30,10 @@ export const GoalProgrammingSection: React.FC<GoalProgrammingSectionProps> = ({
   onSolveSuccess,
 }) => {
   const [throughputTarget, setThroughputTarget] = useState<number>(200);
-  const [overtimeTarget, setOvertimeTarget] = useState<number>(10.0);
+  // Defaults to the real historical target computed in README.md §9 Step 4
+  // (80% of actual Q1 average weekly overtime, ~3-4 min/week) — this hospital's
+  // real overtime is already negligible, still editable above for scenario testing.
+  const [overtimeTarget, setOvertimeTarget] = useState<number>(REAL_TARGET_OVERTIME_HOURS);
   const [w1Weight, setW1Weight] = useState<number>(6); // Throughput priority
   const [w2Weight, setW2Weight] = useState<number>(6); // Overtime avoidance priority
   const [isSolving, setIsSolving] = useState<boolean>(false);

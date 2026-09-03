@@ -1,108 +1,72 @@
 import * as XLSX from 'xlsx';
 import { SurgicalCase, SuiteDateStat, SpecialtyLpInput } from '../types';
 
+// Source: real Q1 2022 hospital dataset (project.xlsx -> LP_MODEL / RAW_DATA),
+// not synthetic placeholders. Avg_Duration_Min / Min_Hours / Max_Hours come
+// directly from the Excel Solver model that produced the 200.49 cases/week
+// result. overtimeRate = avg(Overtime_Min) / avg(Booked_Time_Min) per
+// specialty; note it is ~0 for nearly every specialty in this dataset —
+// historical overtime here is negligible hospital-wide (see README.md §7/§9
+// Step 4), which is itself a real finding, not a data gap.
 export const SPECIALTY_CONFIGS: SpecialtyLpInput[] = [
-  {
-    service: 'Ophthalmology',
-    avgDurationMin: 42,
-    baselineWeeklyHours: 26.6,
-    minHours: 21.3,
-    maxHours: 31.9,
-    overtimeRate: 0.024,
-    cptSample: '66984',
-    cptDesc: 'Cataract extraction w/ IOL',
-  },
-  {
-    service: 'Orthopedics',
-    avgDurationMin: 118,
-    baselineWeeklyHours: 28.5,
-    minHours: 22.8,
-    maxHours: 34.2,
-    overtimeRate: 0.125,
-    cptSample: '27447',
-    cptDesc: 'Total knee arthroplasty',
-  },
-  {
-    service: 'General',
-    avgDurationMin: 94,
-    baselineWeeklyHours: 25.2,
-    minHours: 20.2,
-    maxHours: 30.2,
-    overtimeRate: 0.092,
-    cptSample: '47562',
-    cptDesc: 'Laparoscopic cholecystectomy',
-  },
-  {
-    service: 'Urology',
-    avgDurationMin: 68,
-    baselineWeeklyHours: 18.4,
-    minHours: 14.7,
-    maxHours: 22.1,
-    overtimeRate: 0.065,
-    cptSample: '52000',
-    cptDesc: 'Cystourethroscopy',
-  },
-  {
-    service: 'OBGYN',
-    avgDurationMin: 82,
-    baselineWeeklyHours: 16.2,
-    minHours: 13.0,
-    maxHours: 19.4,
-    overtimeRate: 0.078,
-    cptSample: '58558',
-    cptDesc: 'Hysteroscopy with biopsy',
-  },
-  {
-    service: 'ENT',
-    avgDurationMin: 55,
-    baselineWeeklyHours: 13.8,
-    minHours: 11.0,
-    maxHours: 16.6,
-    overtimeRate: 0.048,
-    cptSample: '42820',
-    cptDesc: 'Tonsillectomy & adenoidectomy',
-  },
-  {
-    service: 'Plastic',
-    avgDurationMin: 105,
-    baselineWeeklyHours: 9.4,
-    minHours: 7.5,
-    maxHours: 11.3,
-    overtimeRate: 0.110,
-    cptSample: '15823',
-    cptDesc: 'Blepharoplasty / Reconstructive',
-  },
-  {
-    service: 'Podiatry',
-    avgDurationMin: 62,
-    baselineWeeklyHours: 6.8,
-    minHours: 5.4,
-    maxHours: 8.2,
-    overtimeRate: 0.052,
-    cptSample: '28285',
-    cptDesc: 'Hammertoe correction',
-  },
-  {
-    service: 'Vascular',
-    avgDurationMin: 135,
-    baselineWeeklyHours: 5.1,
-    minHours: 4.1,
-    maxHours: 6.1,
-    overtimeRate: 0.145,
-    cptSample: '35301',
-    cptDesc: 'Carotid endarterectomy',
-  },
-  {
-    service: 'Pediatrics',
-    avgDurationMin: 48,
-    baselineWeeklyHours: 2.6,
-    minHours: 2.1,
-    maxHours: 3.1,
-    overtimeRate: 0.035,
-    cptSample: '69436',
-    cptDesc: 'Tympanostomy bilateral',
-  },
+  { service: 'ENT', avgDurationMin: 33.94, baselineWeeklyHours: 8.57, minHours: 6.86, maxHours: 10.29, overtimeRate: 0.0000, cptSample: '42826', cptDesc: 'Tonsillectomy' },
+  { service: 'General', avgDurationMin: 80.00, baselineWeeklyHours: 12.00, minHours: 9.60, maxHours: 14.40, overtimeRate: 0.0000, cptSample: '43775', cptDesc: 'Sleeve gastrectomy' },
+  { service: 'OBGYN', avgDurationMin: 55.25, baselineWeeklyHours: 11.62, minHours: 9.29, maxHours: 13.94, overtimeRate: 0.0000, cptSample: '57460', cptDesc: 'Cervical biopsy' },
+  { service: 'Ophthalmology', avgDurationMin: 16.30, baselineWeeklyHours: 6.98, minHours: 5.58, maxHours: 8.38, overtimeRate: 0.0000, cptSample: '66982', cptDesc: 'Extracapsular cataract removal' },
+  { service: 'Orthopedics', avgDurationMin: 58.18, baselineWeeklyHours: 23.94, minHours: 19.15, maxHours: 28.73, overtimeRate: 0.0000, cptSample: '29877', cptDesc: 'Arthroscopy, knee, surgical' },
+  { service: 'Pediatrics', avgDurationMin: 30.20, baselineWeeklyHours: 8.52, minHours: 6.81, maxHours: 10.22, overtimeRate: 0.0000, cptSample: '69436', cptDesc: 'Tympanostomy, general anesthesia' },
+  { service: 'Plastic', avgDurationMin: 69.02, baselineWeeklyHours: 18.32, minHours: 14.65, maxHours: 21.98, overtimeRate: 0.0000, cptSample: '14060', cptDesc: 'Adjacent tissue transfer, eyelids, nose, ears, lip' },
+  { service: 'Podiatry', avgDurationMin: 56.29, baselineWeeklyHours: 17.75, minHours: 14.20, maxHours: 21.30, overtimeRate: 0.0025, cptSample: '28296', cptDesc: 'Bunionectomy with distal osteotomy' },
+  { service: 'Urology', avgDurationMin: 36.54, baselineWeeklyHours: 9.04, minHours: 7.23, maxHours: 10.85, overtimeRate: 0.0000, cptSample: '55250', cptDesc: 'Vasectomy' },
+  { service: 'Vascular', avgDurationMin: 44.59, baselineWeeklyHours: 9.89, minHours: 7.91, maxHours: 11.87, overtimeRate: 0.0000, cptSample: '36901', cptDesc: 'AV fistula' },
 ];
+
+// Real per-(Service, CPT Code) procedure-level breakdown, computed from
+// RAW_DATA per README.md §9 Step 3 (faculty-requested refinement: a single
+// avg duration per specialty hides real procedure-mix variance). 32
+// distinct procedures. Same LP structure, finer decision variables.
+export const PROCEDURE_CONFIGS: SpecialtyLpInput[] = [
+  { service: 'ENT — Septoplasty', avgDurationMin: 52.50, baselineWeeklyHours: 3.10, minHours: 2.48, maxHours: 3.72, overtimeRate: 0, cptSample: '30520', cptDesc: 'Septoplasty' },
+  { service: 'ENT — Tonsillectomy', avgDurationMin: 28.29, baselineWeeklyHours: 5.48, minHours: 4.38, maxHours: 6.57, overtimeRate: 0, cptSample: '42826', cptDesc: 'Tonsillectomy' },
+  { service: 'General — Sleeve gastrectomy', avgDurationMin: 96.00, baselineWeeklyHours: 9.60, minHours: 7.68, maxHours: 11.52, overtimeRate: 0, cptSample: '43775', cptDesc: 'Sleeve gastrectomy' },
+  { service: 'General — Laparoscopic cholecystectomy', avgDurationMin: 48.00, baselineWeeklyHours: 2.40, minHours: 1.92, maxHours: 2.88, overtimeRate: 0, cptSample: '47562', cptDesc: 'Laparoscopic cholecystectomy' },
+  { service: 'OBGYN — Cervical biopsy', avgDurationMin: 33.50, baselineWeeklyHours: 3.52, minHours: 2.82, maxHours: 4.23, overtimeRate: 0, cptSample: '57460', cptDesc: 'Cervical biopsy' },
+  { service: 'OBGYN — Hysterectomy, surgical', avgDurationMin: 77.00, baselineWeeklyHours: 8.10, minHours: 6.48, maxHours: 9.71, overtimeRate: 0, cptSample: '58562', cptDesc: 'Hysterectomy, surgical' },
+  { service: 'Ophthalmology — Extracapsular cataract removal', avgDurationMin: 16.30, baselineWeeklyHours: 6.98, minHours: 5.58, maxHours: 8.38, overtimeRate: 0, cptSample: '66982', cptDesc: 'Extracapsular cataract removal' },
+  { service: 'Orthopedics — Fasciotomy, palmar, open', avgDurationMin: 56.00, baselineWeeklyHours: 1.51, minHours: 1.21, maxHours: 1.81, overtimeRate: 0, cptSample: '26045', cptDesc: 'Fasciotomy, palmar, open' },
+  { service: 'Orthopedics — Flexor tendon repair', avgDurationMin: 47.00, baselineWeeklyHours: 1.20, minHours: 0.96, maxHours: 1.45, overtimeRate: 0, cptSample: '26356', cptDesc: 'Flexor tendon repair' },
+  { service: 'Orthopedics — ORIF, phalangeal shaft fracture', avgDurationMin: 84.00, baselineWeeklyHours: 2.26, minHours: 1.81, maxHours: 2.71, overtimeRate: 0, cptSample: '26735', cptDesc: 'ORIF, phalangeal shaft fracture' },
+  { service: 'Orthopedics — Arthroplasty, hip', avgDurationMin: 88.00, baselineWeeklyHours: 2.60, minHours: 2.08, maxHours: 3.11, overtimeRate: 0, cptSample: '27130', cptDesc: 'Arthroplasty, hip' },
+  { service: 'Orthopedics — Arthroplasty, knee, hinge prothesis', avgDurationMin: 90.17, baselineWeeklyHours: 9.47, minHours: 7.58, maxHours: 11.38, overtimeRate: 0, cptSample: '27445', cptDesc: 'Arthroplasty, knee, hinge prothesis' },
+  { service: 'Orthopedics — Arthroscopy, knee, surgical', avgDurationMin: 34.70, baselineWeeklyHours: 4.99, minHours: 3.99, maxHours: 5.98, overtimeRate: 0, cptSample: '29877', cptDesc: 'Arthroscopy, knee, surgical' },
+  { service: 'Orthopedics — Carpal tunnel release, open', avgDurationMin: 35.50, baselineWeeklyHours: 1.91, minHours: 1.53, maxHours: 2.29, overtimeRate: 0, cptSample: '64721', cptDesc: 'Carpal tunnel release, open' },
+  { service: 'Pediatrics — Myringotomy, general anesthesia', avgDurationMin: 27.50, baselineWeeklyHours: 3.10, minHours: 2.48, maxHours: 3.72, overtimeRate: 0, cptSample: '69421', cptDesc: 'Myringotomy, general anesthesia' },
+  { service: 'Pediatrics — Tympanostomy, general anesthesia', avgDurationMin: 32.00, baselineWeeklyHours: 5.41, minHours: 4.33, maxHours: 6.50, overtimeRate: 0, cptSample: '69436', cptDesc: 'Tympanostomy, general anesthesia' },
+  { service: 'Plastic — Adjacent tissue transfer, eyelids, nose, ears, lip', avgDurationMin: 75.45, baselineWeeklyHours: 8.32, minHours: 6.66, maxHours: 9.98, overtimeRate: 0, cptSample: '14060', cptDesc: 'Adjacent tissue transfer, eyelids, nose, ears, lip' },
+  { service: 'Plastic — Liposuction', avgDurationMin: 122.00, baselineWeeklyHours: 5.63, minHours: 4.50, maxHours: 6.76, overtimeRate: 0, cptSample: '15773', cptDesc: 'Liposuction' },
+  { service: 'Plastic — Removal of benign skin lesion', avgDurationMin: 32.67, baselineWeeklyHours: 2.89, minHours: 2.31, maxHours: 3.47, overtimeRate: 0, cptSample: '17110', cptDesc: 'Removal of benign skin lesion' },
+  { service: 'Plastic — Rhinoplasty', avgDurationMin: 72.00, baselineWeeklyHours: 1.48, minHours: 1.18, maxHours: 1.77, overtimeRate: 0, cptSample: '30400', cptDesc: 'Rhinoplasty' },
+  { service: 'Podiatry — Neurectomy, intrinsic musculature of foot', avgDurationMin: 48.00, baselineWeeklyHours: 1.11, minHours: 0.89, maxHours: 1.33, overtimeRate: 0, cptSample: '28055', cptDesc: 'Neurectomy, intrinsic musculature of foot' },
+  { service: 'Podiatry — Plantar fasciotomy', avgDurationMin: 34.50, baselineWeeklyHours: 1.86, minHours: 1.49, maxHours: 2.23, overtimeRate: 0, cptSample: '28060', cptDesc: 'Plantar fasciotomy' },
+  { service: 'Podiatry — Partial ostectomy, fifth metatarsal head', avgDurationMin: 93.00, baselineWeeklyHours: 2.15, minHours: 1.72, maxHours: 2.58, overtimeRate: 0, cptSample: '28110', cptDesc: 'Partial ostectomy, fifth metatarsal head' },
+  { service: 'Podiatry — Correction, hammertoe', avgDurationMin: 45.00, baselineWeeklyHours: 2.42, minHours: 1.94, maxHours: 2.91, overtimeRate: 0, cptSample: '28285', cptDesc: 'Correction, hammertoe' },
+  { service: 'Podiatry — Hallux rigidus correction with cheilectomy', avgDurationMin: 42.00, baselineWeeklyHours: 1.24, minHours: 0.99, maxHours: 1.49, overtimeRate: 0, cptSample: '28289', cptDesc: 'Hallux rigidus correction with cheilectomy' },
+  { service: 'Podiatry — Bunionectomy with distal osteotomy', avgDurationMin: 77.74, baselineWeeklyHours: 8.47, minHours: 6.78, maxHours: 10.17, overtimeRate: 0.0025, cptSample: '28296', cptDesc: 'Bunionectomy with distal osteotomy' },
+  { service: 'Podiatry — Lapidus bunionectomy', avgDurationMin: 22.00, baselineWeeklyHours: 0.51, minHours: 0.41, maxHours: 0.61, overtimeRate: 0, cptSample: '28297', cptDesc: 'Lapidus bunionectomy' },
+  { service: 'Urology — Cystourethroscopy', avgDurationMin: 23.99, baselineWeeklyHours: 2.34, minHours: 1.87, maxHours: 2.80, overtimeRate: 0, cptSample: '52353', cptDesc: 'Cystourethroscopy' },
+  { service: 'Urology — Vasectomy', avgDurationMin: 34.04, baselineWeeklyHours: 3.40, minHours: 2.72, maxHours: 4.08, overtimeRate: 0, cptSample: '55250', cptDesc: 'Vasectomy' },
+  { service: 'Urology — Cryosurgery of the prostate gland', avgDurationMin: 66.00, baselineWeeklyHours: 3.30, minHours: 2.64, maxHours: 3.96, overtimeRate: 0, cptSample: '55873', cptDesc: 'Cryosurgery of the prostate gland' },
+  { service: 'Vascular — Digital amputation, metatarsophalangeal joint', avgDurationMin: 33.00, baselineWeeklyHours: 3.30, minHours: 2.64, maxHours: 3.96, overtimeRate: 0, cptSample: '28820', cptDesc: 'Digital amputation, metatarsophalangeal joint' },
+  { service: 'Vascular — AV fistula', avgDurationMin: 54.11, baselineWeeklyHours: 6.59, minHours: 5.27, maxHours: 7.91, overtimeRate: 0, cptSample: '36901', cptDesc: 'AV fistula' },
+];
+
+// Real historical Target Overtime (README.md §9 Step 4): 80% of the actual
+// average weekly overtime across the whole hospital in Q1 2022. Note this
+// value is intentionally very small (~3-4 min/week) — overtime in this
+// dataset is already well-controlled, which the Goal Programming model
+// should surface honestly rather than be forced into a larger, invented
+// target.
+export const REAL_TARGET_OVERTIME_HOURS = 0.055;
 
 // Pseudorandom deterministic number generator for reproducible hospital dataset
 function seededRandom(seed: number) {
