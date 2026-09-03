@@ -1,0 +1,6 @@
+{
+  "name": "OR Capacity Planning & Optimization",
+  "description": "Hospital operating room capacity planning, statistical analytics, and linear and goal programming optimization suite.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
