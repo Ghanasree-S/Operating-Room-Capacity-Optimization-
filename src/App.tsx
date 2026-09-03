@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { ActiveTab, SurgicalCase, SuiteDateStat, SpecialtyLpInput, LpSolution, GoalProgrammingSolution } from './types';
-import { generateHospitalData, exportDatasetToExcel, parseExcelWorkbook } from './data/dataset';
+import { generateHospitalData, exportDatasetToExcel, parseExcelWorkbook, REAL_TARGET_OVERTIME_HOURS } from './data/dataset';
 import { solveLpModel, solveGoalProgramming } from './solver/lpSolver';
 import { Sidebar } from './components/Sidebar';
 import { Header } from './components/Header';
@@ -42,7 +42,7 @@ export default function App() {
     const lpSol = solveLpModel(lpInputs, 320);
     setLpSolution(lpSol);
 
-    const gpSol = solveGoalProgramming(lpInputs, 200, 10.0, 6, 6, 320);
+    const gpSol = solveGoalProgramming(lpInputs, 200, REAL_TARGET_OVERTIME_HOURS, 6, 6, 320);
     setGpSolution(gpSol);
   }, [lpInputs]);
 
@@ -88,7 +88,7 @@ export default function App() {
     setLpInputs(fresh.lpInputs);
     const lpSol = solveLpModel(fresh.lpInputs, 320);
     setLpSolution(lpSol);
-    const gpSol = solveGoalProgramming(fresh.lpInputs, 200, 10.0, 6, 6, 320);
+    const gpSol = solveGoalProgramming(fresh.lpInputs, 200, REAL_TARGET_OVERTIME_HOURS, 6, 6, 320);
     setGpSolution(gpSol);
     showToast('Reset dataset and bounds to Q1 hospital baseline (2,172 cases).');
   }, [showToast]);
