@@ -1,157 +1,420 @@
-# OR Capacity Planning & Optimization
+# Multi-Objective Operating Room Capacity Planning and Utilization Optimization Using Surgical Workflow Analytics
 
-A hospital Operating Room (OR) capacity planning dashboard — statistical
-analytics plus Linear Programming and Goal Programming optimization,
-built as the interactive front-end for the *Multi-Objective Operating Room
-Capacity Planning and Utilization Optimization Using Surgical Workflow
-Analytics* Operations Research project.
+Operations Research course project — data-driven OR block-time allocation
+using Linear Programming and Goal Programming, built on real hospital
+surgical workflow data.
 
-Excel is the data backend and source of truth (a `RAW_DATA` / `STATS` /
-`LP_MODEL` workbook exported from the project's Excel analysis); this app
-reads that workbook directly and re-runs the optimization models in the
-browser — no server-side database, no Python, no Excel Solver dependency
-at runtime.
+This file documents the whole project. Read **§9 Implementation Plan** for
+the build history and what each step produced.
 
 ---
 
-## What it does
+## 1. Repository layout
 
-- **Overview Dashboard** — headline stats (total cases, OR suites,
-  specialties, average utilization), utilization-by-suite chart, and a
-  sortable utilization-by-specialty table.
-- **Statistics Explorer** — on-demand statistics by OR Suite or by
-  Service: case count, average actual duration, average overtime,
-  average booked time, utilization %, active days.
-- **Linear Programming Model** — the classic single-objective model:
-  maximize weekly surgical throughput subject to total OR capacity and
-  per-specialty historical demand bounds. Decision-variable bounds
-  (Min/Max Hours) are editable; **Solve** re-runs the optimizer and shows
-  allocated hours, cases performed, capacity used, and which bounds are
-  binding. A **By Specialty (10) / By Procedure (32)** toggle switches the
-  decision-variable granularity between one variable per surgical service
-  and one per (Service, CPT Code) pair.
-- **Goal Programming Model** — the multi-objective extension: balances a
-  throughput target against an overtime target using deviation
-  variables, with adjustable priority weights for each goal.
-- **Insights** — before/after comparison across current practice,
-  LP-optimized, and Goal-Programming-balanced allocations.
-- **Excel import/export** — export the current dataset and model inputs
-  as an Excel workbook (`RAW_DATA`, `STATS`, `LP_MODEL` sheets), or
-  import one back in to load real data from the Excel side of the
-  project.
-
-## The optimization models
-
-**Linear Programming**
+One repository, two halves:
 
 ```
-Maximize   Z = Σ (60 × Xₛ ÷ Dₛ)
-Subject to Σ Xₛ ≤ 320                       (total weekly OR capacity)
-           Min_Hoursₛ ≤ Xₛ ≤ Max_Hoursₛ      (per-specialty demand bounds)
-           Xₛ ≥ 0
+OR_Capacity_Project/
+├── README.md              ← this file (project-wide documentation)
+├── backend/               ← Excel analysis: the source of truth
+│   ├── project.xlsx           RAW_DATA, STATS, DASHBOARD, LP_MODEL,
+│   │                          + Answer / Sensitivity / Limits reports
+│   ├── LP_MODEL_refined_CPT.xlsx  32 Service+CPT decision variables
+│   ├── OR-Dataset/            raw Kaggle CSV (2022_Q1_OR_Utilization.csv)
+│   ├── export_for_frontend.py     project.xlsx → frontend import format
+│   ├── compute_refined_lp.py      builds the CPT-level LP inputs
+│   ├── gen_real_configs.py        emits the frontend's config arrays
+│   ├── OR_PPT.pptx / .pdf         presentation
+│   └── OR_Capacity_Planning_Review.tex   LaTeX/Beamer deck
+└── frontend/              ← TypeScript dashboard
+    ├── src/                   app, solver, components
+    ├── Hospital_OR_Capacity_Dataset.xlsx   real data in import format
+    ├── verify_models.ts       16 assertions across both LP granularities + GP
+    └── verify_parity.cjs      LP result vs the Excel Solver baseline
 ```
 
-**Goal Programming**
+**GitHub:** <https://github.com/Ghanasree-S/Operating-Room-Capacity-Optimization->
+
+The Excel workbook in `backend/` is the analytical source of truth; the
+`frontend/` app reads its exported data (via SheetJS) and re-solves both
+optimization models independently with `javascript-lp-solver`, which is how
+the two halves are cross-validated — see §9 Step 2.
+
+---
+
+## 2. Problem Statement
+
+A hospital operates **8 Operating Room (OR) suites** shared across **10
+surgical specialties** (Orthopedics, Podiatry, ENT, OBGYN, Ophthalmology,
+Pediatrics, Plastic, Urology, Vascular, General). Every week, hospital
+administration must decide how many hours of OR block-time to allocate to
+each specialty.
+
+- Too few hours wastes expensive, scarce OR capacity.
+- Too many hours to one specialty starves the others and drives up overtime.
+
+**Goal:** find the weekly OR-hour allocation across specialties that
+maximizes surgical throughput, without exceeding total OR capacity and
+without straying far from each specialty's historical demand — while also
+keeping overtime under control (the project's *multi-objective* dimension).
+
+---
+
+## 3. Dataset
+
+- **Source:** Kaggle — [Optimizing Operating Room Utilization](https://www.kaggle.com/datasets/thedevastator/optimizing-operating-room-utilization)
+- **File:** `2022_Q1_OR_Utilization.csv`
+- **Size:** 2,172 real surgical case records, Q1 2022 (Jan–Mar), 8 OR suites, 10 specialties
+
+### Attributes (13 total)
+
+| Attribute | Type | Meaning |
+|---|---|---|
+| index | Number | Row identifier |
+| Encounter ID | Number | Unique patient encounter ID |
+| Date | Date | Date of surgery |
+| OR Suite | Number (1–8) | Operating room used |
+| Service | Text | Surgical specialty |
+| CPT Code | Text/Code | Standard procedure billing code |
+| CPT Description | Text | Plain description of the procedure |
+| Booked Time (min) | Number | Originally scheduled duration |
+| OR Schedule | Time | Scheduled start time |
+| Wheels In | Time | Patient arrival in OR |
+| Start Time | Time | Actual surgery start |
+| End Time | Time | Actual surgery end |
+| Wheels Out | Time | Patient departure from OR |
+
+---
+
+## 4. Data Cleaning & Derived Metrics (done, in `project.xlsx` → `RAW_DATA`)
+
+Raw dates/times were stored as inconsistent text (`DD-MM-YYYY` mixed with
+`MM/DD/YY`) and several numeric columns (OR Suite, Booked Time) were
+imported as text. Both were fixed in Excel before any computation.
 
 ```
-Goal 1 (Throughput):  Σ (60 × Xₛ ÷ Dₛ) + d1⁻ − d1⁺ = Throughput Target
-Goal 2 (Overtime):    Σ Overtimeₛ      + d2⁻ − d2⁺ = Overtime Target
-Minimize   Z = W1 · d1⁻ + W2 · d2⁺
-Subject to Σ Xₛ ≤ 320, Min_Hoursₛ ≤ Xₛ ≤ Max_Hoursₛ, all deviation vars ≥ 0
+Actual Duration (min)   = (End Time − Start Time) × 1440
+Overtime (min)           = MAX(0, Actual Duration − Booked Time)
+Turnover (min)           = Next Wheels In − Current Wheels Out   (same OR suite, same day)
+Utilization % (suite,day) = Total Actual Duration ÷ (Last Wheels Out − First Wheels In)
 ```
 
-Where `Xₛ` is weekly OR-hours allocated to specialty *s* and `Dₛ` is that
-specialty's average actual case duration. Both models are solved with
-[`javascript-lp-solver`](https://www.npmjs.com/package/javascript-lp-solver)
-directly in the browser.
+Utilization % is computed per **OR Suite × Date** — 496 unique combinations
+across the quarter, stored in `project.xlsx → STATS`. Average utilization
+across the hospital: **44.4%**, indicating significant unused capacity.
 
-### Verifying the models
+> Note: earlier drafts of this README and the slide deck quoted "~46%".
+> The figure computed from the exported `STATS` sheet is **44.4%** — use
+> that. Anywhere the presentation still says 46%, it needs updating.
 
-```bash
-node verify_parity.cjs     # LP result vs the Excel Solver baseline
-npx tsx verify_models.ts   # 16 assertions across both granularities + GP
+Relevant `RAW_DATA` sheet columns (project.xlsx): `CLEAN_DATE`,
+`Clean_OR_Schedule`, `Clean_Wheels_In`, `Clean_Start_Time`,
+`Clean_End_Time`, `Clean_Wheels_Out`, `Actual_Duration_Min`,
+`Overtime_Min`, `Turnover_Min`.
+
+---
+
+## 5. On-Demand Statistics Dashboard (done, in `project.xlsx` → `DASHBOARD`)
+
+- **By OR Suite** — enter suite number (1–8) → avg utilization %, total
+  actual-duration hours, avg daily duration, active days.
+- **By Service** — enter specialty name → case count, avg actual duration,
+  avg overtime, avg booked time.
+
+---
+
+## 6. Optimization Model 1 — Linear Programming (solved, in `project.xlsx` → `LP_MODEL`)
+
+**Decision Variable:** `Xₛ` = weekly OR-hours allocated to specialty *s*
+
+```
+Maximize Z = Σ (60 × Xₛ ÷ Dₛ)     [Dₛ = avg. actual duration of specialty s, minutes]
+
+Subject to:
+  Σ Xₛ ≤ 320                                   (total weekly OR capacity, 8 suites)
+  0.8 × historical avg ≤ Xₛ ≤ 1.2 × historical avg   (per-specialty demand bounds)
+  Xₛ ≥ 0
 ```
 
-`verify_models.ts` exercises the real production solver against the real
-decision-variable sets and checks optimality, constraint satisfaction, the
-Excel baseline (200.50 vs 200.49), the goal-equation balance, and
-complementarity of the deviation variables.
+**Solved with:** Excel Solver, Simplex LP method.
 
-## Tech stack
+**Result:** `Z* = 200.49 cases/week`, using only **152 of 320 hours (48%)**
+of total OR capacity. Sensitivity Report shows the binding constraints are
+the per-specialty **Max_Hours** bounds, not total capacity — OR capacity is
+*not* the bottleneck; self-imposed demand caps are.
 
-| Layer | Tool |
+This is a **simple (continuous) LP** — variables are fractional hours, not
+integers (Solver's Answer Report tags every variable "Contin", not
+"Integer").
+
+---
+
+## 7. Optimization Model 2 — Goal Programming (implemented)
+
+**Motivation:** The LP model above maximizes throughput but completely
+ignores overtime. Goal Programming balances both simultaneously via
+deviation variables.
+
+```
+Goal 1 (Throughput):  Σ(60 × Xₛ ÷ Dₛ) + d1⁻ − d1⁺ = 200 cases/week
+Goal 2 (Overtime):    Σ Overtimeₛ      + d2⁻ − d2⁺ = Target Overtime
+
+Minimize Z = W1·d1⁻ + W2·d2⁺
+  d1⁻ — under-achievement penalty on throughput
+  d2⁺ — over-achievement penalty on overtime
+  W1, W2 — decision-maker priority weights
+```
+
+Hard constraints: same capacity and demand-bound constraints as the LP
+model.
+
+**Target Overtime = 0.055 hrs/week**, computed as:
+```
+Target Overtime = 0.8 × [SUM(RAW_DATA!Overtime_Min) / 60 / 13]
+```
+(80% of historical average weekly overtime, mirroring the 80/120% logic
+used for demand bounds; 13 = weeks in Q1.)
+
+**Worth knowing before you present this:** that target is deliberately tiny
+— about 3 minutes per week — because overtime in this dataset is already
+negligible almost everywhere. The Goal Programming model will therefore
+satisfy the overtime goal easily (d2⁺ = 0). That is an honest finding about
+a well-run OR schedule, not a broken model; say so rather than inflating
+the target to make the trade-off look more dramatic. The genuinely
+interesting trade-off in this dataset is capacity vs. demand caps (§12),
+not throughput vs. overtime.
+
+**Solved result** (`REAL_TARGET_OVERTIME_HOURS` in
+`frontend/src/data/dataset.ts`, editable from the Goal Programming
+tab): hits the throughput target exactly at 200.00 cases/week with
+d1⁻ = d1⁺ = 0 and d2⁺ = 0 — all four deviation variables at or near zero,
+because both goals are simultaneously satisfiable here.
+
+---
+
+## 8. Refinement — Service+CPT Granularity (implemented)
+
+**Faculty feedback:** averaging duration at the Service level hides real
+variance — e.g. ENT contains Tonsillectomy (28.3 min avg) and Septoplasty
+(52.5 min avg). A single `Dₛ` per specialty is too coarse.
+
+**Implemented:** the model now supports both granularities, switchable from
+the LP Model tab:
+
+| View | Decision variables | Constraints |
+|---|---|---|
+| By Specialty | 10 (one per service) | 21 (1 capacity + 20 bounds) |
+| By Procedure | 32 (one per Service+CPT pair) | 65 (1 capacity + 64 bounds) |
+
+**Finding — when granularity actually matters.** At the hospital's real
+320 hr capacity, both views return the identical **200.50 cases/week**.
+That is mathematically expected, not a bug: total demand (~152 hrs) is far
+below capacity, so every variable simply goes to its own max bound, and
+splitting a specialty into its procedures splits that same bound into parts
+that sum back to the same total. Granularity cannot change the answer when
+the solver never has to *choose* between variables.
+
+Constrain capacity to 110 hrs (below the ~152 hrs of demand) and the
+difference appears:
+
+| View | Cases/week at 110 hr capacity |
 |---|---|
-| Framework | React 19 + TypeScript, Vite |
-| Styling | Tailwind CSS |
-| Charts | Recharts |
-| Math rendering | KaTeX |
-| Optimization solver | javascript-lp-solver |
-| Excel read/write | SheetJS (`xlsx`) |
-| Icons / motion | lucide-react, motion |
+| By Specialty | 155.10 |
+| By Procedure | **156.70** (+1.60) |
 
-## Project structure
+Under scarcity the procedure-level model can prioritise short,
+high-throughput procedures *within* a specialty instead of being forced to
+treat the whole specialty as one averaged block. That is precisely the
+blind spot the faculty feedback identified, and it is reproducible via
+`npx tsx verify_models.ts`.
+
+---
+
+## 9. Implementation Plan — COMPLETE
+
+All five steps are done and verified. Run `npx tsx verify_models.ts` in
+`frontend/` to reproduce every number below; it exercises the real
+production solver against the real decision-variable sets and asserts 16
+checks (all currently passing).
+
+**Bugs found and fixed while completing this plan:**
+
+1. **The LP library was never actually running.** `solveLpModel()` and
+   `solveGoalProgramming()` extracted `Solve` off the solver object and
+   called it detached (`const f = solver.Solve; f(model)`), which loses
+   `this` and throws `Cannot read properties of undefined (reading
+   'selectBranchAndCutService')`. Both models silently fell through to the
+   analytical fallback path. Now invoked as a method, so
+   `javascript-lp-solver` genuinely solves both models. This also changed
+   the Goal Programming result: it now lands exactly on the 200-case target
+   (d1⁺ = 0) instead of overshooting to 200.50.
+2. **OR Suite 8 received zero cases.** The seeded dataset picked each
+   case's suite by `argmax` of a preference score with only ±20% jitter, so
+   the overflow room (never any specialty's first choice) could never win —
+   the dashboard reported "7 suites" for an 8-suite hospital. Replaced with
+   weighted random sampling; all 8 suites now populate (OR 8 gets 140 of
+   2,172 cases, appropriately the lightest load).
+3. **Seeded utilization drifted from the real figure.** Spreading cases
+   across 8 suites instead of 7 dropped the demo's average utilization to
+   40.9% against the real workbook's 44.4%. The seed's staffed-block
+   assumption is now 440 min (an 8-hour shift less ~40 min of daily
+   open/close and terminal cleaning) rather than a flat 480, bringing the
+   demo to 44.3% — in line with the real data.
+
+The original step-by-step plan, retained for reference:
+
+### Step 1 — Export real Excel data in the frontend's expected format ✅ DONE
+
+> Produced `frontend/Hospital_OR_Capacity_Dataset.xlsx` — 2,172 cases,
+> all 8 suites, 496 STATS rows, 44.4% average utilization.
+
+The frontend's `parseExcelWorkbook()` (`frontend/src/data/dataset.ts`)
+expects **exact** column headers, which do **not** match `project.xlsx`'s
+actual columns. Build a small export routine (a new sheet in `project.xlsx`,
+or a Python/Node script reading `project.xlsx` and writing a new workbook)
+that outputs three sheets with these **exact** headers:
+
+**`RAW_DATA`** sheet — one row per case:
+```
+Case ID | Date | OR Suite | Service | CPT Code | CPT Description |
+Booked Time (min) | Actual Duration (min) | Overtime (min) | Turnover (min)
+```
+Map from `project.xlsx!RAW_DATA`: `Case ID` = `Encounter ID` (as text),
+`Date` = `CLEAN_DATE` (as `YYYY-MM-DD` string), `OR Suite`, `Service`,
+`CPT Code`, `CPT Description`, `Booked Time (min)` = `Booked Time (min)`,
+`Actual Duration (min)` = `Actual_Duration_Min`, `Overtime (min)` =
+`Overtime_Min`, `Turnover (min)` = `Turnover_Min`.
+
+**`STATS`** sheet — one row per OR Suite × Date (497 rows):
+```
+Date | OR Suite | Total_Actual_Duration | First_Wheels_In | Last_Wheels_Out | Utilization_Pct
+```
+Maps directly from `project.xlsx!STATS` (already matches almost exactly —
+verify header names line up, `First_Wheels_In`/`Last_Wheels_Out` should be
+`HH:MM` strings, not full datetimes).
+
+**`LP_MODEL`** sheet — one row per specialty (or per Service+CPT after
+Step 3):
+```
+Service | Avg_Duration_Min | Min_Hours | Max_Hours | Baseline_Weekly_Hours
+```
+Maps from `project.xlsx!LP_MODEL`: `Avg_Duration_Min`, `Min_Hours`,
+`Max_Hours` columns already exist; `Baseline_Weekly_Hours` = `Weekly_Avg_Hours`.
+
+Save this as `Hospital_OR_Capacity_Dataset.xlsx`.
+
+### Step 2 — Import and verify parity ✅ DONE
+
+> Frontend solver returns **200.50 cases/week** vs Excel Solver's **200.49**
+> — a 0.01 rounding difference. Reproduce with `node verify_parity.cjs`.
+
+1. Run the frontend (`cd frontend && npm install && npm run dev`).
+2. In the sidebar, use **Import Excel**, select the file from Step 1.
+3. Go to the **Linear Programming** tab, click **Solve**.
+4. Confirm `Total Cases` converges close to **200.49** (the Excel Solver
+   result). If it doesn't match closely, check the LP_MODEL bounds
+   imported correctly (Min_Hours/Max_Hours per specialty) — that's the
+   most likely source of drift.
+
+### Step 3 — Refine to Service+CPT granularity ✅ DONE
+
+> `PROCEDURE_CONFIGS` (32 Service+CPT variables) is wired in behind a
+> **By Specialty (10) / By Procedure (32)** toggle on the LP Model tab; the
+> objective, constraint count and tableau all update with it. See §8.
+
+1. In `project.xlsx`, rebuild the `LP_MODEL` sheet grouped by
+   **(Service, CPT Code)** instead of Service alone — use `SUMIFS`/
+   `AVERAGEIFS` with both fields as criteria (same pattern as the
+   OR-Suite × Date grouping already done for `STATS`).
+2. Re-solve in Excel Solver with the expanded variable set; record the new
+   optimal result.
+3. Update `SPECIALTY_CONFIGS` in `frontend/src/data/dataset.ts`
+   (or better, remove the hardcoded array entirely and drive everything
+   from imported `LP_MODEL` data) to support one row per Service+CPT
+   combination instead of one row per Service. `SpecialtyLpInput.service`
+   can hold a compound label like `"ENT — Tonsillectomy"` if needed.
+4. Re-export from Step 1 with the new granularity, re-verify in the
+   frontend per Step 2.
+
+### Step 4 — Lock in the real Target Overtime value ✅ DONE
+
+> `REAL_TARGET_OVERTIME_HOURS = 0.055` hrs/week, wired into both
+> `solveGoalProgramming()` call sites and editable from the GP tab.
+
+1. Compute in `project.xlsx`:
+   `=SUM(RAW_DATA!Overtime_Min)/60/13*0.8` → hours/week.
+2. In `frontend/src/App.tsx`, replace the hardcoded
+   `solveGoalProgramming(lpInputs, 200, 10.0, 6, 6, 320)` call's
+   `overtimeTarget` argument (currently `6`) with the computed value (or
+   better, make it a user-editable input in `GoalProgrammingSection.tsx`
+   defaulting to the computed value — it likely already is, verify).
+
+### Step 5 — Final validation & report prep ✅ DONE
+
+> `verify_models.ts` asserts 16 checks across both LP granularities and the
+> Goal Programming model — all passing. `npm run lint` and `npm run build`
+> are both clean.
+
+1. Confirm both LP and Goal Programming results in the frontend match (or
+   are explainably close to) the Excel Solver results.
+2. Update the PPT/report numbers (200.49 cases/week, 152/320 hours used,
+   the new Service+CPT-level result) if they changed after Step 3.
+3. Commit and push `frontend/` changes; keep `project.xlsx` and this
+   README as the source-of-truth for numbers cited in the report/slides.
+
+---
+
+## 10. Architecture
 
 ```
-src/
-├── App.tsx                          # Top-level state, tab routing, solve orchestration
-├── types.ts                         # Shared data model (SurgicalCase, LpSolution, ...)
-├── data/dataset.ts                  # Baseline dataset generation + Excel import/export
-├── solver/lpSolver.ts               # solveLpModel() and solveGoalProgramming()
-└── components/
-    ├── Sidebar.tsx                  # Navigation, theme toggle, Excel import/export
-    ├── Header.tsx                   # Top bar, reset/export actions
-    ├── OverviewDashboard.tsx        # Landing page stats + charts
-    ├── StatisticsExplorer.tsx       # On-demand stats by Suite / by Service
-    ├── LinearProgrammingSection.tsx # LP model inputs, solve, results
-    ├── GoalProgrammingSection.tsx   # Goal Programming inputs, solve, results
-    ├── InsightsSection.tsx          # Comparison summary
-    └── common/KatexMath.tsx         # Renders objective/constraint math
+┌─────────────────────────────┐
+│   Excel Workbook (backend)   │  ← RAW_DATA, STATS, LP_MODEL, DASHBOARD
+│   project.xlsx                │     (source of truth, edited in Excel)
+└──────────────┬────────────────┘
+               │ export (Step 1) → import via SheetJS in-app (Step 2)
+               ▼
+┌─────────────────────────────┐
+│   TypeScript / React App      │
+│   (frontend/)             │
+│   ─ Data layer: SheetJS reads │
+│     RAW_DATA / STATS / LP_MODEL│
+│   ─ Solver layer: javascript- │
+│     lp-solver (solveLpModel,  │
+│     solveGoalProgramming)     │
+│   ─ UI: Overview, Statistics  │
+│     Explorer, LP Model, Goal  │
+│     Programming, Insights     │
+└─────────────────────────────┘
 ```
 
-## Getting started
+Excel Solver itself is never called from the app — there is no API for it.
+The frontend re-implements both models with `javascript-lp-solver` and
+solves them independently; Step 2 above is how we verify the two give the
+same answer.
 
-```bash
-npm install
-npm run dev      # starts Vite dev server on http://localhost:3000
-```
+---
 
-```bash
-npm run build     # production build
-npm run preview   # preview the production build
-npm run lint       # type-check (tsc --noEmit)
-```
+## 11. Tools Used
 
-### Environment variables
+| Tool | Role |
+|---|---|
+| Microsoft Excel | Data platform, dashboard, models |
+| Power Query | Importing and cleaning raw CSV |
+| Excel Formulas (SUMIFS, MINIFS, MAXIFS, LET) | Derived metrics & on-demand stats |
+| Excel Solver (Simplex LP) | Solving LP & Goal Programming |
+| Answer / Sensitivity / Limits Reports | Interpreting the optimal solution |
+| React 19 + TypeScript, Vite | Frontend dashboard |
+| SheetJS (`xlsx`) | Reading/writing Excel as the data backend |
+| javascript-lp-solver | In-app LP & Goal Programming solving |
+| Recharts, KaTeX | Charts and formula rendering |
 
-Copy `.env.example` to `.env` if running outside AI Studio:
+---
 
-```
-GEMINI_API_KEY="..."   # only needed if/when Gemini-powered features are added
-APP_URL="..."
-```
+## 12. Key Insight
 
-Neither variable is required for the core dashboard, statistics, LP, or
-Goal Programming functionality — those run entirely client-side.
-
-## Loading real project data
-
-By default the app seeds itself with a generated Q1 baseline dataset
-(2,172 cases, 8 OR suites, 10 specialties) matching the structure of the
-project's real Kaggle-sourced dataset. To use the actual analyzed data:
-
-1. In the Excel workbook, export/save the `RAW_DATA`, `STATS`, and
-   `LP_MODEL` sheets as a single `.xlsx` file.
-2. In the dashboard sidebar, use **Import Excel** and select that file.
-3. The app re-parses the workbook and re-solves both models against the
-   real data — you should see the LP result converge toward the
-   **200.49 cases/week** optimum found in Excel Solver.
-
-Use **Export Excel** to go the other direction — save the current
-in-app dataset and model bounds back out as a workbook.
-
-## Related
-
-This app is the front-end counterpart to the Excel-based analysis
-(`README.md` in the main project repo covers the dataset, data cleaning
-formulas, derived metrics, and the full LP/Goal Programming
-formulations in detail).
+The hospital is **not capacity-constrained** — only 152 of 320 available
+weekly OR-hours are used in the optimal LP solution. The real limiting
+factor is the historical demand bounds placed on each specialty, which the
+Sensitivity Report exposes directly. This reframes the practical
+recommendation from "add more OR capacity" to "re-examine how each
+specialty's block-time allocation is set."
