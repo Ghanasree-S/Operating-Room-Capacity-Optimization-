@@ -1,0 +1,33 @@
+Label,Allocated_Hours,Avg_Duration_Min,Min_Hours,Max_Hours,Cases_Performed,Binding,Reduced_Cost
+ENT - Septoplasty,3.7154,52.5,2.4769,3.7154,4.2462,at max bound,1.1429
+ENT - Tonsillectomy,6.5723,28.2914,4.3815,6.5723,13.9385,at max bound,2.1208
+General - Laparoscopic cholecystectomy,2.88,48.0,1.92,2.88,3.6,at max bound,1.25
+General - Sleeve gastrectomy,11.52,96.0,7.68,11.52,7.2,at max bound,0.625
+OBGYN - Cervical biopsy,4.2262,33.5,2.8174,4.2262,7.5692,at max bound,1.791
+"OBGYN - Hysterectomy, surgical",9.7138,77.0,6.4759,9.7138,7.5692,at max bound,0.7792
+Ophthalmology - Extracapsular cataract removal,8.3769,16.3024,5.5846,8.3769,30.8308,at max bound,3.6804
+"Orthopedics - Arthroplasty, hip",3.1138,88.0,2.0759,3.1138,2.1231,at max bound,0.6818
+"Orthopedics - Arthroplasty, knee, hinge prothesis",11.3754,90.1707,7.5836,11.3754,7.5692,at max bound,0.6654
+"Orthopedics - Arthroscopy, knee, surgical",5.9785,34.6964,3.9856,5.9785,10.3385,at max bound,1.7293
+"Orthopedics - Carpal tunnel release, open",2.2938,35.5,1.5292,2.2938,3.8769,at max bound,1.6901
+"Orthopedics - Fasciotomy, palmar, open",1.8092,56.0,1.2062,1.8092,1.9385,at max bound,1.0714
+Orthopedics - Flexor tendon repair,1.4462,47.0,0.9641,1.4462,1.8462,at max bound,1.2766
+"Orthopedics - ORIF, phalangeal shaft fracture",2.7138,84.0,1.8092,2.7138,1.9385,at max bound,0.7143
+"Pediatrics - Myringotomy, general anesthesia",3.7231,27.5,2.4821,3.7231,8.1231,at max bound,2.1818
+"Pediatrics - Tympanostomy, general anesthesia",6.4985,32.0,4.3323,6.4985,12.1846,at max bound,1.875
+"Plastic - Adjacent tissue transfer, eyelids, nose, ears, lip",9.9831,75.4535,6.6554,9.9831,7.9385,at max bound,0.7952
+Plastic - Liposuction,6.7569,122.0,4.5046,6.7569,3.3231,at max bound,0.4918
+Plastic - Removal of benign skin lesion,3.4677,32.6667,2.3118,3.4677,6.3692,at max bound,1.8367
+Plastic - Rhinoplasty,1.7723,72.0,1.1815,1.7723,1.4769,at max bound,0.8333
+Podiatry - Bunionectomy with distal osteotomy,10.1662,77.7412,6.7774,10.1662,7.8462,at max bound,0.7718
+"Podiatry - Correction, hammertoe",2.9077,45.0,1.9385,2.9077,3.8769,at max bound,1.3333
+Podiatry - Hallux rigidus correction with cheilectomy,1.4862,42.0,0.9908,1.4862,2.1231,at max bound,1.4286
+Podiatry - Lapidus bunionectomy,0.6092,22.0,0.4062,0.6092,1.6615,at max bound,2.7273
+"Podiatry - Neurectomy, intrinsic musculature of foot",1.3292,48.0,0.8862,1.3292,1.6615,at max bound,1.25
+"Podiatry - Partial ostectomy, fifth metatarsal head",2.5754,93.0,1.7169,2.5754,1.6615,at max bound,0.6452
+Podiatry - Plantar fasciotomy,2.2292,34.5,1.4862,2.2292,3.8769,at max bound,1.7391
+Urology - Cryosurgery of the prostate gland,3.96,66.0,2.64,3.96,3.6,at max bound,0.9091
+Urology - Cystourethroscopy,2.8046,23.9868,1.8697,2.8046,7.0154,at max bound,2.5014
+Urology - Vasectomy,4.0846,34.0385,2.7231,4.0846,7.2,at max bound,1.7627
+Vascular - AV fistula,7.9077,54.1053,5.2718,7.9077,8.7692,at max bound,1.1089
+"Vascular - Digital amputation, metatarsophalangeal joint",3.96,33.0,2.64,3.96,7.2,at max bound,1.8182

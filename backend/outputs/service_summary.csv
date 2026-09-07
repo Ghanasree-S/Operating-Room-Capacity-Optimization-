@@ -1,0 +1,11 @@
+Service,Cases,Avg_Duration_Min,Avg_Booked_Min,Avg_Overtime_Min,Total_Hours
+Orthopedics,321,58.18,87.38,0.0,311.25
+Plastic,207,69.02,110.43,0.0,238.12
+Podiatry,246,56.29,89.51,0.22,230.78
+General,117,80.0,110.0,0.0,156.0
+OBGYN,164,55.25,97.5,0.0,151.02
+Vascular,173,44.59,68.24,0.0,128.57
+Urology,193,36.54,66.06,0.0,117.53
+ENT,197,33.94,67.01,0.0,111.45
+Pediatrics,220,30.2,60.0,0.0,110.73
+Ophthalmology,334,16.3,44.64,0.0,90.75
