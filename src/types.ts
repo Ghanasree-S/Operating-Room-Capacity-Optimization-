@@ -81,3 +81,10 @@ export interface ServiceSummary {
 }
 
 export type ActiveTab = 'overview' | 'statistics' | 'lp_model' | 'goal_programming' | 'insights';
+
+// Decision-variable granularity for the optimization models.
+// 'specialty' — one variable per surgical service (10 variables)
+// 'procedure' — one variable per (Service, CPT Code) pair (32 variables),
+//               the faculty-requested refinement: a single average duration
+//               per specialty hides real procedure-mix variance.
+export type LpGranularity = 'specialty' | 'procedure';

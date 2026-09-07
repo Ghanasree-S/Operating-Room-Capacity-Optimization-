@@ -1,5 +1,5 @@
 import * as XLSX from 'xlsx';
-import { SurgicalCase, SuiteDateStat, SpecialtyLpInput } from '../types';
+import { SurgicalCase, SuiteDateStat, SpecialtyLpInput, LpGranularity } from '../types';
 
 // Source: real Q1 2022 hospital dataset (project.xlsx -> LP_MODEL / RAW_DATA),
 // not synthetic placeholders. Avg_Duration_Min / Min_Hours / Max_Hours come
@@ -68,6 +68,14 @@ export const PROCEDURE_CONFIGS: SpecialtyLpInput[] = [
 // target.
 export const REAL_TARGET_OVERTIME_HOURS = 0.055;
 
+// Returns a fresh copy of the LP decision-variable set for the requested
+// granularity. 'specialty' = 10 variables (one per service), 'procedure' =
+// 32 variables (one per Service+CPT pair, README.md §9 Step 3).
+export function getLpInputsFor(granularity: LpGranularity): SpecialtyLpInput[] {
+  const source = granularity === 'procedure' ? PROCEDURE_CONFIGS : SPECIALTY_CONFIGS;
+  return source.map(s => ({ ...s }));
+}
+
 // Pseudorandom deterministic number generator for reproducible hospital dataset
 function seededRandom(seed: number) {
   let s = seed % 2147483647;
@@ -78,8 +86,12 @@ function seededRandom(seed: number) {
   };
 }
 
-// Generate the exact 2,172 case records across 63 operating days (Q1)
-export function generateHospitalData(): {
+// Generate the exact 2,172 case records across 63 operating days (Q1).
+// `granularity` only affects which decision-variable set is returned as
+// lpInputs; the case-level records and per-suite stats are identical either
+// way, since granularity is a property of the optimization model, not of the
+// underlying surgical history.
+export function generateHospitalData(granularity: LpGranularity = 'specialty'): {
   rawCases: SurgicalCase[];
   stats: SuiteDateStat[];
   lpInputs: SpecialtyLpInput[];
@@ -149,14 +161,27 @@ export function generateHospitalData(): {
       r -= sw.weight;
     }
 
-    // Pick a suite with preference for this specialty's primary OR
-    const suiteScores: { suite: number; score: number }[] = [];
+    // Pick a suite by weighted random draw, preferring this specialty's primary
+    // ORs. Weighted sampling (not argmax) matters: taking the top-scoring suite
+    // deterministically starves any suite that is never a specialty's first
+    // choice — OR 8 is the overflow room and would receive zero cases, leaving
+    // the dashboard reporting 7 suites for an 8-suite hospital.
+    let suitePool = 0;
+    const suiteWeights: { suite: number; weight: number }[] = [];
     for (let s = 1; s <= 8; s++) {
       const pref = suiteSpecialtyWeights[s][chosenSpec.service] || 0.4;
-      suiteScores.push({ suite: s, score: pref * (0.8 + rand() * 0.4) });
+      suiteWeights.push({ suite: s, weight: pref });
+      suitePool += pref;
     }
-    suiteScores.sort((a, b) => b.score - a.score);
-    const suite = suiteScores[0].suite;
+    let suiteDraw = rand() * suitePool;
+    let suite = suiteWeights[suiteWeights.length - 1].suite;
+    for (const sw of suiteWeights) {
+      if (suiteDraw < sw.weight) {
+        suite = sw.suite;
+        break;
+      }
+      suiteDraw -= sw.weight;
+    }
 
     // Pick weekday
     const date = weekdays[Math.floor(rand() * weekdays.length)];
@@ -216,7 +241,12 @@ export function generateHospitalData(): {
   });
 
   const stats: SuiteDateStat[] = [];
-  const standardDayMin = 480; // 8:00 AM to 4:00 PM standard block (480 mins)
+  // Staffed block time per OR per day: an 8-hour shift (480 min) less ~40 min
+  // of daily open/close, terminal cleaning and equipment setup that is not
+  // available for surgery. Using the staffed figure rather than the raw shift
+  // length keeps this seeded demo dataset in line with the utilization actually
+  // measured from the real Q1 workbook (~44%); see README.md §4.
+  const standardDayMin = 440;
 
   // Target exactly 497 rows by filtering out inactive/maintenance suite days
   // (63 weekdays * 8 suites = 504 potential. 504 - 7 maintenance days = 497 rows)
@@ -288,7 +318,7 @@ export function generateHospitalData(): {
   return {
     rawCases,
     stats,
-    lpInputs: SPECIALTY_CONFIGS.map(s => ({ ...s })),
+    lpInputs: getLpInputsFor(granularity),
   };
 }
 

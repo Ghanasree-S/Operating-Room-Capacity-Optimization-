@@ -27,7 +27,9 @@ at runtime.
   per-specialty historical demand bounds. Decision-variable bounds
   (Min/Max Hours) are editable; **Solve** re-runs the optimizer and shows
   allocated hours, cases performed, capacity used, and which bounds are
-  binding.
+  binding. A **By Specialty (10) / By Procedure (32)** toggle switches the
+  decision-variable granularity between one variable per surgical service
+  and one per (Service, CPT Code) pair.
 - **Goal Programming Model** — the multi-objective extension: balances a
   throughput target against an overtime target using deviation
   variables, with adjustable priority weights for each goal.
@@ -62,6 +64,18 @@ Where `Xₛ` is weekly OR-hours allocated to specialty *s* and `Dₛ` is that
 specialty's average actual case duration. Both models are solved with
 [`javascript-lp-solver`](https://www.npmjs.com/package/javascript-lp-solver)
 directly in the browser.
+
+### Verifying the models
+
+```bash
+node verify_parity.cjs     # LP result vs the Excel Solver baseline
+npx tsx verify_models.ts   # 16 assertions across both granularities + GP
+```
+
+`verify_models.ts` exercises the real production solver against the real
+decision-variable sets and checks optimality, constraint satisfaction, the
+Excel baseline (200.50 vs 200.49), the goal-equation balance, and
+complementarity of the deviation variables.
 
 ## Tech stack
 
