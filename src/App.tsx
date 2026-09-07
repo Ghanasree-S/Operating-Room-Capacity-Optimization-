@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { ActiveTab, SurgicalCase, SuiteDateStat, SpecialtyLpInput, LpSolution, GoalProgrammingSolution } from './types';
-import { generateHospitalData, exportDatasetToExcel, parseExcelWorkbook, REAL_TARGET_OVERTIME_HOURS } from './data/dataset';
+import { ActiveTab, SurgicalCase, SuiteDateStat, SpecialtyLpInput, LpSolution, GoalProgrammingSolution, LpGranularity } from './types';
+import { generateHospitalData, exportDatasetToExcel, parseExcelWorkbook, getLpInputsFor, REAL_TARGET_OVERTIME_HOURS } from './data/dataset';
 import { solveLpModel, solveGoalProgramming } from './solver/lpSolver';
 import { Sidebar } from './components/Sidebar';
 import { Header } from './components/Header';
@@ -22,6 +22,10 @@ export default function App() {
   const [rawCases, setRawCases] = useState<SurgicalCase[]>(initialData.rawCases);
   const [stats, setStats] = useState<SuiteDateStat[]>(initialData.stats);
   const [lpInputs, setLpInputs] = useState<SpecialtyLpInput[]>(initialData.lpInputs);
+
+  // Decision-variable granularity: 'specialty' (10 vars) or 'procedure'
+  // (32 vars, per Service+CPT — the faculty-requested refinement).
+  const [granularity, setGranularity] = useState<LpGranularity>('specialty');
 
   // Optimization solutions state
   const [lpSolution, setLpSolution] = useState<LpSolution | null>(null);
@@ -80,9 +84,9 @@ export default function App() {
     }
   }, [showToast]);
 
-  // Reset to original Q1 hospital baseline
+  // Reset to original Q1 hospital baseline (keeps the current granularity)
   const handleResetData = useCallback(() => {
-    const fresh = generateHospitalData();
+    const fresh = generateHospitalData(granularity);
     setRawCases(fresh.rawCases);
     setStats(fresh.stats);
     setLpInputs(fresh.lpInputs);
@@ -91,7 +95,21 @@ export default function App() {
     const gpSol = solveGoalProgramming(fresh.lpInputs, 200, REAL_TARGET_OVERTIME_HOURS, 6, 6, 320);
     setGpSolution(gpSol);
     showToast('Reset dataset and bounds to Q1 hospital baseline (2,172 cases).');
-  }, [showToast]);
+  }, [granularity, showToast]);
+
+  // Switch decision-variable granularity and reload the matching bounds.
+  // The solve effect below re-runs both models automatically on lpInputs change.
+  const handleGranularityChange = useCallback((next: LpGranularity) => {
+    if (next === granularity) return;
+    setGranularity(next);
+    const nextInputs = getLpInputsFor(next);
+    setLpInputs(nextInputs);
+    showToast(
+      next === 'procedure'
+        ? `Switched to procedure-level model: ${nextInputs.length} decision variables (Service + CPT).`
+        : `Switched to specialty-level model: ${nextInputs.length} decision variables.`
+    );
+  }, [granularity, showToast]);
 
   // Overall utilization calculation
   const overallAvgUtil = useMemo(() => {
@@ -160,9 +178,11 @@ export default function App() {
             <LinearProgrammingSection
               lpInputs={lpInputs}
               onUpdateInputs={setLpInputs}
-              onResetDefaults={() => setLpInputs(initialData.lpInputs)}
+              onResetDefaults={() => setLpInputs(getLpInputsFor(granularity))}
               lpSolution={lpSolution}
               onSolveSuccess={setLpSolution}
+              granularity={granularity}
+              onGranularityChange={handleGranularityChange}
             />
           )}
 

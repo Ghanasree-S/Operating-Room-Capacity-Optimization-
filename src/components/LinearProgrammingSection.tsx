@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { SpecialtyLpInput, LpSolution } from '../types';
+import { SpecialtyLpInput, LpSolution, LpGranularity } from '../types';
 import { solveLpModel } from '../solver/lpSolver';
 import { KatexMath } from './common/KatexMath';
 import {
@@ -20,6 +20,8 @@ interface LinearProgrammingSectionProps {
   onResetDefaults: () => void;
   lpSolution: LpSolution | null;
   onSolveSuccess: (sol: LpSolution) => void;
+  granularity: LpGranularity;
+  onGranularityChange: (g: LpGranularity) => void;
 }
 
 export const LinearProgrammingSection: React.FC<LinearProgrammingSectionProps> = ({
@@ -28,6 +30,8 @@ export const LinearProgrammingSection: React.FC<LinearProgrammingSectionProps> =
   onResetDefaults,
   lpSolution,
   onSolveSuccess,
+  granularity,
+  onGranularityChange,
 }) => {
   const [isSolving, setIsSolving] = useState(false);
   const [totalCapacity, setTotalCapacity] = useState<number>(320);
@@ -54,9 +58,12 @@ export const LinearProgrammingSection: React.FC<LinearProgrammingSectionProps> =
     }, 150);
   };
 
+  const varCount = lpInputs.length;
+  const isProcedureView = granularity === 'procedure';
+
   // Math expressions in LaTeX
-  const objectiveLatex = `\\max Z = \\sum_{s=1}^{10} \\frac{60 \\cdot X_s}{D_s}`;
-  const constraintsLatex = `\\sum_{s=1}^{10} X_s \\le ${totalCapacity}, \\quad 0.8 \\cdot \\text{avg}_s \\le X_s \\le 1.2 \\cdot \\text{avg}_s, \\quad X_s \\ge 0 \\quad \\forall s \\in \\{1,\\dots,10\\}`;
+  const objectiveLatex = `\\max Z = \\sum_{s=1}^{${varCount}} \\frac{60 \\cdot X_s}{D_s}`;
+  const constraintsLatex = `\\sum_{s=1}^{${varCount}} X_s \\le ${totalCapacity}, \\quad 0.8 \\cdot \\text{avg}_s \\le X_s \\le 1.2 \\cdot \\text{avg}_s, \\quad X_s \\ge 0 \\quad \\forall s \\in \\{1,\\dots,${varCount}\\}`;
 
   const hoursUsed = lpSolution?.totalHours ?? 0;
   const casesAchieved = lpSolution?.totalCases ?? 0;
@@ -80,6 +87,39 @@ export const LinearProgrammingSection: React.FC<LinearProgrammingSectionProps> =
             </h3>
           </div>
           <div className="flex items-center gap-3">
+            {/* Decision-variable granularity toggle */}
+            <div
+              id="lp-granularity-toggle"
+              className="flex items-center rounded-lg border border-slate-300 dark:border-slate-700 overflow-hidden"
+              role="group"
+              aria-label="Decision variable granularity"
+            >
+              <button
+                id="granularity-specialty-btn"
+                onClick={() => onGranularityChange('specialty')}
+                aria-pressed={!isProcedureView}
+                className={`px-3 py-1.5 text-[11px] font-bold transition-colors cursor-pointer ${
+                  !isProcedureView
+                    ? 'bg-[#2c6e68] text-white'
+                    : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800'
+                }`}
+              >
+                By Specialty (10)
+              </button>
+              <button
+                id="granularity-procedure-btn"
+                onClick={() => onGranularityChange('procedure')}
+                aria-pressed={isProcedureView}
+                className={`px-3 py-1.5 text-[11px] font-bold transition-colors cursor-pointer border-l border-slate-300 dark:border-slate-700 ${
+                  isProcedureView
+                    ? 'bg-[#2c6e68] text-white'
+                    : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800'
+                }`}
+              >
+                By Procedure (32)
+              </button>
+            </div>
+
             <label className="text-xs font-semibold text-slate-600 dark:text-slate-300">
               OR Capacity Bound:
             </label>
@@ -167,7 +207,8 @@ export const LinearProgrammingSection: React.FC<LinearProgrammingSectionProps> =
           </div>
 
           <div className="text-xs font-mono text-slate-500">
-            Decision Variables: 10 specialties | Constraints: 21 (1 capacity + 20 bounds)
+            Decision Variables: {varCount} {isProcedureView ? 'procedures (Service + CPT)' : 'specialties'} | Constraints:{' '}
+            {1 + varCount * 2} (1 capacity + {varCount * 2} bounds)
           </div>
         </div>
 
@@ -238,9 +279,12 @@ export const LinearProgrammingSection: React.FC<LinearProgrammingSectionProps> =
         <div className="p-6 border-b border-slate-200 dark:border-slate-700 flex flex-wrap items-center justify-between gap-4">
           <div>
             <h3 className="text-base font-bold text-slate-900 dark:text-slate-100">
-              Specialty Decision Variables & Optimization Tableau
+              {isProcedureView ? 'Procedure' : 'Specialty'} Decision Variables &amp; Optimization Tableau
             </h3>
             <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+              {isProcedureView
+                ? 'One decision variable per (Service, CPT Code) pair — a single average duration per specialty hides real procedure-mix variance. '
+                : ''}
               Edit Avg Duration, Min Hours, or Max Hours to simulate operational changes. Click &quot;Solve Linear Program&quot; to re-optimize.
             </p>
           </div>
@@ -253,7 +297,7 @@ export const LinearProgrammingSection: React.FC<LinearProgrammingSectionProps> =
           <table className="w-full text-left text-xs">
             <thead className="bg-slate-50 dark:bg-slate-750/70 border-b border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 uppercase font-semibold">
               <tr>
-                <th className="py-3.5 px-4">Specialty Service</th>
+                <th className="py-3.5 px-4">{isProcedureView ? 'Service — Procedure' : 'Specialty Service'}</th>
                 <th className="py-3.5 px-4 text-right">Avg Duration <KatexMath math="D_s" /> (min)</th>
                 <th className="py-3.5 px-4 text-right">Throughput Rate (cases/hr)</th>
                 <th className="py-3.5 px-4 text-right">Min Hours (0.8x)</th>
@@ -378,7 +422,7 @@ export const LinearProgrammingSection: React.FC<LinearProgrammingSectionProps> =
                   {casesAchieved.toFixed(1)} cases
                 </td>
                 <td className="py-3 px-4 text-center text-xs text-slate-500 font-sans font-normal">
-                  All 10 at Max Cap
+                  All {varCount} at Max Cap
                 </td>
               </tr>
             </tfoot>

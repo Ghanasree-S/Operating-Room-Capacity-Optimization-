@@ -48,9 +48,12 @@ export function solveLpModel(
 
   let solverResult: any;
   try {
-    // javascript-lp-solver execution
-    const solveFn = (solver as any).Solve || (solver as any).default?.Solve || solver;
-    solverResult = typeof solveFn === 'function' ? solveFn(model) : null;
+    // javascript-lp-solver execution. Solve() must be invoked as a METHOD —
+    // internally it reads `this.Model` / `this.selectBranchAndCutService`, so
+    // detaching it (const f = solver.Solve; f(model)) throws and silently
+    // drops us into the analytical fallback below.
+    const solverObj: any = (solver as any).Solve ? solver : (solver as any).default;
+    solverResult = typeof solverObj?.Solve === 'function' ? solverObj.Solve(model) : null;
   } catch (err) {
     console.error('LP solver invocation error, falling back to analytical simplex:', err);
   }
@@ -205,8 +208,10 @@ export function solveGoalProgramming(
 
   let solverResult: any;
   try {
-    const solveFn = (solver as any).Solve || (solver as any).default?.Solve || solver;
-    solverResult = typeof solveFn === 'function' ? solveFn(model) : null;
+    // See note in solveLpModel(): Solve() must be called as a method so that
+    // `this` stays bound to the solver object.
+    const solverObj: any = (solver as any).Solve ? solver : (solver as any).default;
+    solverResult = typeof solverObj?.Solve === 'function' ? solverObj.Solve(model) : null;
   } catch (e) {
     console.error('Goal programming solver error, fallback to multi-criteria search:', e);
   }
