@@ -1,8 +1,33 @@
+# Dependencies and build output
 node_modules/
 build/
 dist/
 coverage/
-.DS_Store
-*.log
+
+# Environment
 .env*
 !.env.example
+
+# Office lock files (created while a workbook/deck is open)
+~$*.xlsx
+~$*.xlsm
+~$*.pptx
+~$*.docx
+
+# Python
+__pycache__/
+*.pyc
+
+# LaTeX build artifacts
+*.aux
+*.log
+*.nav
+*.out
+*.snm
+*.toc
+*.synctex.gz
+
+# OS
+.DS_Store
+Thumbs.db
+*.log
