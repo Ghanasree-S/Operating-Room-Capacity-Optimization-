@@ -1,0 +1,11 @@
+Label,Allocated_Hours,Min_Hours,Max_Hours,Binding,Reduced_Cost,Cases_Per_Hour
+ENT,10.2877,6.8585,10.2877,at max bound,1.7676,1.7676
+General,14.4,9.6,14.4,at max bound,0.75,0.75
+OBGYN,13.94,9.2933,13.94,at max bound,1.086,1.086
+Ophthalmology,8.3769,5.5846,8.3769,at max bound,3.6804,3.6804
+Orthopedics,28.7308,19.1538,28.7308,at max bound,1.0313,1.0313
+Pediatrics,10.2215,6.8144,10.2215,at max bound,1.9868,1.9868
+Plastic,21.98,14.6533,21.98,at max bound,0.8693,0.8693
+Podiatry,21.3031,14.2021,21.3031,at max bound,1.0659,1.0659
+Urology,10.8492,7.2328,10.8492,at max bound,1.6421,1.6421
+Vascular,11.8677,7.9118,11.8677,at max bound,1.3456,1.3456

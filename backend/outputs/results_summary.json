@@ -1,0 +1,47 @@
+{
+  "overview": {
+    "total_cases": 2172,
+    "or_suites": 8,
+    "specialties": 10,
+    "procedures": 32,
+    "date_range": [
+      "2022-01-03",
+      "2022-03-31"
+    ],
+    "operating_days": 62,
+    "avg_utilization_pct": 44.36056739908056,
+    "total_or_hours": 1646.2,
+    "total_overtime_hours": 0.9,
+    "avg_turnover_min": 29.87291169451074
+  },
+  "lp_by_specialty": {
+    "status": "Optimal",
+    "total_cases": 200.4923,
+    "total_hours": 151.9569,
+    "capacity_hours": 320.0,
+    "capacity_slack": 168.0431,
+    "capacity_binding": false
+  },
+  "lp_by_procedure": {
+    "status": "Optimal",
+    "total_cases": 200.4923,
+    "total_hours": 151.9569
+  },
+  "goal_programming": {
+    "status": "Optimal",
+    "throughput_target": 200.0,
+    "overtime_target": 0.055385,
+    "weights": {
+      "w1": 6.0,
+      "w2": 6.0
+    },
+    "total_cases": 200.0,
+    "total_overtime_hours": 0.081276,
+    "deviations": {
+      "d1_minus": 0.0,
+      "d1_plus": 0.0,
+      "d2_minus": 0.0,
+      "d2_plus": 0.025891
+    }
+  }
+}
