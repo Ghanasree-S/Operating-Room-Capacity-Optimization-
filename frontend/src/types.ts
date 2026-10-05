@@ -150,6 +150,34 @@ export interface PlanResponse {
   specialties: SpecialtyPlanResult[];
 }
 
+// ------------------------------------------------------------ CSV import
+// A hospital's own export will not use our column names, so the importer
+// inspects the file, proposes a mapping, and reports what it had to skip.
+
+export interface CsvInspection {
+  filename: string;
+  columns: string[];
+  row_count: number;
+  sample: Record<string, string>[];
+  suggested_mapping: Record<string, string | null>;
+}
+
+export interface CsvIssue {
+  level: 'error' | 'warning';
+  message: string;
+  rows_affected: number;
+}
+
+export interface CsvProcessResult {
+  specialties: PlannerSpecialty[];
+  issues: CsvIssue[];
+  has_errors: boolean;
+  rows_read: number;
+  rows_used: number;
+  weeks_covered: number;
+  date_range: [string, string] | null;
+}
+
 export interface PlannerDefaults {
   specialties: PlannerSpecialty[];
   observed: {
