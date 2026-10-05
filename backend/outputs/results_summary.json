@@ -16,16 +16,16 @@
   },
   "lp_by_specialty": {
     "status": "Optimal",
-    "total_cases": 200.4923,
-    "total_hours": 151.9569,
-    "capacity_hours": 320.0,
-    "capacity_slack": 168.0431,
-    "capacity_binding": false
+    "total_cases": 155.1195,
+    "total_hours": 110.0,
+    "capacity_hours": 110.0,
+    "capacity_slack": 0.0,
+    "capacity_binding": true
   },
   "lp_by_procedure": {
     "status": "Optimal",
-    "total_cases": 200.4923,
-    "total_hours": 151.9569
+    "total_cases": 156.6846,
+    "total_hours": 110.0
   },
   "goal_programming": {
     "status": "Optimal",
@@ -35,13 +35,13 @@
       "w1": 6.0,
       "w2": 6.0
     },
-    "total_cases": 200.0,
-    "total_overtime_hours": 0.081276,
+    "total_cases": 155.1195,
+    "total_overtime_hours": 0.055385,
     "deviations": {
-      "d1_minus": 0.0,
+      "d1_minus": 44.880537,
       "d1_plus": 0.0,
       "d2_minus": 0.0,
-      "d2_plus": 0.025891
+      "d2_plus": 0.0
     }
   }
 }

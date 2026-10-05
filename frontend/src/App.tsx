@@ -9,6 +9,7 @@ import { StatisticsExplorer } from './components/StatisticsExplorer';
 import { LinearProgrammingSection } from './components/LinearProgrammingSection';
 import { GoalProgrammingSection } from './components/GoalProgrammingSection';
 import { InsightsSection } from './components/InsightsSection';
+import { CapacityPlanner } from './components/CapacityPlanner';
 import { CheckCircle2, AlertCircle } from 'lucide-react';
 
 export default function App() {
@@ -173,6 +174,8 @@ export default function App() {
               isDark={isDark}
             />
           )}
+
+          {activeTab === 'planner' && <CapacityPlanner />}
 
           {activeTab === 'lp_model' && (
             <LinearProgrammingSection
