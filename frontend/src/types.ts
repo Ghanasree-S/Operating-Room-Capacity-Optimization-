@@ -80,7 +80,87 @@ export interface ServiceSummary {
   activeDays: number;
 }
 
-export type ActiveTab = 'overview' | 'statistics' | 'lp_model' | 'goal_programming' | 'insights';
+export type ActiveTab =
+  | 'overview'
+  | 'statistics'
+  | 'planner'
+  | 'lp_model'
+  | 'goal_programming'
+  | 'insights';
+
+// ---------------------------------------------------------------- planner
+// Forward-looking capacity planning: the hospital supplies its own capacity
+// and demand, and the Python backend returns an actionable weekly plan.
+
+export interface PlannerSpecialty {
+  name: string;
+  demand_cases: number;          // expected cases per week
+  avg_duration_min: number;      // average case length
+  priority: number;              // relative importance when capacity is short
+  min_hours: number;             // guaranteed floor
+  surgeon_hours: number | null;  // surgeon availability ceiling, null = no limit
+  equipment_max_cases: number | null; // equipment ceiling, null = no limit
+}
+
+export interface PlannerCapacity {
+  or_suites: number;
+  hours_per_day: number;
+  days_per_week: number;
+  overtime_cap_hours: number;
+  emergency_reserve_pct: number;
+  overtime_penalty: number;
+}
+
+export interface PlanRequest {
+  capacity: PlannerCapacity;
+  specialties: PlannerSpecialty[];
+}
+
+export interface SpecialtyPlanResult {
+  name: string;
+  allocated_hours: number;
+  cases_scheduled: number;
+  demand_cases: number;
+  unmet_cases: number;
+  demand_met_pct: number;
+  hours_needed: number;
+  limiting_factor: string;
+}
+
+export interface PlanResponse {
+  status: string;
+  bottleneck: string;
+  recommendations: string[];
+  totals: {
+    cases_scheduled: number;
+    cases_demanded: number;
+    cases_unmet: number;
+    demand_met_pct: number;
+    regular_hours_used: number;
+    overtime_hours_used: number;
+    total_hours_used: number;
+    utilization_pct: number;
+  };
+  capacity: {
+    regular_hours: number;
+    reserved_hours: number;
+    usable_regular_hours: number;
+    overtime_cap_hours: number;
+  };
+  specialties: SpecialtyPlanResult[];
+}
+
+export interface PlannerDefaults {
+  specialties: PlannerSpecialty[];
+  observed: {
+    or_suites: number;
+    total_cases: number;
+    weeks: number;
+    avg_cases_per_week: number;
+    avg_utilization_pct: number;
+  };
+  note: string;
+}
 
 // Decision-variable granularity for the optimization models.
 // 'specialty' — one variable per surgical service (10 variables)

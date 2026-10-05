@@ -12,6 +12,7 @@ import {
   Lightbulb,
   Building2,
   CheckCircle2,
+  CalendarCheck,
 } from 'lucide-react';
 import { ActiveTab } from '../types';
 
@@ -52,6 +53,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
       label: 'Statistics Explorer',
       sublabel: 'On-demand suite & service queries',
       icon: BarChart3,
+    },
+    {
+      id: 'planner' as ActiveTab,
+      label: 'Capacity Planner',
+      sublabel: 'Plan your week from your own inputs',
+      icon: CalendarCheck,
     },
     {
       id: 'lp_model' as ActiveTab,

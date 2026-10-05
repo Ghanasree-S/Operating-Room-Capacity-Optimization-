@@ -19,6 +19,10 @@ const TAB_TITLES: Record<ActiveTab, { title: string; subtitle: string }> = {
     title: 'Operating Room Statistics Explorer',
     subtitle: 'On-demand query engine for specific OR suites and surgical services',
   },
+  planner: {
+    title: 'Operating Room Capacity Planner',
+    subtitle: 'Enter your theatre capacity and expected demand to get an actionable weekly allocation',
+  },
   lp_model: {
     title: 'Linear Programming Block Allocation Model',
     subtitle: 'Maximize weekly surgical throughput subject to 320-hour capacity and specialty demand caps',
