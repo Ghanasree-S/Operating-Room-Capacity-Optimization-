@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import { PlannerSpecialty, PlannerCapacity, PlanResponse } from '../types';
 import { fetchDefaults, requestPlan, PlannerApiError } from '../api/plannerApi';
+import { CsvUpload } from './CsvUpload';
 
 const BLANK_SPECIALTY: PlannerSpecialty = {
   name: '',
@@ -154,6 +155,15 @@ export const CapacityPlanner: React.FC = () => {
           </div>
         </div>
       )}
+
+      <CsvUpload
+        onApply={imported => {
+          setSpecialties(imported);
+          setPlan(null);
+          setError(null);
+        }}
+        onConnectionError={() => setApiDown(true)}
+      />
 
       {/* ---------------------------------------------- hospital capacity */}
       <section className={`${card} p-6`}>

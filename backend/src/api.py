@@ -12,12 +12,18 @@ Endpoints:
 
 from __future__ import annotations
 
-from fastapi import FastAPI, HTTPException
+import json
+
+from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
+import csv_import
 import data_prep
 from planner import HospitalCapacity, SpecialtyDemand, plan_capacity
+
+# Guards against a huge accidental upload being read into memory.
+MAX_UPLOAD_BYTES = 25 * 1024 * 1024
 
 app = FastAPI(title="OR Capacity Planner", version="1.0")
 
@@ -109,6 +115,64 @@ def defaults() -> dict:
             "Demand figures are the historical weekly averages from the loaded "
             "dataset. Replace them with your own forecast before planning."
         ),
+    }
+
+
+async def _read_upload(file: UploadFile) -> bytes:
+    content = await file.read()
+    if not content:
+        raise HTTPException(400, "The uploaded file is empty.")
+    if len(content) > MAX_UPLOAD_BYTES:
+        raise HTTPException(
+            413,
+            f"File is larger than {MAX_UPLOAD_BYTES // (1024 * 1024)} MB.",
+        )
+    return content
+
+
+@app.post("/api/upload/inspect")
+async def inspect_upload(file: UploadFile = File(...)) -> dict:
+    """Report a file's columns and a suggested role mapping for confirmation."""
+    content = await _read_upload(file)
+    try:
+        result = csv_import.inspect(content)
+    except ValueError as exc:
+        raise HTTPException(400, str(exc)) from exc
+    return {"filename": file.filename, **result}
+
+
+@app.post("/api/upload/process")
+async def process_upload(
+    file: UploadFile = File(...),
+    mapping: str = Form(...),
+    weeks_covered: float | None = Form(default=None),
+) -> dict:
+    """Turn an uploaded file plus a confirmed mapping into planner inputs."""
+    content = await _read_upload(file)
+
+    try:
+        mapping_dict = json.loads(mapping)
+    except json.JSONDecodeError as exc:
+        raise HTTPException(400, f"mapping must be valid JSON: {exc}") from exc
+    if not isinstance(mapping_dict, dict):
+        raise HTTPException(400, "mapping must be a JSON object")
+
+    try:
+        result = csv_import.process(content, mapping_dict, weeks_covered)
+    except ValueError as exc:
+        raise HTTPException(400, str(exc)) from exc
+
+    return {
+        "specialties": result.specialties,
+        "issues": [
+            {"level": i.level, "message": i.message, "rows_affected": i.rows_affected}
+            for i in result.issues
+        ],
+        "has_errors": result.has_errors,
+        "rows_read": result.rows_read,
+        "rows_used": result.rows_used,
+        "weeks_covered": result.weeks_covered,
+        "date_range": result.date_range,
     }
 
 
