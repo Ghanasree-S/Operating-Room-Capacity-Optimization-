@@ -54,10 +54,27 @@ javascript-lp-solver at **200.50** — which is the project's main correctness
 check.
 
 ```bash
-cd backend && py -3 -m pip install -r requirements.txt
-py -3 src/main.py        # full analysis
-py -3 src/verify.py      # validation suite
+# Backend (on Windows use `py -3` instead of `python`)
+cd backend && python -m pip install -r requirements.txt
+python src/main.py        # full analysis
+python src/verify.py      # validation suite
+python -m pytest          # validation suite + API tests
+cd src && python -m uvicorn api:app --port 8000   # planner API
+
+# Frontend
+cd frontend && npm ci
+npm run dev               # http://localhost:3000
+npm run verify            # model checks + Excel parity
 ```
+
+CI (`.github/workflows/ci.yml`) runs the backend tests, type check, model
+checks and production build on every push.
+
+> **Capacity note.** At the default 320 h/week the capacity constraint is
+> *not* binding (≈168 h of slack): the optimum is set by each specialty's
+> `Max_Hours` demand ceiling, giving 200.49 cases. Run
+> `python src/main.py --capacity 110` to see the scarce-capacity case, where
+> capacity binds and the LP must trade specialties off (155.12 cases).
 
 ---
 

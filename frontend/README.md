@@ -111,7 +111,7 @@ src/
 ## Getting started
 
 ```bash
-npm install
+npm ci
 npm run dev      # starts Vite dev server on http://localhost:3000
 ```
 
@@ -123,11 +123,10 @@ npm run lint       # type-check (tsc --noEmit)
 
 ### Environment variables
 
-Copy `.env.example` to `.env` if running outside AI Studio:
+Copy `.env.example` to `.env` to point the dashboard at a different planner API:
 
 ```
-GEMINI_API_KEY="..."   # only needed if/when Gemini-powered features are added
-APP_URL="..."
+VITE_API_BASE="http://localhost:8000"   # planner API URL (this is the default)
 ```
 
 Neither variable is required for the core dashboard, statistics, LP, or

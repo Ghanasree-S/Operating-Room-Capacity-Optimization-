@@ -2,7 +2,7 @@
 HTTP API exposing the capacity planner to the dashboard.
 
 Run:
-    py -3 -m uvicorn api:app --reload --port 8000     (from backend/src)
+    python -m uvicorn api:app --reload --port 8000     (from backend/src)
 
 Endpoints:
     GET  /api/health      liveness probe

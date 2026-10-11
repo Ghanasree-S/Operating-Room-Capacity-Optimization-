@@ -12,15 +12,15 @@ a reference artefact.
 ## Quick start
 
 ```bash
-py -3 -m pip install -r requirements.txt
+python -m pip install -r requirements.txt
 
-py -3 src/main.py                      # full analysis, writes to outputs/
-py -3 src/verify.py                    # 22-check validation suite
-py -3 src/export_frontend.py           # regenerate the dashboard's data file
+python src/main.py                      # full analysis, writes to outputs/
+python src/verify.py                    # 22-check validation suite
+python src/export_frontend.py           # regenerate the dashboard's data file
 
-py -3 src/main.py --suite 3            # statistics for one OR suite
-py -3 src/main.py --service Podiatry   # statistics for one specialty
-py -3 src/main.py --capacity 110       # solve at a different capacity
+python src/main.py --suite 3            # statistics for one OR suite
+python src/main.py --service Podiatry   # statistics for one specialty
+python src/main.py --capacity 110       # solve at a different capacity
 ```
 
 ---
@@ -179,7 +179,7 @@ is for, and it is visible here in a way a single-objective LP cannot express.
 
 ## Validation
 
-`py -3 src/verify.py` runs 22 checks: data integrity, both LP granularities,
+`python src/verify.py` runs 22 checks: data integrity, both LP granularities,
 the scarcity comparison, and Goal Programming (including that each goal
 equation balances and that no goal is simultaneously under- and
 over-achieved). It also asserts the LP result against the **200.49** figure
@@ -197,7 +197,7 @@ now generates from the Python pipeline — so Python feeds the dashboard, with
 no frontend changes required.
 
 ```bash
-py -3 src/export_frontend.py     # writes frontend/Hospital_OR_Capacity_Dataset.xlsx
+python src/export_frontend.py     # writes frontend/Hospital_OR_Capacity_Dataset.xlsx
 cd frontend && npm install && npm run dev
 ```
 

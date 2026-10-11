@@ -11,6 +11,19 @@ export default defineConfig(() => {
         '@': path.resolve(__dirname, '.'),
       },
     },
+    build: {
+      rollupOptions: {
+        output: {
+          // Split large third-party libraries into their own cacheable chunks.
+          manualChunks: {
+            charts: ['recharts'],
+            xlsx: ['xlsx'],
+            katex: ['katex'],
+            solver: ['javascript-lp-solver'],
+          },
+        },
+      },
+    },
     server: {
       // HMR is disabled in AI Studio via DISABLE_HMR env var.
       // Do not modifyâfile watching is disabled to prevent flickering during agent edits.
