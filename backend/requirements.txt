@@ -1,7 +1,8 @@
 pandas>=2.0,<3
 numpy>=1.24,<3
 # PuLP 4.x rewrote LpVariable (no lowBound/upBound kwargs) - stay on 2.x/3.x
-pulp>=2.7,<4
+pulp>=3.3,<5
+highspy>=1.7,<2  # HiGHS LP solver (PuLP 4 no longer bundles CBC)
 openpyxl>=3.1,<4
 
 # Capacity planner API (serves the dashboard's Planner tab)

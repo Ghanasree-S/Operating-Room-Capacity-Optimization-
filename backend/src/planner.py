@@ -47,6 +47,8 @@ from dataclasses import dataclass, field
 
 import pulp
 
+from optimization import solve
+
 # Treat a constraint as binding when slack falls below this. CBC leaves
 # residuals around 1e-6; 0.001 hours is 3.6 seconds, far below any real
 # scheduling granularity but comfortably above solver noise.
@@ -176,9 +178,9 @@ def plan_capacity(
         # A min_hours floor above the ceiling would make the model infeasible;
         # clamp it and surface the conflict as a recommendation later.
         lower = min(d.min_hours, upper)
-        hours[d.name] = pulp.LpVariable(f"hours_{i}", lowBound=lower, upBound=upper)
+        hours[d.name] = model.add_variable(f"hours_{i}", lowBound=lower, upBound=upper)
 
-    overtime = pulp.LpVariable(
+    overtime = model.add_variable(
         "overtime", lowBound=0, upBound=max(0.0, capacity.overtime_cap_hours)
     )
 
@@ -196,9 +198,7 @@ def plan_capacity(
         "capacity",
     )
 
-    model.solve(pulp.PULP_CBC_CMD(msg=False))
-
-    status = pulp.LpStatus[model.status]
+    status = solve(model)
     overtime_used = float(overtime.value() or 0.0)
     total_allocated = float(sum(v.value() or 0.0 for v in hours.values()))
     regular_used = max(0.0, total_allocated - overtime_used)

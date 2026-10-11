@@ -32,6 +32,38 @@ from dataclasses import dataclass, field
 import pandas as pd
 import pulp
 
+
+def default_solver() -> pulp.LpSolver:
+    """HiGHS via the highspy package: bundled wheels, works on PuLP 3 and 4
+    (PuLP 4 no longer ships the CBC binary), and reports duals/reduced costs."""
+    return pulp.HiGHS(msg=False)
+
+
+_STATUS_NAMES = {
+    0: "Not Solved",
+    1: "Optimal",
+    -1: "Infeasible",
+    -2: "Unbounded",
+    -3: "Undefined",
+    -4: "Time Limit",
+}
+
+
+def solve(model: pulp.LpProblem) -> str:
+    """Solve with the default solver and return the status name.
+
+    PuLP 3 returns an int status code; PuLP 4 returns an LpSolveStats object
+    whose ``status`` is an int enum - both map onto the same codes.
+    """
+    result = model.solve(default_solver())
+    return _STATUS_NAMES.get(int(getattr(result, "status", result)), "Undefined")
+
+
+def objective_gain(dual: float | None) -> float | None:
+    """Convert a HiGHS dual on a maximisation model into the objective gain
+    per unit (HiGHS reports these negated relative to CBC's convention)."""
+    return None if dual is None else -dual
+
 DEFAULT_CAPACITY_HOURS = 320.0  # 8 suites x 40 hrs/week
 
 # A constraint counts as binding when its slack is below this. CBC returns
@@ -80,7 +112,7 @@ def solve_lp(
     model = pulp.LpProblem("OR_Capacity_Allocation", pulp.LpMaximize)
 
     x = {
-        row.Label: pulp.LpVariable(
+        row.Label: model.add_variable(
             f"hours_{i}", lowBound=row.Min_Hours, upBound=row.Max_Hours
         )
         for i, row in enumerate(inputs.itertuples())
@@ -95,7 +127,7 @@ def solve_lp(
     capacity_constraint = pulp.lpSum(x.values()) <= capacity_hours
     model += capacity_constraint, "total_capacity"
 
-    model.solve(pulp.PULP_CBC_CMD(msg=False))
+    status = solve(model)
 
     allocation = pd.DataFrame(
         {
@@ -112,20 +144,20 @@ def solve_lp(
     # Reduced cost: marginal change in the objective per unit increase in the
     # variable, i.e. the value of relaxing that group's bound by one hour.
     allocation["Reduced_Cost"] = [
-        getattr(v, "dj", None) for v in x.values()
+        objective_gain(getattr(v, "dj", None)) for v in x.values()
     ]
 
     total_hours = float(allocation["Allocated_Hours"].sum())
-    capacity_row = model.constraints["total_capacity"]
+    capacity_row = model.get_constraint_by_name("total_capacity")
 
     return LpResult(
-        status=pulp.LpStatus[model.status],
+        status=status,
         total_cases=float(pulp.value(model.objective)),
         total_hours=total_hours,
         capacity_hours=capacity_hours,
         allocation=allocation.sort_values("Label").reset_index(drop=True),
-        capacity_shadow_price=getattr(capacity_row, "pi", None),
-        capacity_slack=capacity_hours - total_hours,
+        capacity_shadow_price=objective_gain(getattr(capacity_row, "pi", None)),
+        capacity_slack=max(0.0, capacity_hours - total_hours),  # clamp solver round-off
     )
 
 
@@ -141,16 +173,16 @@ def solve_goal_programming(
     model = pulp.LpProblem("OR_Goal_Programming", pulp.LpMinimize)
 
     x = {
-        row.Label: pulp.LpVariable(
+        row.Label: model.add_variable(
             f"hours_{i}", lowBound=row.Min_Hours, upBound=row.Max_Hours
         )
         for i, row in enumerate(inputs.itertuples())
     }
 
-    d1_minus = pulp.LpVariable("d1_minus", lowBound=0)  # cases short of target
-    d1_plus = pulp.LpVariable("d1_plus", lowBound=0)    # cases above target
-    d2_minus = pulp.LpVariable("d2_minus", lowBound=0)  # overtime under target
-    d2_plus = pulp.LpVariable("d2_plus", lowBound=0)    # overtime over target
+    d1_minus = model.add_variable("d1_minus", lowBound=0)  # cases short of target
+    d1_plus = model.add_variable("d1_plus", lowBound=0)    # cases above target
+    d2_minus = model.add_variable("d2_minus", lowBound=0)  # overtime under target
+    d2_plus = model.add_variable("d2_plus", lowBound=0)    # overtime over target
 
     # Penalise only under-achievement on cases and overrun on overtime.
     model += w1 * d1_minus + w2 * d2_plus
@@ -166,7 +198,7 @@ def solve_goal_programming(
     model += overtime_expr + d2_minus - d2_plus == overtime_target, "goal_overtime"
     model += pulp.lpSum(x.values()) <= capacity_hours, "total_capacity"
 
-    model.solve(pulp.PULP_CBC_CMD(msg=False))
+    status = solve(model)
 
     allocation = pd.DataFrame(
         {
@@ -179,14 +211,14 @@ def solve_goal_programming(
     )
 
     return GoalResult(
-        status=pulp.LpStatus[model.status],
+        status=status,
         total_cases=float(pulp.value(cases_expr)),
         total_hours=float(allocation["Allocated_Hours"].sum()),
         total_overtime_hours=float(pulp.value(overtime_expr)),
-        d1_minus=float(d1_minus.value()),
-        d1_plus=float(d1_plus.value()),
-        d2_minus=float(d2_minus.value()),
-        d2_plus=float(d2_plus.value()),
+        d1_minus=max(0.0, float(d1_minus.value())),
+        d1_plus=max(0.0, float(d1_plus.value())),
+        d2_minus=max(0.0, float(d2_minus.value())),
+        d2_plus=max(0.0, float(d2_plus.value())),
         throughput_target=throughput_target,
         overtime_target=overtime_target,
         weights=(w1, w2),
