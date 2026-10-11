@@ -21,11 +21,9 @@ import {
   ArrowUpDown,
   ArrowUp,
   ArrowDown,
-  Info,
   Clock,
   Activity,
   CalendarCheck,
-  AlertTriangle,
 } from 'lucide-react';
 
 interface OverviewDashboardProps {
@@ -41,7 +39,6 @@ type SortDirection = 'asc' | 'desc';
 export const OverviewDashboard: React.FC<OverviewDashboardProps> = ({
   rawCases,
   stats,
-  lpInputs,
   isDark,
 }) => {
   const [sortField, setSortField] = useState<SortField>('caseCount');
@@ -136,8 +133,8 @@ export const OverviewDashboard: React.FC<OverviewDashboardProps> = ({
   // Sorted specialty data
   const sortedServices = useMemo(() => {
     return [...serviceSummaries].sort((a, b) => {
-      let valA: any = a[sortField];
-      let valB: any = b[sortField];
+      const valA: any = a[sortField];
+      const valB: any = b[sortField];
       if (typeof valA === 'string') {
         return sortDir === 'asc' ? valA.localeCompare(valB) : valB.localeCompare(valA);
       }

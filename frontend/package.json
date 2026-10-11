@@ -8,30 +8,42 @@
     "build": "vite build",
     "preview": "vite preview",
     "clean": "rm -rf dist",
-    "lint": "tsc --noEmit",
-    "verify": "tsx verify_models.ts && node verify_parity.cjs"
+    "lint": "tsc --noEmit && eslint .",
+    "verify": "tsx verify_models.ts && node verify_parity.cjs",
+    "test": "vitest run",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.14",
     "@vitejs/plugin-react": "^5.0.4",
+    "exceljs": "^4.4.0",
     "javascript-lp-solver": "^1.0.3",
     "katex": "^0.18.5",
     "lucide-react": "^0.546.0",
     "react": "^19.0.1",
     "react-dom": "^19.0.1",
     "recharts": "^3.10.1",
-    "vite": "^6.2.3",
-    "xlsx": "^0.18.5"
+    "vite": "^6.2.3"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.5",
+    "@playwright/test": "^1.56.1",
     "@types/katex": "^0.16.8",
     "@types/node": "^22.14.0",
     "autoprefixer": "^10.4.21",
     "esbuild": "^0.25.0",
+    "eslint": "^9.39.5",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "globals": "^17.13.0",
     "tailwindcss": "^4.1.14",
     "tsx": "^4.21.0",
     "typescript": "~5.8.2",
-    "vite": "^6.2.3"
+    "typescript-eslint": "^8.71.1",
+    "vite": "^6.2.3",
+    "vitest": "^3.2.7"
   },
-  "description": "Operating Room capacity planning dashboard (LP + Goal Programming)"
+  "description": "Operating Room capacity planning dashboard (LP + Goal Programming)",
+  "overrides": {
+    "uuid": "^11.1.1"
+  }
 }

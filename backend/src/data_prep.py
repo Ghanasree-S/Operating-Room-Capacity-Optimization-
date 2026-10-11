@@ -45,13 +45,9 @@ def add_derived_metrics(df: pd.DataFrame) -> pd.DataFrame:
     """Add Actual_Duration_Min, Overtime_Min and Turnover_Min columns."""
     df = df.copy()
 
-    df["Actual_Duration_Min"] = (
-        df["End Time"] - df["Start Time"]
-    ).dt.total_seconds() / 60
+    df["Actual_Duration_Min"] = (df["End Time"] - df["Start Time"]).dt.total_seconds() / 60
 
-    df["Overtime_Min"] = (
-        df["Actual_Duration_Min"] - df["Booked Time (min)"]
-    ).clip(lower=0)
+    df["Overtime_Min"] = (df["Actual_Duration_Min"] - df["Booked Time (min)"]).clip(lower=0)
 
     # Turnover is the idle gap before the NEXT case in the same room on the
     # same day, so it is only defined between consecutive cases within a
@@ -59,9 +55,7 @@ def add_derived_metrics(df: pd.DataFrame) -> pd.DataFrame:
     df = df.sort_values(["Date", "OR Suite", "Wheels In"]).reset_index(drop=True)
     group = df.groupby(["Date", "OR Suite"], sort=False)
     next_wheels_in = group["Wheels In"].shift(-1)
-    df["Turnover_Min"] = (
-        next_wheels_in - df["Wheels Out"]
-    ).dt.total_seconds() / 60
+    df["Turnover_Min"] = (next_wheels_in - df["Wheels Out"]).dt.total_seconds() / 60
 
     return df
 
@@ -84,14 +78,12 @@ def build_suite_day_stats(df: pd.DataFrame) -> pd.DataFrame:
         .reset_index()
     )
 
-    open_minutes = (
-        stats["Last_Wheels_Out"] - stats["First_Wheels_In"]
-    ).dt.total_seconds() / 60
+    open_minutes = (stats["Last_Wheels_Out"] - stats["First_Wheels_In"]).dt.total_seconds() / 60
 
     stats["Open_Minutes"] = open_minutes
-    stats["Utilization_Pct"] = (
-        stats["Total_Actual_Duration"] / open_minutes * 100
-    ).where(open_minutes > 0)
+    stats["Utilization_Pct"] = (stats["Total_Actual_Duration"] / open_minutes * 100).where(
+        open_minutes > 0
+    )
 
     return stats
 
@@ -153,9 +145,7 @@ def _build_inputs(
     ).fillna(0.0)
 
     if label_col == "Procedure":
-        inputs["Procedure"] = (
-            inputs["Service"] + " - " + inputs["CPT Description"]
-        )
+        inputs["Procedure"] = inputs["Service"] + " - " + inputs["CPT Description"]
 
     inputs = inputs.rename(columns={label_col: "Label"})
     if "Label" not in inputs.columns:

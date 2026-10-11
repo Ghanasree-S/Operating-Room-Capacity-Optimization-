@@ -66,22 +66,12 @@ def build_lp_model_sheet(inputs: pd.DataFrame) -> pd.DataFrame:
 
 def export(path: Path = OUTPUT_XLSX, granularity: str = "specialty") -> Path:
     data = data_prep.load_all()
-    inputs = (
-        data["procedure_inputs"]
-        if granularity == "procedure"
-        else data["specialty_inputs"]
-    )
+    inputs = data["procedure_inputs"] if granularity == "procedure" else data["specialty_inputs"]
 
     with pd.ExcelWriter(path, engine="openpyxl") as writer:
-        build_raw_data_sheet(data["cases"]).to_excel(
-            writer, sheet_name="RAW_DATA", index=False
-        )
-        build_stats_sheet(data["suite_day_stats"]).to_excel(
-            writer, sheet_name="STATS", index=False
-        )
-        build_lp_model_sheet(inputs).to_excel(
-            writer, sheet_name="LP_MODEL", index=False
-        )
+        build_raw_data_sheet(data["cases"]).to_excel(writer, sheet_name="RAW_DATA", index=False)
+        build_stats_sheet(data["suite_day_stats"]).to_excel(writer, sheet_name="STATS", index=False)
+        build_lp_model_sheet(inputs).to_excel(writer, sheet_name="LP_MODEL", index=False)
 
     return path
 

@@ -131,9 +131,7 @@ def main() -> int:
     )
     check(
         "overtime goal equation balances",
-        abs(
-            gp.total_overtime_hours + gp.d2_minus - gp.d2_plus - gp.overtime_target
-        ) < 1e-4,
+        abs(gp.total_overtime_hours + gp.d2_minus - gp.d2_plus - gp.overtime_target) < 1e-4,
         f"overtime + d2- - d2+ = {gp.total_overtime_hours + gp.d2_minus - gp.d2_plus:.4f}",
     )
     check(
@@ -147,9 +145,7 @@ def main() -> int:
         f"{gp.total_hours:.2f} <= 320",
     )
 
-    print(
-        f"\n{'ALL CHECKS PASSED' if _failures == 0 else f'{_failures} CHECK(S) FAILED'}"
-    )
+    print(f"\n{'ALL CHECKS PASSED' if _failures == 0 else f'{_failures} CHECK(S) FAILED'}")
     return 0 if _failures == 0 else 1
 
 

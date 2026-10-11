@@ -1,0 +1,9 @@
+-r requirements.txt
+
+# Tests
+pytest>=8,<9
+httpx>=0.27,<1
+
+# Lint / type check
+ruff>=0.6,<1
+mypy>=1.11,<2

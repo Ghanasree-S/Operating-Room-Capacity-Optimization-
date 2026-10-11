@@ -27,9 +27,7 @@ def overview(cases: pd.DataFrame, suite_day_stats: pd.DataFrame) -> dict:
     }
 
 
-def by_suite(
-    cases: pd.DataFrame, suite_day_stats: pd.DataFrame, suite: int
-) -> dict:
+def by_suite(cases: pd.DataFrame, suite_day_stats: pd.DataFrame, suite: int) -> dict:
     """Statistics for a single OR suite."""
     subset = cases[cases["OR Suite"] == suite]
     if subset.empty:
@@ -43,9 +41,7 @@ def by_suite(
         "active_days": int(len(suite_days)),
         "avg_utilization_pct": float(suite_days["Utilization_Pct"].mean()),
         "total_hours": float(subset["Actual_Duration_Min"].sum() / 60),
-        "avg_daily_duration_min": float(
-            suite_days["Total_Actual_Duration"].mean()
-        ),
+        "avg_daily_duration_min": float(suite_days["Total_Actual_Duration"].mean()),
         "avg_case_duration_min": float(subset["Actual_Duration_Min"].mean()),
         "avg_overtime_min": float(subset["Overtime_Min"].mean()),
         "avg_turnover_min": float(subset["Turnover_Min"].mean()),
@@ -83,9 +79,7 @@ def by_service(cases: pd.DataFrame, service: str) -> dict:
     }
 
 
-def suite_summary_table(
-    cases: pd.DataFrame, suite_day_stats: pd.DataFrame
-) -> pd.DataFrame:
+def suite_summary_table(cases: pd.DataFrame, suite_day_stats: pd.DataFrame) -> pd.DataFrame:
     """One row per OR suite — the table behind the overview dashboard."""
     per_suite = (
         cases.groupby("OR Suite")

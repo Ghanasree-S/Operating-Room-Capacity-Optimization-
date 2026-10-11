@@ -1,15 +1,9 @@
 import React from 'react';
 import { LpSolution, GoalProgrammingSolution } from '../types';
 import {
-  AlertTriangle,
   Lightbulb,
-  CheckCircle2,
   Building2,
   Users,
-  Clock,
-  TrendingUp,
-  BarChart,
-  ArrowRight,
   ShieldCheck,
 } from 'lucide-react';
 

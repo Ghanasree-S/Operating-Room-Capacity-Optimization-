@@ -112,6 +112,11 @@ export function solveLpModel(
 
   const t1 = performance.now();
 
+  // The minimum-hour floors alone exceed capacity: no allocation satisfies
+  // every constraint, so report it rather than an over-capacity "optimum".
+  const minHoursTotal = inputs.reduce((acc, item) => acc + item.minHours, 0);
+  const status = minHoursTotal > totalCapacityHours + 1e-9 ? 'infeasible' : 'optimal';
+
   return {
     allocatedHours,
     casesPerformed,
@@ -119,7 +124,7 @@ export function solveLpModel(
     totalHours: parseFloat(totalHours.toFixed(1)),
     capacityUtilizationPct: parseFloat(((totalHours / totalCapacityHours) * 100).toFixed(1)),
     bindingConstraints,
-    status: 'optimal',
+    status,
     solveTimeMs: parseFloat((t1 - t0).toFixed(2)),
   };
 }
@@ -255,11 +260,17 @@ export function solveGoalProgramming(
     totalOvertimeHours += hours * item.overtimeRate;
   });
 
-  const d1 = totalCases - throughputTarget;
+  // Round the totals first and derive the deviations from the rounded values,
+  // so the reported goal equations balance exactly. Overtime keeps 4 decimals
+  // because the real target (0.055 h) is smaller than 2-decimal rounding.
+  const roundedCases = parseFloat(totalCases.toFixed(1));
+  const roundedOvertime = parseFloat(totalOvertimeHours.toFixed(4));
+
+  const d1 = roundedCases - throughputTarget;
   const d1Minus = d1 < 0 ? Math.abs(d1) : 0;
   const d1Plus = d1 > 0 ? d1 : 0;
 
-  const d2 = totalOvertimeHours - overtimeTarget;
+  const d2 = roundedOvertime - overtimeTarget;
   const d2Minus = d2 < 0 ? Math.abs(d2) : 0;
   const d2Plus = d2 > 0 ? d2 : 0;
 
@@ -268,13 +279,13 @@ export function solveGoalProgramming(
   return {
     allocatedHours,
     casesPerformed,
-    totalCases: parseFloat(totalCases.toFixed(1)),
+    totalCases: roundedCases,
     totalHours: parseFloat(totalHours.toFixed(1)),
-    totalOvertimeHours: parseFloat(totalOvertimeHours.toFixed(2)),
-    d1Minus: parseFloat(d1Minus.toFixed(1)),
-    d1Plus: parseFloat(d1Plus.toFixed(1)),
-    d2Minus: parseFloat(d2Minus.toFixed(2)),
-    d2Plus: parseFloat(d2Plus.toFixed(2)),
+    totalOvertimeHours: roundedOvertime,
+    d1Minus: parseFloat(d1Minus.toFixed(4)),
+    d1Plus: parseFloat(d1Plus.toFixed(4)),
+    d2Minus: parseFloat(d2Minus.toFixed(4)),
+    d2Plus: parseFloat(d2Plus.toFixed(4)),
     status: 'optimal',
     solveTimeMs: parseFloat((t1 - t0).toFixed(2)),
   };

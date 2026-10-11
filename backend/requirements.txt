@@ -1,14 +1,11 @@
 pandas>=2.0,<3
 numpy>=1.24,<3
-# PuLP 4.x rewrote LpVariable (no lowBound/upBound kwargs) - stay on 2.x/3.x
-pulp>=2.7,<4
+# Uses the PuLP 3.3+ add_variable API, so both PuLP 3 and 4 work
+pulp>=3.3,<5
+highspy>=1.7,<2  # HiGHS LP solver (PuLP 4 no longer bundles CBC)
 openpyxl>=3.1,<4
 
 # Capacity planner API (serves the dashboard's Planner tab)
 fastapi>=0.110,<1
 uvicorn[standard]>=0.27,<1
 python-multipart>=0.0.9,<1  # required by FastAPI for the CSV upload (Form/File) endpoints
-
-# Tests
-pytest>=8,<9
-httpx>=0.27,<1
