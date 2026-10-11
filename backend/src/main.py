@@ -18,6 +18,8 @@ import data_prep
 import statistics_module as stats_mod
 from optimization import (
     DEFAULT_CAPACITY_HOURS,
+    capacity_sweep,
+    goal_tradeoff,
     sensitivity_report,
     solve_goal_programming,
     solve_lp,
@@ -133,9 +135,40 @@ def run_full_analysis(capacity: float = DEFAULT_CAPACITY_HOURS) -> None:
         print("  Reading: both goals are satisfied simultaneously; they do not")
         print("  conflict at these targets.")
 
+    # ------------------------------------------------------- what-if sweeps
+    _rule("8. WHAT-IF ANALYSIS - capacity and goal weights")
+    sweep = capacity_sweep(specialty)
+    feasible = sweep[sweep["Status"] == "Optimal"]
+    slack_rows = feasible[~feasible["Capacity_Binding"].astype(bool)]
+    if not slack_rows.empty:
+        print(
+            f"  Capacity stops binding at ~{slack_rows['Hours_Used'].iloc[0]:.1f} hrs/week"
+            f" ({slack_rows['Total_Cases'].iloc[0]:.2f} cases); beyond that, extra"
+        )
+        print("  hours add nothing - the demand ceilings (Max_Hours) bind instead.")
+    print()
+    print(
+        feasible[["Capacity_Hours", "Total_Cases", "Hours_Used", "Shadow_Price"]]
+        .round(3)
+        .to_string(index=False)
+    )
+
+    tradeoff = goal_tradeoff(specialty, THROUGHPUT_TARGET, overtime_target, capacity)
+    print()
+    print("  Goal Programming trade-off as the overtime weight W2 rises (W1 = 6):")
+    print(
+        tradeoff[["W2_Overtime", "Total_Cases", "Overtime_Hours", "Cases_Short"]]
+        .round(4)
+        .to_string(index=False)
+    )
+
     # ------------------------------------------------------------- outputs
-    _rule("8. WRITING OUTPUTS")
+    _rule("9. WRITING OUTPUTS")
     written = _write_outputs(suite_table, service_table, lp_spec, lp_proc, gp, ov)
+    for name, frame in [("capacity_sweep.csv", sweep), ("goal_tradeoff.csv", tradeoff)]:
+        path = OUTPUT_DIR / name
+        frame.round(4).to_csv(path, index=False)
+        written.append(path)
     for path in written:
         print(f"  {path.relative_to(OUTPUT_DIR.parent)}")
 

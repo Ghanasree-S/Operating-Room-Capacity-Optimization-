@@ -238,3 +238,79 @@ def sensitivity_report(result: LpResult) -> pd.DataFrame:
     ].copy()
     report["Cases_Per_Hour"] = 60 / result.allocation["Avg_Duration_Min"]
     return report
+
+
+def capacity_sweep(
+    inputs: pd.DataFrame,
+    capacities: list[float] | None = None,
+) -> pd.DataFrame:
+    """Re-solve the LP across a range of weekly capacities.
+
+    Shows where capacity stops being the bottleneck: below that point every
+    extra hour adds cases (positive shadow price); above it the demand
+    ceilings bind instead and extra capacity adds nothing.
+    """
+    if capacities is None:
+        capacities = [float(c) for c in range(100, 330, 10)]
+
+    rows = []
+    for capacity in capacities:
+        result = solve_lp(inputs, capacity)
+        if result.status != "Optimal":
+            # e.g. the Min_Hours floors alone exceed this capacity
+            rows.append({"Capacity_Hours": capacity, "Status": result.status})
+            continue
+        rows.append(
+            {
+                "Capacity_Hours": capacity,
+                "Status": result.status,
+                "Total_Cases": result.total_cases,
+                "Hours_Used": result.total_hours,
+                "Capacity_Slack": result.capacity_slack,
+                "Shadow_Price": result.capacity_shadow_price,
+                "Capacity_Binding": result.capacity_is_binding,
+            }
+        )
+    return pd.DataFrame(rows)
+
+
+def goal_tradeoff(
+    inputs: pd.DataFrame,
+    throughput_target: float,
+    overtime_target: float,
+    capacity_hours: float = DEFAULT_CAPACITY_HOURS,
+    overtime_weights: list[float] | None = None,
+    throughput_weight: float = 6.0,
+) -> pd.DataFrame:
+    """Re-solve the goal programme while raising the overtime weight W2.
+
+    Traces the throughput-vs-overtime trade-off curve: as overtime is
+    penalised more heavily the model gives up cases to reduce overtime.
+    """
+    if overtime_weights is None:
+        # Deviations are unnormalised (cases vs overtime hours, ~200 vs ~0.05),
+        # so W2 must span several orders of magnitude to move the solution.
+        overtime_weights = [0.0, 1.0, 10.0, 100.0, 1e3, 3e3, 1e4, 3e4, 1e5]
+
+    rows = []
+    for w2 in overtime_weights:
+        gp = solve_goal_programming(
+            inputs,
+            throughput_target,
+            overtime_target,
+            throughput_weight,
+            w2,
+            capacity_hours=capacity_hours,
+        )
+        rows.append(
+            {
+                "W1_Throughput": throughput_weight,
+                "W2_Overtime": w2,
+                "Status": gp.status,
+                "Total_Cases": gp.total_cases,
+                "Overtime_Hours": gp.total_overtime_hours,
+                "Cases_Short": gp.d1_minus,
+                "Overtime_Overrun": gp.d2_plus,
+            }
+        )
+    return pd.DataFrame(rows)

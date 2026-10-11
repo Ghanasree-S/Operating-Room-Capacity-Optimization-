@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { SpecialtyLpInput, LpSolution, LpGranularity } from '../types';
 import { solveLpModel } from '../solver/lpSolver';
 import { KatexMath } from './common/KatexMath';
+import { CapacitySweepChart } from './CapacitySweepChart';
 import {
   Play,
   RotateCcw,
@@ -436,6 +437,8 @@ export const LinearProgrammingSection: React.FC<LinearProgrammingSectionProps> =
           </table>
         </div>
       </section>
+
+      <CapacitySweepChart lpInputs={lpInputs} currentCapacity={totalCapacity} />
     </div>
   );
 };

@@ -29,3 +29,10 @@ test('Excel export downloads a workbook that can be imported back', async ({ pag
   await page.locator('input[type="file"]').first().setInputFiles(path);
   await expect(page.getByText(/Successfully parsed and loaded/).first()).toBeVisible();
 });
+
+test('LP tab shows the capacity what-if chart', async ({ page }) => {
+  await page.goto('/');
+  await page.getByText('Linear Programming', { exact: true }).first().click();
+  await expect(page.getByText('What-if: weekly cases vs total OR capacity')).toBeVisible();
+  await expect(page.locator('.recharts-line-curve').first()).toBeVisible();
+});
