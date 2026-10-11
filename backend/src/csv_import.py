@@ -27,20 +27,44 @@ import pandas as pd
 # Longest match wins, so put specific phrases before generic ones.
 _ROLE_HINTS: dict[str, list[str]] = {
     "service": [
-        "surgical service", "service line", "specialty", "speciality",
-        "service", "department", "discipline", "dept",
+        "surgical service",
+        "service line",
+        "specialty",
+        "speciality",
+        "service",
+        "department",
+        "discipline",
+        "dept",
     ],
     "duration": [
-        "actual duration", "case duration", "procedure duration", "duration min",
-        "duration", "case length", "proc time", "minutes", "mins",
+        "actual duration",
+        "case duration",
+        "procedure duration",
+        "duration min",
+        "duration",
+        "case length",
+        "proc time",
+        "minutes",
+        "mins",
     ],
     "start_time": [
-        "procedure start", "surgery start", "incision start", "start time",
-        "wheels in", "in time", "start",
+        "procedure start",
+        "surgery start",
+        "incision start",
+        "start time",
+        "wheels in",
+        "in time",
+        "start",
     ],
     "end_time": [
-        "procedure end", "surgery end", "closure end", "end time",
-        "wheels out", "out time", "finish", "end",
+        "procedure end",
+        "surgery end",
+        "closure end",
+        "end time",
+        "wheels out",
+        "out time",
+        "finish",
+        "end",
     ],
     "date": ["surgery date", "case date", "procedure date", "date"],
     "or_suite": ["or suite", "operating room", "theatre", "theater", "room", "suite"],
@@ -57,7 +81,7 @@ _LONG_CASE_WARN_MIN = 720.0
 
 @dataclass
 class ImportIssue:
-    level: str   # "error" blocks the import; "warning" is advisory
+    level: str  # "error" blocks the import; "warning" is advisory
     message: str
     rows_affected: int = 0
 
@@ -103,9 +127,9 @@ def guess_mapping(columns: list[str]) -> dict[str, str | None]:
                 if col in taken:
                     continue
                 if low == hint:
-                    score = 1000 + len(hint)       # exact match dominates
+                    score = 1000 + len(hint)  # exact match dominates
                 elif hint in low:
-                    score = 100 + len(hint)        # substring match
+                    score = 100 + len(hint)  # substring match
                 else:
                     continue
                 if best is None or score > best[0]:
@@ -156,9 +180,7 @@ def process(
     raw_service = df[service_col]
     service = raw_service.astype(str).str.strip()
     service = service.where(~raw_service.isna(), "")
-    service = service.where(
-        ~service.str.lower().isin({"nan", "none", "null", "n/a", "-"}), ""
-    )
+    service = service.where(~service.str.lower().isin({"nan", "none", "null", "n/a", "-"}), "")
     work = pd.DataFrame({"service": service})
 
     blank_service = int((work["service"] == "").sum())
@@ -215,9 +237,7 @@ def process(
         )
 
     if work.empty:
-        issues.append(
-            ImportIssue("error", "No usable rows remained after validation.")
-        )
+        issues.append(ImportIssue("error", "No usable rows remained after validation."))
         return ImportResult(specialties=[], issues=issues, rows_read=rows_read)
 
     weeks, date_range, span_issues = _derive_weeks(df, mapping, work.index, weeks_covered)

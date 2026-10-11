@@ -8,7 +8,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "clean": "rm -rf dist",
-    "lint": "tsc --noEmit",
+    "lint": "tsc --noEmit && eslint .",
     "verify": "tsx verify_models.ts && node verify_parity.cjs"
   },
   "dependencies": {
@@ -24,13 +24,18 @@
     "vite": "^6.2.3"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.5",
     "@types/katex": "^0.16.8",
     "@types/node": "^22.14.0",
     "autoprefixer": "^10.4.21",
     "esbuild": "^0.25.0",
+    "eslint": "^9.39.5",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "globals": "^17.13.0",
     "tailwindcss": "^4.1.14",
     "tsx": "^4.21.0",
     "typescript": "~5.8.2",
+    "typescript-eslint": "^8.71.1",
     "vite": "^6.2.3"
   },
   "description": "Operating Room capacity planning dashboard (LP + Goal Programming)",

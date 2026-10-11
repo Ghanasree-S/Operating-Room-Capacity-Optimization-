@@ -6,12 +6,6 @@ import {
   Play,
   RotateCcw,
   CheckCircle2,
-  AlertCircle,
-  HelpCircle,
-  Clock,
-  Activity,
-  Layers,
-  Sparkles,
 } from 'lucide-react';
 
 interface LinearProgrammingSectionProps {

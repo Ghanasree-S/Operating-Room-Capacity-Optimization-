@@ -13,7 +13,7 @@ const LinearProgrammingSection = lazy(() => import('./components/LinearProgrammi
 const GoalProgrammingSection = lazy(() => import('./components/GoalProgrammingSection').then(m => ({ default: m.GoalProgrammingSection })));
 const InsightsSection = lazy(() => import('./components/InsightsSection').then(m => ({ default: m.InsightsSection })));
 const CapacityPlanner = lazy(() => import('./components/CapacityPlanner').then(m => ({ default: m.CapacityPlanner })));
-import { CheckCircle2, AlertCircle } from 'lucide-react';
+import { CheckCircle2 } from 'lucide-react';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<ActiveTab>('overview');

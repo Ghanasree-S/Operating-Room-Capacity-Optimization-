@@ -60,11 +60,11 @@ class SpecialtyDemand:
     """One specialty's expected workload and its local limits."""
 
     name: str
-    demand_cases: float               # expected cases per week
-    avg_duration_min: float           # average case length, minutes
-    priority: float = 1.0             # relative importance, higher wins
-    min_hours: float = 0.0            # guaranteed floor (service-level agreement)
-    surgeon_hours: float | None = None      # surgeon availability ceiling
+    demand_cases: float  # expected cases per week
+    avg_duration_min: float  # average case length, minutes
+    priority: float = 1.0  # relative importance, higher wins
+    min_hours: float = 0.0  # guaranteed floor (service-level agreement)
+    surgeon_hours: float | None = None  # surgeon availability ceiling
     equipment_max_cases: float | None = None  # equipment-limited case ceiling
 
     @property
@@ -80,9 +80,9 @@ class HospitalCapacity:
     or_suites: int = 8
     hours_per_day: float = 8.0
     days_per_week: int = 5
-    overtime_cap_hours: float = 0.0        # most overtime authorised per week
-    emergency_reserve_pct: float = 0.0     # capacity held back for emergencies
-    overtime_penalty: float = 0.5          # cases forgone per overtime hour used
+    overtime_cap_hours: float = 0.0  # most overtime authorised per week
+    emergency_reserve_pct: float = 0.0  # capacity held back for emergencies
+    overtime_penalty: float = 0.5  # cases forgone per overtime hour used
 
     @property
     def regular_hours(self) -> float:
@@ -184,9 +184,7 @@ def plan_capacity(
         "overtime", lowBound=0, upBound=max(0.0, capacity.overtime_cap_hours)
     )
 
-    cases = {
-        d.name: (60.0 / d.avg_duration_min) * hours[d.name] for d in demands
-    }
+    cases = {d.name: (60.0 / d.avg_duration_min) * hours[d.name] for d in demands}
 
     model += (
         pulp.lpSum(d.priority * cases[d.name] for d in demands)
@@ -218,7 +216,9 @@ def plan_capacity(
             )
         )
 
-    bottleneck, recommendations = _diagnose(plans, demands, capacity, total_allocated, overtime_used)
+    bottleneck, recommendations = _diagnose(
+        plans, demands, capacity, total_allocated, overtime_used
+    )
 
     return CapacityPlan(
         status=status,
@@ -237,10 +237,7 @@ def _limiting_factor(d: SpecialtyDemand, allocated: float, scheduled: float) -> 
         return "demand fully met"
     if d.surgeon_hours is not None and allocated >= d.surgeon_hours - BINDING_TOLERANCE:
         return "surgeon availability"
-    if (
-        d.equipment_max_cases is not None
-        and scheduled >= d.equipment_max_cases - BINDING_TOLERANCE
-    ):
+    if d.equipment_max_cases is not None and scheduled >= d.equipment_max_cases - BINDING_TOLERANCE:
         return "equipment capacity"
     if allocated <= d.min_hours + BINDING_TOLERANCE and d.min_hours > 0:
         return "held at minimum guarantee"
@@ -266,9 +263,7 @@ def _diagnose(
         bottleneck = "OR capacity"
         extra = total_needed - total_allocated
         if extra > BINDING_TOLERANCE:
-            recs.append(
-                f"{extra:.1f} more OR-hours per week would clear all remaining demand."
-            )
+            recs.append(f"{extra:.1f} more OR-hours per week would clear all remaining demand.")
             per_day = extra / max(1, capacity.days_per_week)
             recs.append(
                 f"Equivalent to about {per_day:.1f} extra hours per operating day, "

@@ -103,7 +103,7 @@ export function generateHospitalData(granularity: LpGranularity = 'specialty'): 
   // Q1 dates: Jan 6, 2025 to Apr 4, 2025 (13 weeks of weekdays = 65 days, minus 2 holidays = 63 weekdays)
   const weekdays: string[] = [];
   const startDate = new Date(2025, 0, 6); // Jan 6, 2025 (Monday)
-  let curr = new Date(startDate);
+  const curr = new Date(startDate);
   while (weekdays.length < 63) {
     const dayOfWeek = curr.getDay();
     // Monday-Friday only

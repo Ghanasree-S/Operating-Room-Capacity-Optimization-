@@ -80,7 +80,9 @@ def run_full_analysis(capacity: float = DEFAULT_CAPACITY_HOURS) -> None:
     print(f"    difference .............. {lp_proc.total_cases - lp_spec.total_cases:+.2f}")
     print()
     print("  Identical, and that is expected rather than a bug: demand")
-    print(f"  (~{lp_spec.total_hours:.0f} hrs) never binds against {capacity:.0f} hrs of capacity, so")
+    print(
+        f"  (~{lp_spec.total_hours:.0f} hrs) never binds against {capacity:.0f} hrs of capacity, so"
+    )
     print("  every variable simply goes to its own upper bound. Splitting a")
     print("  specialty into procedures splits that same bound into parts that")
     print("  sum back to the same total. Granularity can only matter once the")
@@ -123,7 +125,7 @@ def run_full_analysis(capacity: float = DEFAULT_CAPACITY_HOURS) -> None:
     print(f"  d2+ (overtime overrun) .... {gp.d2_plus:.4f}")
     print()
     if gp.d2_plus > 1e-6:
-        print(f"  Reading: the throughput goal is met exactly, but doing so costs")
+        print("  Reading: the throughput goal is met exactly, but doing so costs")
         print(f"  {gp.d2_plus:.4f} hrs/week of overtime above target - a genuine")
         print("  trade-off between the two goals, which is the point of using")
         print("  Goal Programming rather than a single-objective LP.")
@@ -133,9 +135,7 @@ def run_full_analysis(capacity: float = DEFAULT_CAPACITY_HOURS) -> None:
 
     # ------------------------------------------------------------- outputs
     _rule("8. WRITING OUTPUTS")
-    written = _write_outputs(
-        suite_table, service_table, lp_spec, lp_proc, gp, ov
-    )
+    written = _write_outputs(suite_table, service_table, lp_spec, lp_proc, gp, ov)
     for path in written:
         print(f"  {path.relative_to(OUTPUT_DIR.parent)}")
 
@@ -147,11 +147,11 @@ def _print_lp(result) -> None:
     print(f"  Capacity slack ............ {result.capacity_slack:.2f} hrs")
     print(f"  Capacity binding? ......... {'yes' if result.capacity_is_binding else 'no'}")
     if result.capacity_shadow_price is not None:
-        print(f"  Capacity shadow price ..... {result.capacity_shadow_price:.4f} cases per extra hour")
+        print(
+            f"  Capacity shadow price ..... {result.capacity_shadow_price:.4f} cases per extra hour"
+        )
     print()
-    display = result.allocation[
-        ["Label", "Allocated_Hours", "Cases_Performed", "Binding"]
-    ].round(2)
+    display = result.allocation[["Label", "Allocated_Hours", "Cases_Performed", "Binding"]].round(2)
     print(display.to_string(index=False))
 
 
@@ -208,9 +208,7 @@ def _write_outputs(suite_table, service_table, lp_spec, lp_proc, gp, ov) -> list
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(
-        description="OR capacity planning analysis and optimization"
-    )
+    parser = argparse.ArgumentParser(description="OR capacity planning analysis and optimization")
     parser.add_argument("--suite", type=int, help="show statistics for one OR suite")
     parser.add_argument("--service", type=str, help="show statistics for one specialty")
     parser.add_argument(
