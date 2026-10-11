@@ -1,15 +1,18 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useEffect, useMemo, useCallback, lazy, Suspense } from 'react';
 import { ActiveTab, SurgicalCase, SuiteDateStat, SpecialtyLpInput, LpSolution, GoalProgrammingSolution, LpGranularity } from './types';
 import { generateHospitalData, exportDatasetToExcel, parseExcelWorkbook, getLpInputsFor, REAL_TARGET_OVERTIME_HOURS } from './data/dataset';
 import { solveLpModel, solveGoalProgramming } from './solver/lpSolver';
 import { Sidebar } from './components/Sidebar';
 import { Header } from './components/Header';
-import { OverviewDashboard } from './components/OverviewDashboard';
-import { StatisticsExplorer } from './components/StatisticsExplorer';
-import { LinearProgrammingSection } from './components/LinearProgrammingSection';
-import { GoalProgrammingSection } from './components/GoalProgrammingSection';
-import { InsightsSection } from './components/InsightsSection';
-import { CapacityPlanner } from './components/CapacityPlanner';
+
+// Tab sections are code-split so only the active tab's code (and its heavy
+// chart / LaTeX dependencies) is downloaded.
+const OverviewDashboard = lazy(() => import('./components/OverviewDashboard').then(m => ({ default: m.OverviewDashboard })));
+const StatisticsExplorer = lazy(() => import('./components/StatisticsExplorer').then(m => ({ default: m.StatisticsExplorer })));
+const LinearProgrammingSection = lazy(() => import('./components/LinearProgrammingSection').then(m => ({ default: m.LinearProgrammingSection })));
+const GoalProgrammingSection = lazy(() => import('./components/GoalProgrammingSection').then(m => ({ default: m.GoalProgrammingSection })));
+const InsightsSection = lazy(() => import('./components/InsightsSection').then(m => ({ default: m.InsightsSection })));
+const CapacityPlanner = lazy(() => import('./components/CapacityPlanner').then(m => ({ default: m.CapacityPlanner })));
 import { CheckCircle2, AlertCircle } from 'lucide-react';
 
 export default function App() {
@@ -158,6 +161,7 @@ export default function App() {
 
         {/* Section Router */}
         <main className="flex-1 p-8 max-w-7xl w-full mx-auto">
+          <Suspense fallback={<div className="py-16 text-center text-sm opacity-60">Loading…</div>}>
           {activeTab === 'overview' && (
             <OverviewDashboard
               rawCases={rawCases}
@@ -204,6 +208,7 @@ export default function App() {
               gpSolution={gpSolution}
             />
           )}
+          </Suspense>
         </main>
       </div>
     </div>

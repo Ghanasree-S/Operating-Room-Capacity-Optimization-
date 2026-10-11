@@ -2,10 +2,10 @@
 Command-line entry point.
 
 Usage:
-    py -3 src/main.py                      run the full analysis and write outputs
-    py -3 src/main.py --suite 3            statistics for one OR suite
-    py -3 src/main.py --service Podiatry   statistics for one specialty
-    py -3 src/main.py --capacity 110       solve the LP at a different capacity
+    python src/main.py                      run the full analysis and write outputs
+    python src/main.py --suite 3            statistics for one OR suite
+    python src/main.py --service Podiatry   statistics for one specialty
+    python src/main.py --capacity 110       solve the LP at a different capacity
 """
 
 import argparse

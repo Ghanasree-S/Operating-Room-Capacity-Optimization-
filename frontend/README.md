@@ -111,7 +111,7 @@ src/
 ## Getting started
 
 ```bash
-npm install
+npm ci
 npm run dev      # starts Vite dev server on http://localhost:3000
 ```
 

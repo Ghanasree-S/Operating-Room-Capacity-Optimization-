@@ -8,7 +8,7 @@ Python pipeline, so the dashboard is fed by Python rather than by a
 hand-maintained Excel file, with no changes needed on the frontend side.
 
 Usage:
-    py -3 src/export_frontend.py
+    python src/export_frontend.py
 """
 
 from pathlib import Path
