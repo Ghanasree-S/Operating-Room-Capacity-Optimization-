@@ -6,7 +6,7 @@ Excel Solver model, and asserts that both optimization models satisfy their
 own constraints.
 
 Usage:
-    py -3 src/verify.py
+    python src/verify.py
 """
 
 import sys
