@@ -14,14 +14,14 @@
   "dependencies": {
     "@tailwindcss/vite": "^4.1.14",
     "@vitejs/plugin-react": "^5.0.4",
+    "exceljs": "^4.4.0",
     "javascript-lp-solver": "^1.0.3",
     "katex": "^0.18.5",
     "lucide-react": "^0.546.0",
     "react": "^19.0.1",
     "react-dom": "^19.0.1",
     "recharts": "^3.10.1",
-    "vite": "^6.2.3",
-    "xlsx": "^0.18.5"
+    "vite": "^6.2.3"
   },
   "devDependencies": {
     "@types/katex": "^0.16.8",
@@ -33,5 +33,8 @@
     "typescript": "~5.8.2",
     "vite": "^6.2.3"
   },
-  "description": "Operating Room capacity planning dashboard (LP + Goal Programming)"
+  "description": "Operating Room capacity planning dashboard (LP + Goal Programming)",
+  "overrides": {
+    "uuid": "^11.1.1"
+  }
 }

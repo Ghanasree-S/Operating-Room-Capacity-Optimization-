@@ -12,12 +12,13 @@ export default defineConfig(() => {
       },
     },
     build: {
+      // exceljs (~940 kB) is only fetched on demand when importing/exporting a workbook.
+      chunkSizeWarningLimit: 1000,
       rollupOptions: {
         output: {
           // Split large third-party libraries into their own cacheable chunks.
           manualChunks: {
             charts: ['recharts'],
-            xlsx: ['xlsx'],
             katex: ['katex'],
             solver: ['javascript-lp-solver'],
           },

@@ -61,9 +61,13 @@ export default function App() {
   }, []);
 
   // Excel Export Handler
-  const handleExportExcel = useCallback(() => {
-    exportDatasetToExcel({ rawCases, stats, lpInputs });
-    showToast('Hospital Excel dataset exported successfully (RAW_DATA, STATS, LP_MODEL).');
+  const handleExportExcel = useCallback(async () => {
+    try {
+      await exportDatasetToExcel({ rawCases, stats, lpInputs });
+      showToast('Hospital Excel dataset exported successfully (RAW_DATA, STATS, LP_MODEL).');
+    } catch (err) {
+      showToast(`Excel export failed: ${err instanceof Error ? err.message : String(err)}`);
+    }
   }, [rawCases, stats, lpInputs, showToast]);
 
   // Excel Import Handler
