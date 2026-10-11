@@ -123,11 +123,10 @@ npm run lint       # type-check (tsc --noEmit)
 
 ### Environment variables
 
-Copy `.env.example` to `.env` if running outside AI Studio:
+Copy `.env.example` to `.env` to point the dashboard at a different planner API:
 
 ```
 VITE_API_BASE="http://localhost:8000"   # planner API URL (this is the default)
-APP_URL="..."
 ```
 
 Neither variable is required for the core dashboard, statistics, LP, or
