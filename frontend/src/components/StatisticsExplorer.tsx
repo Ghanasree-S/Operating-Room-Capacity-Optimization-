@@ -11,7 +11,6 @@ import {
 import { SurgicalCase, SuiteDateStat } from '../types';
 import {
   Layers,
-  Sparkles,
   Calendar,
   Clock,
   AlertCircle,

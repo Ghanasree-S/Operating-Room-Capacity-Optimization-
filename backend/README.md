@@ -12,7 +12,7 @@ a reference artefact.
 ## Quick start
 
 ```bash
-python -m pip install -r requirements.txt
+python -m pip install -r requirements-dev.txt   # or requirements.txt for runtime only
 
 python src/main.py                      # full analysis, writes to outputs/
 python src/verify.py                    # 22-check validation suite
@@ -36,7 +36,7 @@ OR_Python_Project/
 ├── src/
 │   ├── data_prep.py                  loading, cleaning, derived metrics
 │   ├── statistics_module.py          on-demand statistics
-│   ├── optimization.py               LP and Goal Programming (PuLP/CBC)
+│   ├── optimization.py               LP and Goal Programming (PuLP + HiGHS)
 │   ├── export_frontend.py            writes the dashboard's data file
 │   ├── verify.py                     validation suite
 │   └── main.py                       CLI entry point
@@ -100,7 +100,7 @@ subject to  Σ Xₛ ≤ 320                              total weekly OR capacit
 ```
 
 `Xₛ` = weekly OR-hours for group *s*; `Dₛ` = its average actual case
-duration. Solved with PuLP/CBC.
+duration. Solved with PuLP using the HiGHS solver.
 
 **Result: 200.49 cases/week**, using 151.96 of 320 hours.
 
@@ -214,7 +214,7 @@ rounding-level difference, and a useful third-party check on the formulation.
 | Tool | Role |
 |---|---|
 | pandas | data loading, cleaning, aggregation |
-| PuLP + CBC | LP and Goal Programming solver |
+| PuLP + HiGHS | LP and Goal Programming solver |
 | openpyxl | writing the dashboard's data file |
 | React + TypeScript, Vite | interactive dashboard |
 | javascript-lp-solver | independent in-browser solve |

@@ -13,7 +13,7 @@ const LinearProgrammingSection = lazy(() => import('./components/LinearProgrammi
 const GoalProgrammingSection = lazy(() => import('./components/GoalProgrammingSection').then(m => ({ default: m.GoalProgrammingSection })));
 const InsightsSection = lazy(() => import('./components/InsightsSection').then(m => ({ default: m.InsightsSection })));
 const CapacityPlanner = lazy(() => import('./components/CapacityPlanner').then(m => ({ default: m.CapacityPlanner })));
-import { CheckCircle2, AlertCircle } from 'lucide-react';
+import { CheckCircle2 } from 'lucide-react';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<ActiveTab>('overview');
@@ -61,9 +61,13 @@ export default function App() {
   }, []);
 
   // Excel Export Handler
-  const handleExportExcel = useCallback(() => {
-    exportDatasetToExcel({ rawCases, stats, lpInputs });
-    showToast('Hospital Excel dataset exported successfully (RAW_DATA, STATS, LP_MODEL).');
+  const handleExportExcel = useCallback(async () => {
+    try {
+      await exportDatasetToExcel({ rawCases, stats, lpInputs });
+      showToast('Hospital Excel dataset exported successfully (RAW_DATA, STATS, LP_MODEL).');
+    } catch (err) {
+      showToast(`Excel export failed: ${err instanceof Error ? err.message : String(err)}`);
+    }
   }, [rawCases, stats, lpInputs, showToast]);
 
   // Excel Import Handler

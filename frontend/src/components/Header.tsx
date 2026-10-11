@@ -1,6 +1,6 @@
 import React from 'react';
 import { ActiveTab } from '../types';
-import { RefreshCw, Download, FileSpreadsheet, Clock, Sliders } from 'lucide-react';
+import { RefreshCw, FileSpreadsheet, Clock } from 'lucide-react';
 
 interface HeaderProps {
   activeTab: ActiveTab;
@@ -41,7 +41,6 @@ export const Header: React.FC<HeaderProps> = ({
   activeTab,
   onResetData,
   onExportExcel,
-  totalCases,
   avgUtilization,
 }) => {
   const current = TAB_TITLES[activeTab];

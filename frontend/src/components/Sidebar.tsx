@@ -193,7 +193,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             type="file"
             ref={fileInputRef}
             onChange={handleFileChange}
-            accept=".xlsx, .xls"
+            accept=".xlsx"
             className="hidden"
           />
           <button

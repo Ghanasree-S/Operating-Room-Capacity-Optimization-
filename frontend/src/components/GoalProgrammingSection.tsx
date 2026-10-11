@@ -5,13 +5,9 @@ import { REAL_TARGET_OVERTIME_HOURS } from '../data/dataset';
 import { KatexMath } from './common/KatexMath';
 import {
   Target,
-  Sliders,
   Play,
-  ArrowRight,
   ShieldAlert,
-  TrendingUp,
   CheckCircle2,
-  Scale,
   Minus,
   Plus,
 } from 'lucide-react';

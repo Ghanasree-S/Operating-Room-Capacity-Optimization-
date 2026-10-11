@@ -18,6 +18,8 @@ import data_prep
 import statistics_module as stats_mod
 from optimization import (
     DEFAULT_CAPACITY_HOURS,
+    capacity_sweep,
+    goal_tradeoff,
     sensitivity_report,
     solve_goal_programming,
     solve_lp,
@@ -80,7 +82,9 @@ def run_full_analysis(capacity: float = DEFAULT_CAPACITY_HOURS) -> None:
     print(f"    difference .............. {lp_proc.total_cases - lp_spec.total_cases:+.2f}")
     print()
     print("  Identical, and that is expected rather than a bug: demand")
-    print(f"  (~{lp_spec.total_hours:.0f} hrs) never binds against {capacity:.0f} hrs of capacity, so")
+    print(
+        f"  (~{lp_spec.total_hours:.0f} hrs) never binds against {capacity:.0f} hrs of capacity, so"
+    )
     print("  every variable simply goes to its own upper bound. Splitting a")
     print("  specialty into procedures splits that same bound into parts that")
     print("  sum back to the same total. Granularity can only matter once the")
@@ -123,7 +127,7 @@ def run_full_analysis(capacity: float = DEFAULT_CAPACITY_HOURS) -> None:
     print(f"  d2+ (overtime overrun) .... {gp.d2_plus:.4f}")
     print()
     if gp.d2_plus > 1e-6:
-        print(f"  Reading: the throughput goal is met exactly, but doing so costs")
+        print("  Reading: the throughput goal is met exactly, but doing so costs")
         print(f"  {gp.d2_plus:.4f} hrs/week of overtime above target - a genuine")
         print("  trade-off between the two goals, which is the point of using")
         print("  Goal Programming rather than a single-objective LP.")
@@ -131,11 +135,40 @@ def run_full_analysis(capacity: float = DEFAULT_CAPACITY_HOURS) -> None:
         print("  Reading: both goals are satisfied simultaneously; they do not")
         print("  conflict at these targets.")
 
-    # ------------------------------------------------------------- outputs
-    _rule("8. WRITING OUTPUTS")
-    written = _write_outputs(
-        suite_table, service_table, lp_spec, lp_proc, gp, ov
+    # ------------------------------------------------------- what-if sweeps
+    _rule("8. WHAT-IF ANALYSIS - capacity and goal weights")
+    sweep = capacity_sweep(specialty)
+    feasible = sweep[sweep["Status"] == "Optimal"]
+    slack_rows = feasible[~feasible["Capacity_Binding"].astype(bool)]
+    if not slack_rows.empty:
+        print(
+            f"  Capacity stops binding at ~{slack_rows['Hours_Used'].iloc[0]:.1f} hrs/week"
+            f" ({slack_rows['Total_Cases'].iloc[0]:.2f} cases); beyond that, extra"
+        )
+        print("  hours add nothing - the demand ceilings (Max_Hours) bind instead.")
+    print()
+    print(
+        feasible[["Capacity_Hours", "Total_Cases", "Hours_Used", "Shadow_Price"]]
+        .round(3)
+        .to_string(index=False)
     )
+
+    tradeoff = goal_tradeoff(specialty, THROUGHPUT_TARGET, overtime_target, capacity)
+    print()
+    print("  Goal Programming trade-off as the overtime weight W2 rises (W1 = 6):")
+    print(
+        tradeoff[["W2_Overtime", "Total_Cases", "Overtime_Hours", "Cases_Short"]]
+        .round(4)
+        .to_string(index=False)
+    )
+
+    # ------------------------------------------------------------- outputs
+    _rule("9. WRITING OUTPUTS")
+    written = _write_outputs(suite_table, service_table, lp_spec, lp_proc, gp, ov)
+    for name, frame in [("capacity_sweep.csv", sweep), ("goal_tradeoff.csv", tradeoff)]:
+        path = OUTPUT_DIR / name
+        frame.round(4).to_csv(path, index=False)
+        written.append(path)
     for path in written:
         print(f"  {path.relative_to(OUTPUT_DIR.parent)}")
 
@@ -147,11 +180,11 @@ def _print_lp(result) -> None:
     print(f"  Capacity slack ............ {result.capacity_slack:.2f} hrs")
     print(f"  Capacity binding? ......... {'yes' if result.capacity_is_binding else 'no'}")
     if result.capacity_shadow_price is not None:
-        print(f"  Capacity shadow price ..... {result.capacity_shadow_price:.4f} cases per extra hour")
+        print(
+            f"  Capacity shadow price ..... {result.capacity_shadow_price:.4f} cases per extra hour"
+        )
     print()
-    display = result.allocation[
-        ["Label", "Allocated_Hours", "Cases_Performed", "Binding"]
-    ].round(2)
+    display = result.allocation[["Label", "Allocated_Hours", "Cases_Performed", "Binding"]].round(2)
     print(display.to_string(index=False))
 
 
@@ -208,9 +241,7 @@ def _write_outputs(suite_table, service_table, lp_spec, lp_proc, gp, ov) -> list
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(
-        description="OR capacity planning analysis and optimization"
-    )
+    parser = argparse.ArgumentParser(description="OR capacity planning analysis and optimization")
     parser.add_argument("--suite", type=int, help="show statistics for one OR suite")
     parser.add_argument("--service", type=str, help="show statistics for one specialty")
     parser.add_argument(

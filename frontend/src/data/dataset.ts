@@ -1,4 +1,4 @@
-import * as XLSX from 'xlsx';
+import { readWorkbook, downloadWorkbook } from './excel';
 import { SurgicalCase, SuiteDateStat, SpecialtyLpInput, LpGranularity } from '../types';
 
 // Source: real Q1 2022 hospital dataset (project.xlsx -> LP_MODEL / RAW_DATA),
@@ -103,7 +103,7 @@ export function generateHospitalData(granularity: LpGranularity = 'specialty'): 
   // Q1 dates: Jan 6, 2025 to Apr 4, 2025 (13 weeks of weekdays = 65 days, minus 2 holidays = 63 weekdays)
   const weekdays: string[] = [];
   const startDate = new Date(2025, 0, 6); // Jan 6, 2025 (Monday)
-  let curr = new Date(startDate);
+  const curr = new Date(startDate);
   while (weekdays.length < 63) {
     const dayOfWeek = curr.getDay();
     // Monday-Friday only
@@ -322,13 +322,12 @@ export function generateHospitalData(granularity: LpGranularity = 'specialty'): 
   };
 }
 
-// Convert dataset to downloadable SheetJS Excel workbook
-export function exportDatasetToExcel(data: {
+// Convert dataset to a downloadable multi-sheet Excel workbook
+export async function exportDatasetToExcel(data: {
   rawCases: SurgicalCase[];
   stats: SuiteDateStat[];
   lpInputs: SpecialtyLpInput[];
-}): void {
-  const wb = XLSX.utils.book_new();
+}): Promise<void> {
 
   // Sheet 1: RAW_DATA
   const rawDataRows = data.rawCases.map(c => ({
@@ -343,9 +342,7 @@ export function exportDatasetToExcel(data: {
     'Overtime (min)': c.overtimeMin,
     'Turnover (min)': c.turnoverMin,
   }));
-  const ws1 = XLSX.utils.json_to_sheet(rawDataRows);
-  XLSX.utils.book_append_sheet(wb, ws1, 'RAW_DATA');
-
+  
   // Sheet 2: STATS
   const statsRows = data.stats.map(s => ({
     'Date': s.date,
@@ -355,9 +352,7 @@ export function exportDatasetToExcel(data: {
     'Last_Wheels_Out': s.lastWheelsOut,
     'Utilization_Pct': s.utilizationPct,
   }));
-  const ws2 = XLSX.utils.json_to_sheet(statsRows);
-  XLSX.utils.book_append_sheet(wb, ws2, 'STATS');
-
+  
   // Sheet 3: LP_MODEL
   const lpRows = data.lpInputs.map(lp => ({
     'Service': lp.service,
@@ -366,11 +361,16 @@ export function exportDatasetToExcel(data: {
     'Max_Hours': lp.maxHours,
     'Baseline_Weekly_Hours': lp.baselineWeeklyHours,
   }));
-  const ws3 = XLSX.utils.json_to_sheet(lpRows);
-  XLSX.utils.book_append_sheet(wb, ws3, 'LP_MODEL');
-
+  
   // Trigger browser download
-  XLSX.writeFile(wb, 'Hospital_OR_Capacity_Dataset.xlsx');
+  await downloadWorkbook(
+    [
+      { name: 'RAW_DATA', rows: rawDataRows },
+      { name: 'STATS', rows: statsRows },
+      { name: 'LP_MODEL', rows: lpRows },
+    ],
+    'Hospital_OR_Capacity_Dataset.xlsx',
+  );
 }
 
 // Parse an uploaded Excel workbook
@@ -380,7 +380,7 @@ export async function parseExcelWorkbook(file: File): Promise<{
   lpInputs?: SpecialtyLpInput[];
 }> {
   const buffer = await file.arrayBuffer();
-  const wb = XLSX.read(buffer, { type: 'array' });
+  const sheets = await readWorkbook(buffer);
 
   const result: {
     rawCases?: SurgicalCase[];
@@ -389,9 +389,8 @@ export async function parseExcelWorkbook(file: File): Promise<{
   } = {};
 
   // Parse RAW_DATA
-  if (wb.SheetNames.includes('RAW_DATA')) {
-    const sheet = wb.Sheets['RAW_DATA'];
-    const rows = XLSX.utils.sheet_to_json<any>(sheet);
+  if (sheets['RAW_DATA']) {
+    const rows: any[] = sheets['RAW_DATA'];
     result.rawCases = rows.map((r, i) => ({
       id: r['Case ID'] || `CAS-${String(i + 1).padStart(5, '0')}`,
       date: String(r['Date'] || '2025-01-06'),
@@ -407,9 +406,8 @@ export async function parseExcelWorkbook(file: File): Promise<{
   }
 
   // Parse STATS
-  if (wb.SheetNames.includes('STATS')) {
-    const sheet = wb.Sheets['STATS'];
-    const rows = XLSX.utils.sheet_to_json<any>(sheet);
+  if (sheets['STATS']) {
+    const rows: any[] = sheets['STATS'];
     result.stats = rows.map(r => ({
       date: String(r['Date'] || ''),
       orSuite: Number(r['OR Suite'] || 1),
@@ -421,9 +419,8 @@ export async function parseExcelWorkbook(file: File): Promise<{
   }
 
   // Parse LP_MODEL
-  if (wb.SheetNames.includes('LP_MODEL')) {
-    const sheet = wb.Sheets['LP_MODEL'];
-    const rows = XLSX.utils.sheet_to_json<any>(sheet);
+  if (sheets['LP_MODEL']) {
+    const rows: any[] = sheets['LP_MODEL'];
     result.lpInputs = rows.map(r => ({
       service: String(r['Service']),
       avgDurationMin: Number(r['Avg_Duration_Min'] || 60),
