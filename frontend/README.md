@@ -126,7 +126,7 @@ npm run lint       # type-check (tsc --noEmit)
 Copy `.env.example` to `.env` if running outside AI Studio:
 
 ```
-GEMINI_API_KEY="..."   # only needed if/when Gemini-powered features are added
+VITE_API_BASE="http://localhost:8000"   # planner API URL (this is the default)
 APP_URL="..."
 ```
 
