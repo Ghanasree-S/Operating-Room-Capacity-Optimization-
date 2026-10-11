@@ -9,7 +9,9 @@
     "preview": "vite preview",
     "clean": "rm -rf dist",
     "lint": "tsc --noEmit && eslint .",
-    "verify": "tsx verify_models.ts && node verify_parity.cjs"
+    "verify": "tsx verify_models.ts && node verify_parity.cjs",
+    "test": "vitest run",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.14",
@@ -25,6 +27,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.5",
+    "@playwright/test": "^1.56.1",
     "@types/katex": "^0.16.8",
     "@types/node": "^22.14.0",
     "autoprefixer": "^10.4.21",
@@ -36,7 +39,8 @@
     "tsx": "^4.21.0",
     "typescript": "~5.8.2",
     "typescript-eslint": "^8.71.1",
-    "vite": "^6.2.3"
+    "vite": "^6.2.3",
+    "vitest": "^3.2.7"
   },
   "description": "Operating Room capacity planning dashboard (LP + Goal Programming)",
   "overrides": {

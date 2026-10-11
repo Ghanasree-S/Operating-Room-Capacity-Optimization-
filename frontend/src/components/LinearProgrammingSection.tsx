@@ -6,6 +6,7 @@ import {
   Play,
   RotateCcw,
   CheckCircle2,
+  AlertTriangle,
 } from 'lucide-react';
 
 interface LinearProgrammingSectionProps {
@@ -66,6 +67,18 @@ export const LinearProgrammingSection: React.FC<LinearProgrammingSectionProps> =
 
   return (
     <div className="space-y-6 pb-12">
+      {lpSolution?.status === 'infeasible' && (
+        <div
+          role="alert"
+          className="flex items-start gap-3 rounded-lg border border-red-300 bg-red-50 p-4 text-sm text-red-800 dark:border-red-800 dark:bg-red-950/40 dark:text-red-200"
+        >
+          <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
+          <span>
+            <strong>Infeasible model:</strong> the minimum hours across all groups exceed the
+            {' '}{totalCapacity} h capacity. Lower some Min_Hours values or raise capacity.
+          </span>
+        </div>
+      )}
       {/* Math Formulation Card (KaTeX) */}
       <section
         id="lp-math-formulation-card"
