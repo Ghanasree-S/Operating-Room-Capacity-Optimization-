@@ -446,7 +446,7 @@ export const GoalProgrammingSection: React.FC<GoalProgrammingSectionProps> = ({
 
         {/* Before / After Comparison Table: Pure LP vs Goal Programming */}
         <div className="border border-slate-200 dark:border-slate-700 rounded-lg overflow-hidden">
-          <div className="bg-slate-100 dark:bg-slate-750 px-4 py-2.5 font-bold text-xs text-slate-800 dark:text-slate-200 flex items-center justify-between">
+          <div className="bg-slate-100 dark:bg-slate-900/60 px-4 py-2.5 font-bold text-xs text-slate-800 dark:text-slate-200 flex items-center justify-between">
             <span>Operational Comparison: Pure LP (Single Objective) vs Goal Programming (Multi-Criteria)</span>
             <span className="font-mono text-[11px] text-slate-500">Trade-Off Analysis</span>
           </div>

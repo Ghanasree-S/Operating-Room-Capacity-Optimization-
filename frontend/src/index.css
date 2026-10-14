@@ -1,1 +1,5 @@
 @import "tailwindcss";
+
+/* Drive dark: styles from the in-app theme toggle (the .dark class on <html>)
+   instead of the operating system's colour-scheme preference. */
+@custom-variant dark (&:where(.dark, .dark *));
