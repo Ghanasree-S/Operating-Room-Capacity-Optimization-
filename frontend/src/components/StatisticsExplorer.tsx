@@ -507,7 +507,7 @@ export const StatisticsExplorer: React.FC<StatisticsExplorerProps> = ({
 
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="bg-slate-50 dark:bg-slate-750/70 border-b border-slate-200 dark:border-slate-700 text-slate-500 uppercase font-semibold">
+            <thead className="bg-slate-50 dark:bg-slate-900/60 border-b border-slate-200 dark:border-slate-700 text-slate-500 uppercase font-semibold">
               <tr>
                 <th className="py-2.5 px-4">CPT Code</th>
                 <th className="py-2.5 px-4">Procedure Description</th>
@@ -520,7 +520,7 @@ export const StatisticsExplorer: React.FC<StatisticsExplorerProps> = ({
               {currentResult.topProcedures.map(proc => {
                 const sharePct = ((proc.count / currentResult.caseCount) * 100).toFixed(1);
                 return (
-                  <tr key={proc.code} className="hover:bg-slate-50 dark:hover:bg-slate-750/40">
+                  <tr key={proc.code} className="hover:bg-slate-50 dark:hover:bg-slate-700/40/40">
                     <td className="py-2.5 px-4 font-bold text-[#2c6e68] dark:text-teal-400">
                       {proc.code}
                     </td>

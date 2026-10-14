@@ -85,7 +85,7 @@ export const InsightsSection: React.FC<InsightsSectionProps> = ({
 
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="bg-slate-50 dark:bg-slate-750/70 border-b border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 uppercase font-semibold">
+            <thead className="bg-slate-50 dark:bg-slate-900/60 border-b border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 uppercase font-semibold">
               <tr>
                 <th className="py-3.5 px-4 font-sans">Operational Metric</th>
                 <th className="py-3.5 px-4 text-right">Current Practice (Baseline)</th>
@@ -100,7 +100,7 @@ export const InsightsSection: React.FC<InsightsSectionProps> = ({
             </thead>
             <tbody className="divide-y divide-slate-100 dark:divide-slate-700/60 font-mono text-slate-800 dark:text-slate-200">
               {/* Weekly Cases */}
-              <tr className="hover:bg-slate-50 dark:hover:bg-slate-750/50">
+              <tr className="hover:bg-slate-50 dark:hover:bg-slate-700/40/50">
                 <td className="py-3.5 px-4 font-sans font-semibold text-slate-900 dark:text-slate-100">
                   Weekly Cases Performed
                 </td>
@@ -119,7 +119,7 @@ export const InsightsSection: React.FC<InsightsSectionProps> = ({
               </tr>
 
               {/* Capacity Used */}
-              <tr className="hover:bg-slate-50 dark:hover:bg-slate-750/50">
+              <tr className="hover:bg-slate-50 dark:hover:bg-slate-700/40/50">
                 <td className="py-3.5 px-4 font-sans font-semibold text-slate-900 dark:text-slate-100">
                   OR Capacity Used (of 320h)
                 </td>
@@ -138,7 +138,7 @@ export const InsightsSection: React.FC<InsightsSectionProps> = ({
               </tr>
 
               {/* Overtime */}
-              <tr className="hover:bg-slate-50 dark:hover:bg-slate-750/50">
+              <tr className="hover:bg-slate-50 dark:hover:bg-slate-700/40/50">
                 <td className="py-3.5 px-4 font-sans font-semibold text-slate-900 dark:text-slate-100">
                   Weekly Staff Overtime
                 </td>
@@ -157,7 +157,7 @@ export const InsightsSection: React.FC<InsightsSectionProps> = ({
               </tr>
 
               {/* Operating Yield */}
-              <tr className="hover:bg-slate-50 dark:hover:bg-slate-750/50">
+              <tr className="hover:bg-slate-50 dark:hover:bg-slate-700/40/50">
                 <td className="py-3.5 px-4 font-sans font-semibold text-slate-900 dark:text-slate-100">
                   Throughput Yield (Cases / Hr)
                 </td>
