@@ -32,7 +32,7 @@ OR_Python_Project/
 ├── requirements.txt
 ├── data/
 │   ├── 2022_Q1_OR_Utilization.csv    raw Kaggle source (the real input)
-│   └── project.xlsx                  legacy Excel workbook, reference only
+│   └── project.xlsx                  Excel Solver model (the 200.49 baseline)
 ├── src/
 │   ├── data_prep.py                  loading, cleaning, derived metrics
 │   ├── statistics_module.py          on-demand statistics

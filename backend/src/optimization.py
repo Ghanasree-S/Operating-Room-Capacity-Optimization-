@@ -67,10 +67,34 @@ def num(expr: Any) -> float:
     return 0.0 if value is None else float(value)
 
 
+_dual_sign: float | None = None
+
+
+def _maximisation_dual_sign() -> float:
+    """Sign that turns a reported dual into "objective gain per unit".
+
+    The sign convention for duals on maximisation models differs between
+    PuLP/solver versions (PuLP 4.0.0 + HiGHS reports them negated, 4.0.1 does
+    not). Rather than hard-code one, solve a one-variable problem whose
+    shadow price is known to be +1 (max x s.t. x <= 1) and see what the
+    solver reports.
+    """
+    global _dual_sign
+    if _dual_sign is None:
+        probe = pulp.LpProblem("dual_sign_probe", pulp.LpMaximize)
+        x = probe.add_variable("x", lowBound=0)
+        probe += x
+        probe += x <= 1, "cap"
+        solve(probe)
+        cap = probe.get_constraint_by_name("cap")
+        pi = cap.pi if cap is not None else None
+        _dual_sign = -1.0 if pi is not None and pi < 0 else 1.0
+    return _dual_sign
+
+
 def objective_gain(dual: float | None) -> float | None:
-    """Convert a HiGHS dual on a maximisation model into the objective gain
-    per unit (HiGHS reports these negated relative to CBC's convention)."""
-    return None if dual is None else -dual
+    """Express a dual from a maximisation model as the objective gain per unit."""
+    return None if dual is None else _maximisation_dual_sign() * dual
 
 
 DEFAULT_CAPACITY_HOURS = 320.0  # 8 suites x 40 hrs/week
