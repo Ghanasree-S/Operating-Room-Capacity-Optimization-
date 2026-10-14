@@ -6,7 +6,6 @@ import {
   Target,
   FileSpreadsheet,
   Upload,
-  Download,
   Moon,
   Sun,
   Lightbulb,
@@ -21,7 +20,6 @@ interface SidebarProps {
   onSelectTab: (tab: ActiveTab) => void;
   isDark: boolean;
   onToggleTheme: () => void;
-  onExportExcel: () => void;
   onImportExcel: (file: File) => void;
   caseCount: number;
   suiteCount: number;
@@ -33,7 +31,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onSelectTab,
   isDark,
   onToggleTheme,
-  onExportExcel,
   onImportExcel,
   caseCount,
   suiteCount,
@@ -187,8 +184,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
           </div>
         </div>
 
-        {/* Excel Actions */}
-        <div className="grid grid-cols-2 gap-2">
+        {/* Excel import (export lives in the header) */}
+        <div>
           <input
             type="file"
             ref={fileInputRef}
@@ -199,20 +196,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
           <button
             id="sidebar-upload-excel-btn"
             onClick={() => fileInputRef.current?.click()}
-            className="px-2.5 py-2 rounded-md bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-750 text-slate-700 dark:text-slate-200 text-xs font-medium flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+            className="w-full px-2.5 py-2 rounded-md bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-750 text-slate-700 dark:text-slate-200 text-xs font-medium flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
             title="Upload an Excel workbook with RAW_DATA, STATS, LP_MODEL"
           >
             <Upload className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400" />
             <span>Upload</span>
-          </button>
-          <button
-            id="sidebar-export-excel-btn"
-            onClick={onExportExcel}
-            className="px-2.5 py-2 rounded-md bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-750 text-slate-700 dark:text-slate-200 text-xs font-medium flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
-            title="Download active dataset as multi-sheet .xlsx"
-          >
-            <Download className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400" />
-            <span>Export</span>
           </button>
         </div>
 
