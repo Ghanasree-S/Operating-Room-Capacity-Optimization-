@@ -196,7 +196,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           <button
             id="sidebar-upload-excel-btn"
             onClick={() => fileInputRef.current?.click()}
-            className="w-full px-2.5 py-2 rounded-md bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-750 text-slate-700 dark:text-slate-200 text-xs font-medium flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+            className="w-full px-2.5 py-2 rounded-md bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/40 text-slate-700 dark:text-slate-200 text-xs font-medium flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
             title="Upload an Excel workbook with RAW_DATA, STATS, LP_MODEL"
           >
             <Upload className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400" />

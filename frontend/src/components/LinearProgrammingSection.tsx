@@ -200,7 +200,7 @@ export const LinearProgrammingSection: React.FC<LinearProgrammingSectionProps> =
             <button
               id="reset-lp-defaults-btn"
               onClick={onResetDefaults}
-              className="px-4 py-2.5 rounded-lg bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-650 text-slate-700 dark:text-slate-200 text-xs font-semibold flex items-center gap-2 transition-colors cursor-pointer border border-slate-200 dark:border-slate-650"
+              className="px-4 py-2.5 rounded-lg bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 text-xs font-semibold flex items-center gap-2 transition-colors cursor-pointer border border-slate-200 dark:border-slate-600"
             >
               <RotateCcw className="w-3.5 h-3.5 text-slate-500" />
               <span>Reset Bounds</span>
@@ -303,7 +303,7 @@ export const LinearProgrammingSection: React.FC<LinearProgrammingSectionProps> =
 
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="bg-slate-50 dark:bg-slate-750/70 border-b border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 uppercase font-semibold">
+            <thead className="bg-slate-50 dark:bg-slate-900/60 border-b border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 uppercase font-semibold">
               <tr>
                 <th className="py-3.5 px-4">{isProcedureView ? 'Service — Procedure' : 'Specialty Service'}</th>
                 <th className="py-3.5 px-4 text-right">Avg Duration <KatexMath math="D_s" /> (min)</th>
@@ -329,7 +329,7 @@ export const LinearProgrammingSection: React.FC<LinearProgrammingSectionProps> =
                 return (
                   <tr
                     key={item.service}
-                    className="hover:bg-slate-50 dark:hover:bg-slate-750/50 transition-colors"
+                    className="hover:bg-slate-50 dark:hover:bg-slate-700/40/50 transition-colors"
                   >
                     <td className="py-3 px-4 font-sans font-semibold text-slate-900 dark:text-slate-100">
                       <div>{item.service}</div>
@@ -412,7 +412,7 @@ export const LinearProgrammingSection: React.FC<LinearProgrammingSectionProps> =
                 );
               })}
             </tbody>
-            <tfoot className="bg-slate-100 dark:bg-slate-750 font-mono text-slate-900 dark:text-white font-bold border-t border-slate-200 dark:border-slate-700">
+            <tfoot className="bg-teal-50 dark:bg-teal-950/40 font-mono text-slate-900 dark:text-slate-100 font-bold border-t-2 border-teal-600/40 dark:border-teal-500/40">
               <tr>
                 <td className="py-3 px-4 font-sans">Total Allocated (Z*)</td>
                 <td className="py-3 px-4 text-right">—</td>
