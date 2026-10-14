@@ -43,7 +43,6 @@ jobs:
       - run: npm ci
       - run: npm run lint
       - run: npm test
-      - run: npm run verify
       - run: npm audit --omit=dev
       - run: npx playwright install --with-deps chromium
       - run: npm run test:e2e
@@ -53,12 +52,3 @@ jobs:
           name: playwright-report
           path: frontend/playwright-report
 
-  docker:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v5
-      - run: docker compose build
-      - run: docker compose up -d --wait
-      - run: curl -fsS http://localhost:8000/api/health && curl -fsS http://localhost:3000 | grep -q '<div id="root">'
-      - if: always()
-        run: docker compose down

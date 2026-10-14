@@ -1,3 +1,0 @@
-[mypy]
-files = src
-ignore_missing_imports = True

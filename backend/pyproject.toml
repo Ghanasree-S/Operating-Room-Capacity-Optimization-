@@ -1,0 +1,20 @@
+# Tool settings for the backend (ruff, mypy, pytest).
+
+[tool.ruff]
+target-version = "py310"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP"]
+ignore = ["E501"]  # long string literals are left to the formatter
+
+[tool.ruff.lint.flake8-bugbear]
+# FastAPI's dependency markers are meant to be called in argument defaults.
+extend-immutable-calls = ["fastapi.File", "fastapi.Form", "fastapi.Depends"]
+
+[tool.mypy]
+files = ["src"]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

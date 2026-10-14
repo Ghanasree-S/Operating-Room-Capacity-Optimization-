@@ -2,6 +2,7 @@ import ExcelJS from 'exceljs';
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { readWorkbook } from '../data/excel';
+import { solveLpModel } from '../solver/lpSolver';
 
 describe('readWorkbook', () => {
   it('reads every sheet as header-keyed row objects', async () => {
@@ -26,5 +27,22 @@ describe('readWorkbook', () => {
     expect(Object.keys(sheets)).toEqual(expect.arrayContaining(['RAW_DATA', 'STATS', 'LP_MODEL']));
     expect(sheets.LP_MODEL.length).toBeGreaterThan(0);
     expect(sheets.LP_MODEL[0]).toHaveProperty('Service');
+  });
+
+  it('LP on the exported LP_MODEL sheet matches the Excel Solver result (200.49)', async () => {
+    const file = readFileSync('Hospital_OR_Capacity_Dataset.xlsx');
+    const buffer = file.buffer.slice(file.byteOffset, file.byteOffset + file.byteLength);
+    const { LP_MODEL } = await readWorkbook(buffer as ArrayBuffer);
+    const inputs = LP_MODEL.map(r => ({
+      service: String(r.Service),
+      avgDurationMin: Number(r.Avg_Duration_Min),
+      minHours: Number(r.Min_Hours),
+      maxHours: Number(r.Max_Hours),
+      baselineWeeklyHours: Number(r.Baseline_Weekly_Hours),
+      overtimeRate: 0,
+      cptSample: '',
+      cptDesc: '',
+    }));
+    expect(solveLpModel(inputs, 320).totalCases).toBeCloseTo(200.49, 1);
   });
 });
