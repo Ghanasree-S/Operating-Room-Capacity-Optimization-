@@ -68,13 +68,13 @@ directly in the browser.
 ### Verifying the models
 
 ```bash
-node verify_parity.cjs     # LP result vs the Excel Solver baseline
-npx tsx verify_models.ts   # 16 assertions across both granularities + GP
+npm test           # Vitest unit tests (src/__tests__/)
+npm run test:e2e   # Playwright browser tests (e2e/)
 ```
 
-`verify_models.ts` exercises the real production solver against the real
-decision-variable sets and checks optimality, constraint satisfaction, the
-Excel baseline (200.50 vs 200.49), the goal-equation balance, and
+The unit tests exercise the real production solver against the real
+decision-variable sets and check optimality, constraint satisfaction, the
+Excel Solver baseline (200.50 vs 200.49), the goal-equation balance, and
 complementarity of the deviation variables.
 
 ## Tech stack
@@ -118,7 +118,7 @@ npm run dev      # starts Vite dev server on http://localhost:3000
 ```bash
 npm run build     # production build
 npm run preview   # preview the production build
-npm run lint       # type-check (tsc --noEmit)
+npm run lint      # type-check (tsc) + ESLint
 ```
 
 ### Environment variables
@@ -129,7 +129,7 @@ Copy `.env.example` to `.env` to point the dashboard at a different planner API:
 VITE_API_BASE="http://localhost:8000"   # planner API URL (this is the default)
 ```
 
-Neither variable is required for the core dashboard, statistics, LP, or
+It is not required for the core dashboard, statistics, LP, or
 Goal Programming functionality — those run entirely client-side.
 
 ## Loading real project data
