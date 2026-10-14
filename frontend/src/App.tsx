@@ -137,7 +137,6 @@ export default function App() {
         onSelectTab={setActiveTab}
         isDark={isDark}
         onToggleTheme={() => setIsDark(prev => !prev)}
-        onExportExcel={handleExportExcel}
         onImportExcel={handleImportExcel}
         caseCount={rawCases.length}
         suiteCount={uniqueSuites}
