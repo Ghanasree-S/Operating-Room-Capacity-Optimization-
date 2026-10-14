@@ -20,7 +20,7 @@ test('Linear Programming tab shows the solved optimum', async ({ page }) => {
 test('Excel export downloads a workbook that can be imported back', async ({ page }) => {
   await page.goto('/');
   const downloadPromise = page.waitForEvent('download');
-  await page.locator('#sidebar-export-excel-btn').click();
+  await page.locator('#header-export-btn').click();
   const download = await downloadPromise;
   expect(download.suggestedFilename()).toBe('Hospital_OR_Capacity_Dataset.xlsx');
   const path = await download.path();
