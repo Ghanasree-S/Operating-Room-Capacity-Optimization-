@@ -1,10 +1,9 @@
 import React from 'react';
 import { ActiveTab } from '../types';
-import { RefreshCw, FileSpreadsheet, Clock } from 'lucide-react';
+import { FileSpreadsheet, Clock } from 'lucide-react';
 
 interface HeaderProps {
   activeTab: ActiveTab;
-  onResetData: () => void;
   onExportExcel: () => void;
   totalCases: number;
   avgUtilization: number;
@@ -35,7 +34,6 @@ const TAB_TITLES: Record<ActiveTab, { title: string; subtitle: string }> = {
 
 export const Header: React.FC<HeaderProps> = ({
   activeTab,
-  onResetData,
   onExportExcel,
   avgUtilization,
 }) => {
@@ -86,16 +84,6 @@ export const Header: React.FC<HeaderProps> = ({
         >
           <FileSpreadsheet className="w-3.5 h-3.5 text-[#2c6e68] dark:text-teal-400" />
           <span>Export Excel</span>
-        </button>
-
-        <button
-          id="header-reset-btn"
-          onClick={onResetData}
-          className="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-medium flex items-center gap-1.5 transition-colors border border-slate-200 dark:border-slate-700 cursor-pointer"
-          title="Reset dataset and model parameters to hospital baseline"
-        >
-          <RefreshCw className="w-3.5 h-3.5 text-slate-500" />
-          <span>Reset Baseline</span>
         </button>
       </div>
     </header>
