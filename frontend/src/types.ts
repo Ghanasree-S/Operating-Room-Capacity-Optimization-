@@ -85,8 +85,7 @@ export type ActiveTab =
   | 'statistics'
   | 'planner'
   | 'lp_model'
-  | 'goal_programming'
-  | 'insights';
+  | 'goal_programming';
 
 // ---------------------------------------------------------------- planner
 // Forward-looking capacity planning: the hospital supplies its own capacity

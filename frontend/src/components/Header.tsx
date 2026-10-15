@@ -31,10 +31,6 @@ const TAB_TITLES: Record<ActiveTab, { title: string; subtitle: string }> = {
     title: 'Goal Programming Multi-Criteria Formulation',
     subtitle: 'Balanced decision model trading off throughput targets vs staffing overtime minimization',
   },
-  insights: {
-    title: 'Operations Research Insights & Findings',
-    subtitle: 'Critical managerial conclusions on OR bottleneck dynamics and block scheduling',
-  },
 };
 
 export const Header: React.FC<HeaderProps> = ({

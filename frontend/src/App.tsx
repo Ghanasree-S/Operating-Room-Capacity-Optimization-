@@ -11,7 +11,6 @@ const OverviewDashboard = lazy(() => import('./components/OverviewDashboard').th
 const StatisticsExplorer = lazy(() => import('./components/StatisticsExplorer').then(m => ({ default: m.StatisticsExplorer })));
 const LinearProgrammingSection = lazy(() => import('./components/LinearProgrammingSection').then(m => ({ default: m.LinearProgrammingSection })));
 const GoalProgrammingSection = lazy(() => import('./components/GoalProgrammingSection').then(m => ({ default: m.GoalProgrammingSection })));
-const InsightsSection = lazy(() => import('./components/InsightsSection').then(m => ({ default: m.InsightsSection })));
 const CapacityPlanner = lazy(() => import('./components/CapacityPlanner').then(m => ({ default: m.CapacityPlanner })));
 import { CheckCircle2 } from 'lucide-react';
 
@@ -202,13 +201,6 @@ export default function App() {
               lpSolution={lpSolution}
               gpSolution={gpSolution}
               onSolveSuccess={setGpSolution}
-            />
-          )}
-
-          {activeTab === 'insights' && (
-            <InsightsSection
-              lpSolution={lpSolution}
-              gpSolution={gpSolution}
             />
           )}
           </Suspense>
