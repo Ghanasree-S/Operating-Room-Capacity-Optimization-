@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useRef } from 'react';
 import {
   Play,
   Plus,
@@ -53,6 +53,10 @@ export const CapacityPlanner: React.FC = () => {
   const [isSolving, setIsSolving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [apiDown, setApiDown] = useState(false);
+  // Shown above the demand table after a CSV is applied, so the user sees
+  // where the imported rows went (the table is further down the page).
+  const [importNotice, setImportNotice] = useState<string | null>(null);
+  const demandRef = useRef<HTMLElement>(null);
 
   const totalDemandHours = specialties.reduce(
     (sum, s) => sum + (s.demand_cases * s.avg_duration_min) / 60,
@@ -161,6 +165,13 @@ export const CapacityPlanner: React.FC = () => {
           setSpecialties(imported);
           setPlan(null);
           setError(null);
+          setImportNotice(
+            `Loaded ${imported.length} specialties from your file into the table below. ` +
+              'Review them, then click Optimize My Schedule.'
+          );
+          requestAnimationFrame(() =>
+            demandRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+          );
         }}
         onConnectionError={() => setApiDown(true)}
       />
@@ -267,7 +278,24 @@ export const CapacityPlanner: React.FC = () => {
       </section>
 
       {/* -------------------------------------------------- demand inputs */}
-      <section className={`${card} overflow-hidden`}>
+      <section ref={demandRef} className={`${card} overflow-hidden scroll-mt-24`}>
+        {importNotice && (
+          <div
+            role="status"
+            className="flex items-center justify-between gap-3 px-6 py-3 bg-emerald-50 dark:bg-emerald-950/40 border-b border-emerald-200 dark:border-emerald-800 text-xs font-medium text-emerald-800 dark:text-emerald-200"
+          >
+            <span className="flex items-center gap-2">
+              <CheckCircle2 className="w-4 h-4 shrink-0" />
+              {importNotice}
+            </span>
+            <button
+              onClick={() => setImportNotice(null)}
+              className="text-emerald-700 dark:text-emerald-300 hover:underline cursor-pointer"
+            >
+              Dismiss
+            </button>
+          </div>
+        )}
         <div className="p-6 border-b border-slate-200 dark:border-slate-700 flex flex-wrap items-center justify-between gap-3">
           <div>
             <div className="text-xs font-semibold text-[#2c6e68] dark:text-teal-400 uppercase tracking-wider">
