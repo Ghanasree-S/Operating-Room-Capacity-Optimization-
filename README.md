@@ -443,8 +443,8 @@ Save this as `Hospital_OR_Capacity_Dataset.xlsx`.
 │     lp-solver (solveLpModel,  │
 │     solveGoalProgramming)     │
 │   ─ UI: Overview, Statistics  │
-│     Explorer, Planner, LP,    │
-│     Goal Programming          │
+│     Explorer, LP, Goal        │
+│     Programming, Planner      │
 └─────────────────────────────┘
 ```
 
