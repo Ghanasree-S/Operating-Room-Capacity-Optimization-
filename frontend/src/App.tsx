@@ -91,19 +91,6 @@ export default function App() {
     }
   }, [showToast]);
 
-  // Reset to original Q1 hospital baseline (keeps the current granularity)
-  const handleResetData = useCallback(() => {
-    const fresh = generateHospitalData(granularity);
-    setRawCases(fresh.rawCases);
-    setStats(fresh.stats);
-    setLpInputs(fresh.lpInputs);
-    const lpSol = solveLpModel(fresh.lpInputs, 320);
-    setLpSolution(lpSol);
-    const gpSol = solveGoalProgramming(fresh.lpInputs, 200, REAL_TARGET_OVERTIME_HOURS, 6, 6, 320);
-    setGpSolution(gpSol);
-    showToast('Reset dataset and bounds to Q1 hospital baseline (2,172 cases).');
-  }, [granularity, showToast]);
-
   // Switch decision-variable granularity and reload the matching bounds.
   // The solve effect below re-runs both models automatically on lpInputs change.
   const handleGranularityChange = useCallback((next: LpGranularity) => {
@@ -147,7 +134,6 @@ export default function App() {
         {/* Top Header */}
         <Header
           activeTab={activeTab}
-          onResetData={handleResetData}
           onExportExcel={handleExportExcel}
           totalCases={rawCases.length}
           avgUtilization={overallAvgUtil}
@@ -187,7 +173,6 @@ export default function App() {
             <LinearProgrammingSection
               lpInputs={lpInputs}
               onUpdateInputs={setLpInputs}
-              onResetDefaults={() => setLpInputs(getLpInputsFor(granularity))}
               lpSolution={lpSolution}
               onSolveSuccess={setLpSolution}
               granularity={granularity}
