@@ -8,7 +8,6 @@ import {
   Upload,
   Moon,
   Sun,
-  Lightbulb,
   Building2,
   CheckCircle2,
   CalendarCheck,
@@ -68,12 +67,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
       label: 'Goal Programming',
       sublabel: 'Throughput vs overtime trade-off',
       icon: Target,
-    },
-    {
-      id: 'insights' as ActiveTab,
-      label: 'Insights & Findings',
-      sublabel: 'Bottlenecks & OR policy review',
-      icon: Lightbulb,
     },
   ];
 
