@@ -73,6 +73,9 @@ _ROLE_HINTS: dict[str, list[str]] = {
     "booked_time": ["booked time", "scheduled duration", "booked", "planned duration"],
 }
 
+# Words marking a column as the *planned* case length rather than the actual one.
+_PLANNED_WORDS = ("booked", "scheduled", "planned")
+
 # A case longer than this is almost certainly a data error (wrong units, a
 # missing date component, or an unclosed record) rather than a real operation.
 _IMPLAUSIBLE_DURATION_MIN = 1440.0
@@ -125,6 +128,10 @@ def guess_mapping(columns: list[str]) -> dict[str, str | None]:
         for hint in hints:
             for col, low in normalised.items():
                 if col in taken:
+                    continue
+                # "Booked Minutes" / "Scheduled Duration" is the planned length,
+                # not what actually happened; never guess it as the duration.
+                if role == "duration" and any(w in low for w in _PLANNED_WORDS):
                     continue
                 if low == hint:
                     score = 1000 + len(hint)  # exact match dominates
