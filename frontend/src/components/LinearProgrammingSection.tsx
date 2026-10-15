@@ -5,7 +5,6 @@ import { KatexMath } from './common/KatexMath';
 import { CapacitySweepChart } from './CapacitySweepChart';
 import {
   Play,
-  RotateCcw,
   CheckCircle2,
   AlertTriangle,
 } from 'lucide-react';
@@ -13,7 +12,6 @@ import {
 interface LinearProgrammingSectionProps {
   lpInputs: SpecialtyLpInput[];
   onUpdateInputs: (inputs: SpecialtyLpInput[]) => void;
-  onResetDefaults: () => void;
   lpSolution: LpSolution | null;
   onSolveSuccess: (sol: LpSolution) => void;
   granularity: LpGranularity;
@@ -23,7 +21,6 @@ interface LinearProgrammingSectionProps {
 export const LinearProgrammingSection: React.FC<LinearProgrammingSectionProps> = ({
   lpInputs,
   onUpdateInputs,
-  onResetDefaults,
   lpSolution,
   onSolveSuccess,
   granularity,
@@ -195,15 +192,6 @@ export const LinearProgrammingSection: React.FC<LinearProgrammingSectionProps> =
             >
               <Play className={`w-4 h-4 ${isSolving ? 'animate-spin' : ''}`} />
               <span>{isSolving ? 'Solving Simplex...' : 'Solve Linear Program'}</span>
-            </button>
-
-            <button
-              id="reset-lp-defaults-btn"
-              onClick={onResetDefaults}
-              className="px-4 py-2.5 rounded-lg bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 text-xs font-semibold flex items-center gap-2 transition-colors cursor-pointer border border-slate-200 dark:border-slate-600"
-            >
-              <RotateCcw className="w-3.5 h-3.5 text-slate-500" />
-              <span>Reset Bounds</span>
             </button>
 
             {lpSolution && (
