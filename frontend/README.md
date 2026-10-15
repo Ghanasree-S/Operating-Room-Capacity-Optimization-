@@ -33,8 +33,6 @@ at runtime.
 - **Goal Programming Model** — the multi-objective extension: balances a
   throughput target against an overtime target using deviation
   variables, with adjustable priority weights for each goal.
-- **Insights** — before/after comparison across current practice,
-  LP-optimized, and Goal-Programming-balanced allocations.
 - **Excel import/export** — export the current dataset and model inputs
   as an Excel workbook (`RAW_DATA`, `STATS`, `LP_MODEL` sheets), or
   import one back in to load real data from the Excel side of the
@@ -104,7 +102,6 @@ src/
     ├── StatisticsExplorer.tsx       # On-demand stats by Suite / by Service
     ├── LinearProgrammingSection.tsx # LP model inputs, solve, results
     ├── GoalProgrammingSection.tsx   # Goal Programming inputs, solve, results
-    ├── InsightsSection.tsx          # Comparison summary
     └── common/KatexMath.tsx         # Renders objective/constraint math
 ```
 
