@@ -1,0 +1,537 @@
+Case No,Surgery Date,Theatre,Specialty,Procedure Code,Procedure Description,Wheels In,Wheels Out,Booked Minutes
+50124,2026-07-06,Theatre 1,OBGYN,59510,Caesarean delivery,08:38,09:55,85
+50020,2026-07-06,Theatre 1,Orthopedics,27130,Total hip arthroplasty,09:48,11:30,125
+50021,2026-07-06,Theatre 1,Orthopedics,29881,Knee arthroscopy/meniscectomy,13:44,15:36,125
+50063,2026-07-06,Theatre 1,ENT,30520,Septoplasty,14:19,15:40,60
+50053,2026-07-06,Theatre 2,ENT,42820,Tonsillectomy and adenoidectomy,08:22,09:23,60
+50098,2026-07-06,Theatre 2,Ophthalmology,67036,Vitrectomy,09:13,09:39,35
+50026,2026-07-06,Theatre 2,General Surgery,49505,Inguinal hernia repair,11:19,13:27,95
+50060,2026-07-06,Theatre 2,ENT,69436,Tympanostomy tubes,12:32,13:22,60
+50039,2026-07-06,Theatre 2,General Surgery,49505,Inguinal hernia repair,12:44,13:53,95
+50081,2026-07-06,Theatre 2,Ophthalmology,67036,Vitrectomy,13:36,14:06,35
+50024,2026-07-06,Theatre 2,General Surgery,49505,Inguinal hernia repair,14:03,16:05,95
+50088,2026-07-06,Theatre 2,Ophthalmology,66984,Cataract extraction with IOL,14:58,15:32,35
+50092,2026-07-06,Theatre 3,Ophthalmology,66984,Cataract extraction with IOL,07:59,08:28,35
+50089,2026-07-06,Theatre 3,Ophthalmology,67036,Vitrectomy,09:49,10:37,35
+50002,2026-07-06,Theatre 3,Orthopedics,27447,Total knee arthroplasty,12:28,14:23,125
+50038,2026-07-06,Theatre 3,General Surgery,47562,Laparoscopic cholecystectomy,12:44,14:38,95
+50095,2026-07-06,Theatre 3,Ophthalmology,67036,Vitrectomy,14:51,15:26,35
+50075,2026-07-06,Theatre 4,Ophthalmology,66984,Cataract extraction with IOL,10:16,10:43,35
+50087,2026-07-06,Theatre 4,Ophthalmology,66984,Cataract extraction with IOL,10:19,10:47,35
+50041,2026-07-06,Theatre 4,General Surgery,47562,Laparoscopic cholecystectomy,11:28,12:41,95
+50056,2026-07-06,Theatre 4,ENT,30520,Septoplasty,14:10,14:47,60
+50125,2026-07-06,Theatre 4,OBGYN,58571,Laparoscopic hysterectomy,14:37,15:55,85
+50055,2026-07-06,Theatre 4,ENT,42820,Tonsillectomy and adenoidectomy,15:15,15:59,60
+50073,2026-07-06,Theatre 5,Ophthalmology,66984,Cataract extraction with IOL,07:59,08:34,35
+50011,2026-07-06,Theatre 5,Orthopedics,29881,Knee arthroscopy/meniscectomy,08:00,09:39,125
+50133,2026-07-06,Theatre 5,OBGYN,59510,Caesarean delivery,08:45,09:55,85
+50014,2026-07-06,Theatre 5,Orthopedics,29881,Knee arthroscopy/meniscectomy,10:03,12:26,125
+50016,2026-07-06,Theatre 5,Orthopedics,27447,Total knee arthroplasty,11:04,13:21,125
+50004,2026-07-06,Theatre 5,Orthopedics,27447,Total knee arthroplasty,11:07,13:28,125
+50018,2026-07-06,Theatre 5,Orthopedics,27130,Total hip arthroplasty,12:23,14:28,125
+50094,2026-07-06,Theatre 5,Ophthalmology,66984,Cataract extraction with IOL,14:48,15:18,35
+50042,2026-07-06,Theatre 6,General Surgery,44970,Laparoscopic appendectomy,10:25,12:02,95
+50058,2026-07-06,Theatre 6,ENT,69436,Tympanostomy tubes,10:52,12:15,60
+50103,2026-07-06,Theatre 6,Urology,50590,Lithotripsy,14:29,15:21,70
+50121,2026-07-06,Theatre 6,OBGYN,58571,Laparoscopic hysterectomy,15:06,16:09,85
+50107,2026-07-07,Theatre 1,Urology,52601,TURP,08:06,08:46,70
+50108,2026-07-07,Theatre 1,Urology,50590,Lithotripsy,08:13,08:53,70
+50065,2026-07-07,Theatre 1,ENT,30520,Septoplasty,09:38,10:42,60
+50030,2026-07-07,Theatre 1,General Surgery,44970,Laparoscopic appendectomy,11:38,13:20,95
+50007,2026-07-07,Theatre 1,Orthopedics,27447,Total knee arthroplasty,12:15,14:35,125
+50067,2026-07-07,Theatre 1,ENT,30520,Septoplasty,15:15,16:12,60
+50105,2026-07-07,Theatre 2,Urology,50590,Lithotripsy,10:25,11:48,70
+50071,2026-07-07,Theatre 2,Ophthalmology,66984,Cataract extraction with IOL,11:32,12:04,35
+50115,2026-07-07,Theatre 2,Urology,52000,Cystoscopy,11:48,12:59,70
+50031,2026-07-07,Theatre 3,General Surgery,49505,Inguinal hernia repair,09:54,11:55,95
+50100,2026-07-07,Theatre 3,Urology,52000,Cystoscopy,10:27,11:57,70
+50111,2026-07-07,Theatre 3,Urology,52601,TURP,11:18,12:47,70
+50079,2026-07-07,Theatre 4,Ophthalmology,66984,Cataract extraction with IOL,08:32,09:01,35
+50036,2026-07-07,Theatre 4,General Surgery,47562,Laparoscopic cholecystectomy,08:53,10:21,95
+50082,2026-07-07,Theatre 4,Ophthalmology,66984,Cataract extraction with IOL,09:22,09:51,35
+50106,2026-07-07,Theatre 4,Urology,52000,Cystoscopy,10:27,12:16,70
+50116,2026-07-07,Theatre 4,Urology,52000,Cystoscopy,12:30,13:31,70
+50049,2026-07-07,Theatre 4,General Surgery,49505,Inguinal hernia repair,13:48,15:28,95
+50090,2026-07-07,Theatre 4,Ophthalmology,67036,Vitrectomy,14:44,15:22,35
+50064,2026-07-07,Theatre 4,ENT,42820,Tonsillectomy and adenoidectomy,14:56,15:52,60
+50057,2026-07-07,Theatre 4,ENT,69436,Tympanostomy tubes,15:05,16:16,60
+50070,2026-07-07,Theatre 5,Ophthalmology,66984,Cataract extraction with IOL,07:32,08:06,35
+50069,2026-07-07,Theatre 5,Ophthalmology,67036,Vitrectomy,08:47,09:20,35
+50062,2026-07-07,Theatre 5,ENT,42820,Tonsillectomy and adenoidectomy,12:10,13:00,60
+50048,2026-07-07,Theatre 5,General Surgery,47562,Laparoscopic cholecystectomy,14:25,15:52,95
+50061,2026-07-07,Theatre 5,ENT,69436,Tympanostomy tubes,14:33,15:18,60
+50025,2026-07-07,Theatre 6,General Surgery,49505,Inguinal hernia repair,09:36,10:26,95
+50130,2026-07-07,Theatre 6,OBGYN,59510,Caesarean delivery,13:02,14:59,85
+50101,2026-07-08,Theatre 1,Urology,52000,Cystoscopy,07:37,09:10,70
+50127,2026-07-08,Theatre 1,OBGYN,58571,Laparoscopic hysterectomy,11:23,12:57,85
+50110,2026-07-08,Theatre 1,Urology,52000,Cystoscopy,11:25,12:30,70
+50023,2026-07-08,Theatre 1,General Surgery,49505,Inguinal hernia repair,11:26,12:39,95
+50010,2026-07-08,Theatre 1,Orthopedics,29881,Knee arthroscopy/meniscectomy,12:10,14:38,125
+50129,2026-07-08,Theatre 1,OBGYN,58571,Laparoscopic hysterectomy,14:43,16:04,85
+50113,2026-07-08,Theatre 2,Urology,52000,Cystoscopy,10:32,11:49,70
+50001,2026-07-08,Theatre 2,Orthopedics,29881,Knee arthroscopy/meniscectomy,10:52,12:50,125
+50047,2026-07-08,Theatre 2,General Surgery,44970,Laparoscopic appendectomy,12:02,13:08,95
+50017,2026-07-08,Theatre 2,Orthopedics,29881,Knee arthroscopy/meniscectomy,15:27,17:23,125
+50066,2026-07-08,Theatre 3,ENT,69436,Tympanostomy tubes,12:08,13:25,60
+50051,2026-07-08,Theatre 4,ENT,69436,Tympanostomy tubes,09:42,10:49,60
+50076,2026-07-08,Theatre 4,Ophthalmology,67036,Vitrectomy,11:50,12:18,35
+50043,2026-07-08,Theatre 4,General Surgery,47562,Laparoscopic cholecystectomy,14:34,15:58,95
+50037,2026-07-08,Theatre 5,General Surgery,44970,Laparoscopic appendectomy,07:56,09:56,95
+50096,2026-07-08,Theatre 5,Ophthalmology,66984,Cataract extraction with IOL,08:36,09:11,35
+50046,2026-07-08,Theatre 5,General Surgery,47562,Laparoscopic cholecystectomy,10:37,11:59,95
+50086,2026-07-08,Theatre 5,Ophthalmology,67036,Vitrectomy,11:24,12:10,35
+50099,2026-07-08,Theatre 5,Urology,50590,Lithotripsy,13:58,15:13,70
+50050,2026-07-08,Theatre 6,General Surgery,47562,Laparoscopic cholecystectomy,07:44,09:03,95
+50019,2026-07-08,Theatre 6,Orthopedics,27130,Total hip arthroplasty,10:29,12:01,125
+50028,2026-07-08,Theatre 6,General Surgery,49505,Inguinal hernia repair,11:02,12:57,95
+50072,2026-07-08,Theatre 6,Ophthalmology,67036,Vitrectomy,11:55,12:27,35
+50120,2026-07-08,Theatre 6,OBGYN,58571,Laparoscopic hysterectomy,12:46,15:02,85
+50080,2026-07-09,Theatre 1,Ophthalmology,67036,Vitrectomy,09:18,09:57,35
+50093,2026-07-09,Theatre 1,Ophthalmology,67036,Vitrectomy,09:47,10:32,35
+50117,2026-07-09,Theatre 1,Urology,50590,Lithotripsy,10:03,11:08,70
+50035,2026-07-09,Theatre 1,General Surgery,47562,Laparoscopic cholecystectomy,11:36,13:05,95
+50029,2026-07-09,Theatre 2,General Surgery,44970,Laparoscopic appendectomy,08:47,10:34,95
+50085,2026-07-09,Theatre 2,Ophthalmology,66984,Cataract extraction with IOL,10:32,11:01,35
+50091,2026-07-09,Theatre 2,Ophthalmology,67036,Vitrectomy,12:04,12:48,35
+50013,2026-07-09,Theatre 3,Orthopedics,27447,Total knee arthroplasty,10:03,12:08,125
+50012,2026-07-09,Theatre 3,Orthopedics,29881,Knee arthroscopy/meniscectomy,11:28,13:09,125
+50114,2026-07-09,Theatre 3,Urology,50590,Lithotripsy,11:47,13:13,70
+50022,2026-07-09,Theatre 3,Orthopedics,27130,Total hip arthroplasty,13:36,14:59,125
+50015,2026-07-09,Theatre 3,Orthopedics,27447,Total knee arthroplasty,13:43,15:08,125
+50131,2026-07-09,Theatre 4,OBGYN,58571,Laparoscopic hysterectomy,08:09,09:03,85
+50083,2026-07-09,Theatre 4,Ophthalmology,66984,Cataract extraction with IOL,08:53,09:43,35
+50104,2026-07-09,Theatre 5,Urology,50590,Lithotripsy,10:07,10:53,70
+50084,2026-07-09,Theatre 5,Ophthalmology,67036,Vitrectomy,10:56,11:30,35
+50109,2026-07-09,Theatre 5,Urology,50590,Lithotripsy,13:13,14:49,70
+50054,2026-07-09,Theatre 5,ENT,30520,Septoplasty,15:10,16:19,60
+50059,2026-07-09,Theatre 6,ENT,42820,Tonsillectomy and adenoidectomy,08:13,09:11,60
+50052,2026-07-09,Theatre 6,ENT,69436,Tympanostomy tubes,10:28,11:47,60
+50005,2026-07-10,Theatre 1,Orthopedics,27447,Total knee arthroplasty,09:24,11:01,125
+50008,2026-07-10,Theatre 1,Orthopedics,27130,Total hip arthroplasty,12:22,14:07,125
+50128,2026-07-10,Theatre 1,OBGYN,59510,Caesarean delivery,13:51,14:44,85
+50045,2026-07-10,Theatre 1,General Surgery,47562,Laparoscopic cholecystectomy,13:58,14:24,95
+50003,2026-07-10,Theatre 2,Orthopedics,27447,Total knee arthroplasty,07:49,10:20,125
+50118,2026-07-10,Theatre 2,Urology,50590,Lithotripsy,13:06,14:29,70
+50077,2026-07-10,Theatre 2,Ophthalmology,67036,Vitrectomy,13:27,13:45,35
+50078,2026-07-10,Theatre 2,Ophthalmology,67036,Vitrectomy,14:40,15:12,35
+50044,2026-07-10,Theatre 3,General Surgery,44970,Laparoscopic appendectomy,08:45,09:51,95
+50112,2026-07-10,Theatre 3,Urology,52000,Cystoscopy,09:35,10:45,70
+50040,2026-07-10,Theatre 3,General Surgery,47562,Laparoscopic cholecystectomy,11:32,13:31,95
+50027,2026-07-10,Theatre 3,General Surgery,44970,Laparoscopic appendectomy,15:02,16:54,95
+50102,2026-07-10,Theatre 4,Urology,52601,TURP,09:35,10:47,70
+50034,2026-07-10,Theatre 4,General Surgery,49505,Inguinal hernia repair,10:53,12:20,95
+50074,2026-07-10,Theatre 4,Ophthalmology,66984,Cataract extraction with IOL,12:17,12:58,35
+50119,2026-07-10,Theatre 4,OBGYN,58571,Laparoscopic hysterectomy,14:01,14:59,85
+50134,2026-07-10,Theatre 5,OBGYN,58571,Laparoscopic hysterectomy,08:38,10:28,85
+50032,2026-07-10,Theatre 5,General Surgery,47562,Laparoscopic cholecystectomy,10:13,11:48,95
+50006,2026-07-10,Theatre 5,Orthopedics,27447,Total knee arthroplasty,10:53,12:28,125
+50068,2026-07-10,Theatre 5,ENT,30520,Septoplasty,11:05,11:33,60
+50122,2026-07-10,Theatre 5,OBGYN,58571,Laparoscopic hysterectomy,12:21,13:44,85
+50033,2026-07-10,Theatre 5,General Surgery,44970,Laparoscopic appendectomy,13:05,14:36,95
+50009,2026-07-10,Theatre 6,Orthopedics,27447,Total knee arthroplasty,09:02,11:38,125
+50097,2026-07-10,Theatre 6,Ophthalmology,67036,Vitrectomy,09:32,10:26,35
+50126,2026-07-10,Theatre 6,OBGYN,59510,Caesarean delivery,09:35,11:01,85
+50132,2026-07-10,Theatre 6,OBGYN,58571,Laparoscopic hysterectomy,12:59,14:27,85
+50123,2026-07-10,Theatre 6,OBGYN,58571,Laparoscopic hysterectomy,13:19,15:11,85
+50207,2026-07-13,Theatre 1,Ophthalmology,67036,Vitrectomy,09:41,10:16,35
+50260,2026-07-13,Theatre 1,OBGYN,59510,Caesarean delivery,12:46,14:28,85
+50196,2026-07-13,Theatre 1,ENT,42820,Tonsillectomy and adenoidectomy,15:26,16:33,60
+50211,2026-07-13,Theatre 2,Ophthalmology,67036,Vitrectomy,08:24,08:39,35
+50177,2026-07-13,Theatre 2,General Surgery,44970,Laparoscopic appendectomy,09:29,10:57,95
+50263,2026-07-13,Theatre 2,OBGYN,59510,Caesarean delivery,10:33,11:50,85
+50195,2026-07-13,Theatre 2,ENT,69436,Tympanostomy tubes,10:51,11:28,60
+50148,2026-07-13,Theatre 2,Orthopedics,27447,Total knee arthroplasty,13:35,16:04,125
+50147,2026-07-13,Theatre 3,Orthopedics,27130,Total hip arthroplasty,07:30,09:22,125
+50139,2026-07-13,Theatre 3,Orthopedics,27130,Total hip arthroplasty,11:24,14:00,125
+50230,2026-07-13,Theatre 3,Ophthalmology,66984,Cataract extraction with IOL,11:52,12:46,35
+50198,2026-07-13,Theatre 3,ENT,30520,Septoplasty,13:10,13:55,60
+50150,2026-07-13,Theatre 3,Orthopedics,27130,Total hip arthroplasty,15:23,17:39,125
+50206,2026-07-13,Theatre 4,Ophthalmology,67036,Vitrectomy,07:47,08:33,35
+50249,2026-07-13,Theatre 4,Urology,52000,Cystoscopy,11:41,12:51,70
+50237,2026-07-13,Theatre 4,Urology,52601,TURP,12:10,12:59,70
+50145,2026-07-13,Theatre 4,Orthopedics,27447,Total knee arthroplasty,13:18,14:58,125
+50141,2026-07-13,Theatre 5,Orthopedics,27130,Total hip arthroplasty,08:16,10:43,125
+50193,2026-07-13,Theatre 5,ENT,42820,Tonsillectomy and adenoidectomy,08:44,09:48,60
+50234,2026-07-13,Theatre 5,Urology,50590,Lithotripsy,13:44,14:59,70
+50201,2026-07-13,Theatre 5,ENT,69436,Tympanostomy tubes,13:58,15:01,60
+50266,2026-07-13,Theatre 5,OBGYN,59510,Caesarean delivery,15:08,16:49,85
+50217,2026-07-13,Theatre 6,Ophthalmology,66984,Cataract extraction with IOL,07:47,08:12,35
+50265,2026-07-13,Theatre 6,OBGYN,58571,Laparoscopic hysterectomy,08:36,10:29,85
+50239,2026-07-13,Theatre 6,Urology,52601,TURP,08:53,09:50,70
+50187,2026-07-13,Theatre 6,ENT,69436,Tympanostomy tubes,10:23,11:20,60
+50154,2026-07-13,Theatre 6,Orthopedics,29881,Knee arthroscopy/meniscectomy,10:54,12:06,125
+50205,2026-07-13,Theatre 6,Ophthalmology,67036,Vitrectomy,11:00,11:35,35
+50232,2026-07-13,Theatre 6,Ophthalmology,67036,Vitrectomy,12:35,12:58,35
+50210,2026-07-13,Theatre 6,Ophthalmology,66984,Cataract extraction with IOL,13:56,14:14,35
+50229,2026-07-14,Theatre 1,Ophthalmology,66984,Cataract extraction with IOL,07:55,08:37,35
+50233,2026-07-14,Theatre 1,Urology,52601,TURP,10:38,11:44,70
+50172,2026-07-14,Theatre 1,General Surgery,44970,Laparoscopic appendectomy,11:07,12:00,95
+50243,2026-07-14,Theatre 1,Urology,52000,Cystoscopy,11:12,12:39,70
+50188,2026-07-14,Theatre 1,ENT,69436,Tympanostomy tubes,14:18,15:04,60
+50235,2026-07-14,Theatre 1,Urology,52000,Cystoscopy,14:29,15:24,70
+50267,2026-07-14,Theatre 1,OBGYN,58571,Laparoscopic hysterectomy,14:48,16:38,85
+50256,2026-07-14,Theatre 1,OBGYN,58571,Laparoscopic hysterectomy,15:02,16:33,85
+50220,2026-07-14,Theatre 2,Ophthalmology,67036,Vitrectomy,08:38,09:18,35
+50175,2026-07-14,Theatre 2,General Surgery,44970,Laparoscopic appendectomy,08:47,09:44,95
+50224,2026-07-14,Theatre 2,Ophthalmology,67036,Vitrectomy,08:48,09:31,35
+50152,2026-07-14,Theatre 2,Orthopedics,27130,Total hip arthroplasty,09:46,12:24,125
+50268,2026-07-14,Theatre 2,OBGYN,59510,Caesarean delivery,15:03,16:39,85
+50138,2026-07-14,Theatre 3,Orthopedics,27130,Total hip arthroplasty,08:13,10:28,125
+50160,2026-07-14,Theatre 3,General Surgery,44970,Laparoscopic appendectomy,11:37,12:35,95
+50164,2026-07-14,Theatre 3,General Surgery,47562,Laparoscopic cholecystectomy,12:14,14:01,95
+50213,2026-07-14,Theatre 4,Ophthalmology,67036,Vitrectomy,09:03,09:56,35
+50190,2026-07-14,Theatre 4,ENT,69436,Tympanostomy tubes,09:23,10:23,60
+50262,2026-07-14,Theatre 4,OBGYN,58571,Laparoscopic hysterectomy,10:54,11:44,85
+50183,2026-07-14,Theatre 4,General Surgery,49505,Inguinal hernia repair,11:59,13:35,95
+50242,2026-07-14,Theatre 4,Urology,52601,TURP,13:42,15:12,70
+50254,2026-07-14,Theatre 5,OBGYN,58571,Laparoscopic hysterectomy,09:21,10:37,85
+50214,2026-07-14,Theatre 5,Ophthalmology,67036,Vitrectomy,09:30,10:06,35
+50253,2026-07-14,Theatre 5,OBGYN,59510,Caesarean delivery,10:57,12:12,85
+50142,2026-07-14,Theatre 5,Orthopedics,29881,Knee arthroscopy/meniscectomy,14:29,17:02,125
+50136,2026-07-14,Theatre 6,Orthopedics,27130,Total hip arthroplasty,11:40,14:29,125
+50184,2026-07-15,Theatre 1,General Surgery,47562,Laparoscopic cholecystectomy,07:41,09:34,95
+50151,2026-07-15,Theatre 1,Orthopedics,27130,Total hip arthroplasty,09:53,12:43,125
+50200,2026-07-15,Theatre 1,ENT,69436,Tympanostomy tubes,10:29,11:31,60
+50257,2026-07-15,Theatre 1,OBGYN,59510,Caesarean delivery,10:49,11:53,85
+50191,2026-07-15,Theatre 1,ENT,42820,Tonsillectomy and adenoidectomy,12:49,13:39,60
+50197,2026-07-15,Theatre 2,ENT,69436,Tympanostomy tubes,09:04,09:53,60
+50165,2026-07-15,Theatre 2,General Surgery,47562,Laparoscopic cholecystectomy,10:38,12:11,95
+50170,2026-07-15,Theatre 2,General Surgery,49505,Inguinal hernia repair,10:46,11:33,95
+50178,2026-07-15,Theatre 2,General Surgery,49505,Inguinal hernia repair,12:50,14:22,95
+50250,2026-07-15,Theatre 2,Urology,52000,Cystoscopy,14:38,15:12,70
+50222,2026-07-15,Theatre 3,Ophthalmology,67036,Vitrectomy,09:53,10:16,35
+50208,2026-07-15,Theatre 3,Ophthalmology,66984,Cataract extraction with IOL,10:21,10:58,35
+50149,2026-07-15,Theatre 3,Orthopedics,29881,Knee arthroscopy/meniscectomy,10:40,13:12,125
+50223,2026-07-15,Theatre 3,Ophthalmology,66984,Cataract extraction with IOL,13:47,14:21,35
+50159,2026-07-15,Theatre 3,General Surgery,49505,Inguinal hernia repair,13:48,15:20,95
+50157,2026-07-15,Theatre 4,General Surgery,47562,Laparoscopic cholecystectomy,07:55,09:56,95
+50240,2026-07-15,Theatre 4,Urology,52601,TURP,07:56,09:15,70
+50140,2026-07-15,Theatre 4,Orthopedics,27447,Total knee arthroplasty,09:17,11:38,125
+50182,2026-07-15,Theatre 4,General Surgery,49505,Inguinal hernia repair,09:52,11:25,95
+50215,2026-07-15,Theatre 4,Ophthalmology,66984,Cataract extraction with IOL,10:35,11:12,35
+50163,2026-07-15,Theatre 4,General Surgery,47562,Laparoscopic cholecystectomy,11:08,12:53,95
+50212,2026-07-15,Theatre 4,Ophthalmology,67036,Vitrectomy,14:27,15:05,35
+50168,2026-07-15,Theatre 5,General Surgery,47562,Laparoscopic cholecystectomy,10:34,12:50,95
+50180,2026-07-15,Theatre 5,General Surgery,47562,Laparoscopic cholecystectomy,12:28,13:51,95
+50247,2026-07-15,Theatre 6,Urology,52000,Cystoscopy,11:48,13:06,70
+50209,2026-07-15,Theatre 6,Ophthalmology,67036,Vitrectomy,13:36,14:04,35
+50204,2026-07-15,Theatre 6,Ophthalmology,67036,Vitrectomy,15:09,15:41,35
+50202,2026-07-16,Theatre 1,ENT,30520,Septoplasty,07:55,09:08,60
+50218,2026-07-16,Theatre 1,Ophthalmology,67036,Vitrectomy,08:06,08:42,35
+50227,2026-07-16,Theatre 1,Ophthalmology,66984,Cataract extraction with IOL,08:22,09:13,35
+50161,2026-07-16,Theatre 1,General Surgery,44970,Laparoscopic appendectomy,08:55,10:23,95
+50135,2026-07-16,Theatre 1,Orthopedics,29881,Knee arthroscopy/meniscectomy,11:38,13:37,125
+50176,2026-07-16,Theatre 1,General Surgery,47562,Laparoscopic cholecystectomy,12:12,13:41,95
+50246,2026-07-16,Theatre 1,Urology,50590,Lithotripsy,12:23,13:35,70
+50245,2026-07-16,Theatre 2,Urology,50590,Lithotripsy,08:36,10:11,70
+50216,2026-07-16,Theatre 2,Ophthalmology,67036,Vitrectomy,09:36,10:00,35
+50203,2026-07-16,Theatre 2,Ophthalmology,67036,Vitrectomy,10:40,11:06,35
+50261,2026-07-16,Theatre 2,OBGYN,59510,Caesarean delivery,11:18,12:45,85
+50228,2026-07-16,Theatre 3,Ophthalmology,67036,Vitrectomy,07:50,08:25,35
+50251,2026-07-16,Theatre 3,Urology,52000,Cystoscopy,07:57,08:44,70
+50181,2026-07-16,Theatre 3,General Surgery,44970,Laparoscopic appendectomy,09:24,10:59,95
+50186,2026-07-16,Theatre 3,ENT,69436,Tympanostomy tubes,09:26,10:31,60
+50199,2026-07-16,Theatre 3,ENT,42820,Tonsillectomy and adenoidectomy,10:19,11:12,60
+50146,2026-07-16,Theatre 3,Orthopedics,27130,Total hip arthroplasty,10:42,12:54,125
+50258,2026-07-16,Theatre 3,OBGYN,58571,Laparoscopic hysterectomy,12:28,13:38,85
+50144,2026-07-16,Theatre 4,Orthopedics,27447,Total knee arthroplasty,07:42,10:05,125
+50174,2026-07-16,Theatre 4,General Surgery,47562,Laparoscopic cholecystectomy,09:37,11:12,95
+50171,2026-07-16,Theatre 4,General Surgery,47562,Laparoscopic cholecystectomy,10:09,12:13,95
+50158,2026-07-16,Theatre 4,General Surgery,49505,Inguinal hernia repair,10:25,11:43,95
+50166,2026-07-16,Theatre 4,General Surgery,44970,Laparoscopic appendectomy,11:01,13:08,95
+50259,2026-07-16,Theatre 4,OBGYN,58571,Laparoscopic hysterectomy,13:07,14:16,85
+50192,2026-07-16,Theatre 4,ENT,30520,Septoplasty,15:16,16:16,60
+50255,2026-07-16,Theatre 5,OBGYN,58571,Laparoscopic hysterectomy,08:50,10:07,85
+50162,2026-07-16,Theatre 5,General Surgery,49505,Inguinal hernia repair,09:22,10:49,95
+50231,2026-07-16,Theatre 5,Ophthalmology,66984,Cataract extraction with IOL,09:43,10:19,35
+50173,2026-07-16,Theatre 5,General Surgery,44970,Laparoscopic appendectomy,11:40,13:39,95
+50156,2026-07-16,Theatre 5,Orthopedics,27447,Total knee arthroplasty,13:55,16:33,125
+50244,2026-07-16,Theatre 5,Urology,52601,TURP,15:02,15:59,70
+50221,2026-07-16,Theatre 5,Ophthalmology,66984,Cataract extraction with IOL,15:06,15:34,35
+50185,2026-07-16,Theatre 6,ENT,30520,Septoplasty,13:01,13:50,60
+50189,2026-07-17,Theatre 1,ENT,42820,Tonsillectomy and adenoidectomy,09:15,10:04,60
+50219,2026-07-17,Theatre 1,Ophthalmology,67036,Vitrectomy,09:16,09:58,35
+50225,2026-07-17,Theatre 2,Ophthalmology,66984,Cataract extraction with IOL,10:17,10:57,35
+50167,2026-07-17,Theatre 2,General Surgery,49505,Inguinal hernia repair,10:42,12:11,95
+50194,2026-07-17,Theatre 2,ENT,42820,Tonsillectomy and adenoidectomy,11:02,11:59,60
+50238,2026-07-17,Theatre 2,Urology,50590,Lithotripsy,12:57,14:09,70
+50155,2026-07-17,Theatre 2,Orthopedics,27130,Total hip arthroplasty,13:38,16:44,125
+50248,2026-07-17,Theatre 2,Urology,52000,Cystoscopy,15:23,16:49,70
+50236,2026-07-17,Theatre 3,Urology,52000,Cystoscopy,08:09,09:45,70
+50153,2026-07-17,Theatre 3,Orthopedics,27130,Total hip arthroplasty,09:07,11:19,125
+50241,2026-07-17,Theatre 3,Urology,52601,TURP,11:02,11:37,70
+50137,2026-07-17,Theatre 3,Orthopedics,29881,Knee arthroscopy/meniscectomy,11:27,12:41,125
+50143,2026-07-17,Theatre 3,Orthopedics,27130,Total hip arthroplasty,15:04,17:30,125
+50226,2026-07-17,Theatre 5,Ophthalmology,66984,Cataract extraction with IOL,09:28,10:05,35
+50169,2026-07-17,Theatre 5,General Surgery,47562,Laparoscopic cholecystectomy,12:52,14:39,95
+50264,2026-07-17,Theatre 5,OBGYN,58571,Laparoscopic hysterectomy,13:06,14:34,85
+50179,2026-07-17,Theatre 6,General Surgery,47562,Laparoscopic cholecystectomy,11:13,12:44,95
+50252,2026-07-17,Theatre 6,Urology,52000,Cystoscopy,14:32,15:24,70
+50298,2026-07-20,Theatre 1,General Surgery,44970,Laparoscopic appendectomy,07:36,09:13,95
+50313,2026-07-20,Theatre 1,General Surgery,49505,Inguinal hernia repair,11:13,13:05,95
+50297,2026-07-20,Theatre 1,General Surgery,47562,Laparoscopic cholecystectomy,12:02,13:52,95
+50385,2026-07-20,Theatre 1,Urology,52000,Cystoscopy,14:33,15:26,70
+50319,2026-07-20,Theatre 1,ENT,30520,Septoplasty,14:48,15:35,60
+50285,2026-07-20,Theatre 2,Orthopedics,27130,Total hip arthroplasty,08:46,10:40,125
+50274,2026-07-20,Theatre 2,Orthopedics,27130,Total hip arthroplasty,09:03,10:53,125
+50356,2026-07-20,Theatre 2,Ophthalmology,67036,Vitrectomy,09:41,10:15,35
+50351,2026-07-20,Theatre 2,Ophthalmology,67036,Vitrectomy,10:46,11:23,35
+50399,2026-07-20,Theatre 2,OBGYN,58571,Laparoscopic hysterectomy,12:56,14:02,85
+50332,2026-07-20,Theatre 3,ENT,42820,Tonsillectomy and adenoidectomy,11:41,12:39,60
+50364,2026-07-20,Theatre 3,Ophthalmology,66984,Cataract extraction with IOL,12:08,12:27,35
+50328,2026-07-20,Theatre 4,ENT,42820,Tonsillectomy and adenoidectomy,11:55,13:19,60
+50337,2026-07-20,Theatre 4,Ophthalmology,66984,Cataract extraction with IOL,14:13,14:58,35
+50309,2026-07-20,Theatre 5,General Surgery,44970,Laparoscopic appendectomy,07:37,09:38,95
+50393,2026-07-20,Theatre 5,OBGYN,58571,Laparoscopic hysterectomy,08:30,09:53,85
+50288,2026-07-20,Theatre 5,Orthopedics,27130,Total hip arthroplasty,10:31,12:30,125
+50289,2026-07-20,Theatre 5,Orthopedics,27130,Total hip arthroplasty,10:32,12:06,125
+50366,2026-07-20,Theatre 5,Ophthalmology,66984,Cataract extraction with IOL,11:23,11:56,35
+50401,2026-07-20,Theatre 5,OBGYN,58571,Laparoscopic hysterectomy,11:37,12:19,85
+50330,2026-07-20,Theatre 5,ENT,69436,Tympanostomy tubes,14:29,15:34,60
+50315,2026-07-20,Theatre 5,General Surgery,47562,Laparoscopic cholecystectomy,15:16,16:54,95
+50316,2026-07-20,Theatre 5,General Surgery,47562,Laparoscopic cholecystectomy,15:25,17:05,95
+50387,2026-07-20,Theatre 6,OBGYN,59510,Caesarean delivery,07:35,09:01,85
+50318,2026-07-20,Theatre 6,General Surgery,44970,Laparoscopic appendectomy,08:04,09:40,95
+50357,2026-07-20,Theatre 6,Ophthalmology,67036,Vitrectomy,09:34,10:16,35
+50320,2026-07-20,Theatre 6,ENT,42820,Tonsillectomy and adenoidectomy,10:46,11:38,60
+50322,2026-07-20,Theatre 6,ENT,69436,Tympanostomy tubes,12:53,13:55,60
+50294,2026-07-20,Theatre 6,General Surgery,44970,Laparoscopic appendectomy,14:30,16:50,95
+50277,2026-07-20,Theatre 6,Orthopedics,29881,Knee arthroscopy/meniscectomy,14:49,16:15,125
+50353,2026-07-20,Theatre 6,Ophthalmology,67036,Vitrectomy,15:16,15:55,35
+50336,2026-07-21,Theatre 1,ENT,30520,Septoplasty,15:30,16:52,60
+50321,2026-07-21,Theatre 2,ENT,30520,Septoplasty,09:14,10:17,60
+50377,2026-07-21,Theatre 2,Urology,52601,TURP,10:30,11:21,70
+50348,2026-07-21,Theatre 2,Ophthalmology,67036,Vitrectomy,13:40,14:26,35
+50310,2026-07-21,Theatre 2,General Surgery,49505,Inguinal hernia repair,13:52,16:14,95
+50389,2026-07-21,Theatre 2,OBGYN,58571,Laparoscopic hysterectomy,14:07,14:58,85
+50276,2026-07-21,Theatre 3,Orthopedics,29881,Knee arthroscopy/meniscectomy,08:28,10:59,125
+50340,2026-07-21,Theatre 3,Ophthalmology,67036,Vitrectomy,09:44,10:24,35
+50281,2026-07-21,Theatre 3,Orthopedics,27447,Total knee arthroplasty,10:19,12:26,125
+50397,2026-07-21,Theatre 3,OBGYN,59510,Caesarean delivery,11:29,12:46,85
+50272,2026-07-21,Theatre 3,Orthopedics,27130,Total hip arthroplasty,11:47,13:09,125
+50335,2026-07-21,Theatre 3,ENT,69436,Tympanostomy tubes,14:27,15:32,60
+50361,2026-07-21,Theatre 3,Ophthalmology,67036,Vitrectomy,14:44,15:11,35
+50384,2026-07-21,Theatre 3,Urology,52601,TURP,14:47,15:51,70
+50271,2026-07-21,Theatre 3,Orthopedics,27130,Total hip arthroplasty,15:09,16:24,125
+50331,2026-07-21,Theatre 4,ENT,42820,Tonsillectomy and adenoidectomy,07:30,08:17,60
+50381,2026-07-21,Theatre 4,Urology,52601,TURP,07:31,08:53,70
+50292,2026-07-21,Theatre 4,General Surgery,47562,Laparoscopic cholecystectomy,08:19,10:37,95
+50287,2026-07-21,Theatre 4,Orthopedics,27447,Total knee arthroplasty,09:26,11:24,125
+50311,2026-07-21,Theatre 4,General Surgery,44970,Laparoscopic appendectomy,10:18,11:33,95
+50379,2026-07-21,Theatre 4,Urology,50590,Lithotripsy,10:31,11:44,70
+50314,2026-07-21,Theatre 4,General Surgery,44970,Laparoscopic appendectomy,12:48,14:17,95
+50376,2026-07-21,Theatre 4,Urology,50590,Lithotripsy,12:58,14:33,70
+50273,2026-07-21,Theatre 5,Orthopedics,27130,Total hip arthroplasty,09:44,11:32,125
+50396,2026-07-21,Theatre 5,OBGYN,58571,Laparoscopic hysterectomy,12:36,14:19,85
+50359,2026-07-21,Theatre 6,Ophthalmology,66984,Cataract extraction with IOL,08:33,09:01,35
+50369,2026-07-21,Theatre 6,Urology,52000,Cystoscopy,09:04,09:47,70
+50382,2026-07-21,Theatre 6,Urology,52601,TURP,10:04,10:40,70
+50402,2026-07-21,Theatre 6,OBGYN,58571,Laparoscopic hysterectomy,11:02,12:31,85
+50358,2026-07-21,Theatre 6,Ophthalmology,66984,Cataract extraction with IOL,13:39,14:09,35
+50293,2026-07-21,Theatre 6,General Surgery,47562,Laparoscopic cholecystectomy,14:10,15:39,95
+50365,2026-07-21,Theatre 6,Ophthalmology,67036,Vitrectomy,14:10,14:50,35
+50275,2026-07-21,Theatre 6,Orthopedics,27130,Total hip arthroplasty,15:29,17:29,125
+50325,2026-07-22,Theatre 1,ENT,30520,Septoplasty,10:29,11:28,60
+50363,2026-07-22,Theatre 1,Ophthalmology,66984,Cataract extraction with IOL,10:49,11:32,35
+50305,2026-07-22,Theatre 2,General Surgery,44970,Laparoscopic appendectomy,12:59,14:55,95
+50269,2026-07-22,Theatre 2,Orthopedics,27447,Total knee arthroplasty,13:21,15:42,125
+50317,2026-07-22,Theatre 2,General Surgery,44970,Laparoscopic appendectomy,13:28,15:10,95
+50338,2026-07-22,Theatre 3,Ophthalmology,67036,Vitrectomy,08:18,08:52,35
+50324,2026-07-22,Theatre 3,ENT,69436,Tympanostomy tubes,10:22,11:36,60
+50371,2026-07-22,Theatre 3,Urology,52601,TURP,10:45,11:52,70
+50326,2026-07-22,Theatre 3,ENT,30520,Septoplasty,14:03,15:15,60
+50352,2026-07-22,Theatre 4,Ophthalmology,66984,Cataract extraction with IOL,09:50,10:28,35
+50280,2026-07-22,Theatre 4,Orthopedics,29881,Knee arthroscopy/meniscectomy,10:38,12:04,125
+50346,2026-07-22,Theatre 4,Ophthalmology,66984,Cataract extraction with IOL,12:59,13:23,35
+50329,2026-07-22,Theatre 4,ENT,30520,Septoplasty,13:30,14:48,60
+50368,2026-07-22,Theatre 4,Urology,52601,TURP,13:49,14:30,70
+50388,2026-07-22,Theatre 5,OBGYN,58571,Laparoscopic hysterectomy,08:21,09:53,85
+50334,2026-07-22,Theatre 5,ENT,30520,Septoplasty,09:43,10:08,60
+50373,2026-07-22,Theatre 5,Urology,52601,TURP,09:45,11:08,70
+50343,2026-07-22,Theatre 5,Ophthalmology,67036,Vitrectomy,10:17,10:36,35
+50279,2026-07-22,Theatre 5,Orthopedics,27130,Total hip arthroplasty,12:52,15:27,125
+50295,2026-07-22,Theatre 5,General Surgery,44970,Laparoscopic appendectomy,13:00,14:05,95
+50270,2026-07-22,Theatre 5,Orthopedics,27130,Total hip arthroplasty,13:57,14:54,125
+50284,2026-07-22,Theatre 6,Orthopedics,29881,Knee arthroscopy/meniscectomy,07:30,08:28,125
+50306,2026-07-22,Theatre 6,General Surgery,49505,Inguinal hernia repair,07:56,09:36,95
+50350,2026-07-22,Theatre 6,Ophthalmology,66984,Cataract extraction with IOL,08:22,09:03,35
+50308,2026-07-22,Theatre 6,General Surgery,47562,Laparoscopic cholecystectomy,15:25,16:08,95
+50354,2026-07-23,Theatre 1,Ophthalmology,67036,Vitrectomy,07:36,08:14,35
+50323,2026-07-23,Theatre 1,ENT,42820,Tonsillectomy and adenoidectomy,08:37,09:57,60
+50296,2026-07-23,Theatre 2,General Surgery,47562,Laparoscopic cholecystectomy,08:54,10:12,95
+50375,2026-07-23,Theatre 2,Urology,50590,Lithotripsy,08:54,10:27,70
+50304,2026-07-23,Theatre 2,General Surgery,47562,Laparoscopic cholecystectomy,09:25,10:54,95
+50342,2026-07-23,Theatre 2,Ophthalmology,66984,Cataract extraction with IOL,12:02,12:48,35
+50360,2026-07-23,Theatre 2,Ophthalmology,67036,Vitrectomy,14:10,14:46,35
+50398,2026-07-23,Theatre 3,OBGYN,59510,Caesarean delivery,11:08,12:10,85
+50378,2026-07-23,Theatre 3,Urology,50590,Lithotripsy,13:59,14:36,70
+50383,2026-07-23,Theatre 4,Urology,52601,TURP,11:09,12:12,70
+50394,2026-07-23,Theatre 4,OBGYN,58571,Laparoscopic hysterectomy,12:15,13:54,85
+50345,2026-07-23,Theatre 4,Ophthalmology,66984,Cataract extraction with IOL,13:22,13:58,35
+50303,2026-07-23,Theatre 4,General Surgery,44970,Laparoscopic appendectomy,13:51,15:34,95
+50395,2026-07-23,Theatre 4,OBGYN,59510,Caesarean delivery,15:13,16:52,85
+50367,2026-07-23,Theatre 5,Urology,50590,Lithotripsy,07:38,08:23,70
+50390,2026-07-23,Theatre 5,OBGYN,58571,Laparoscopic hysterectomy,08:55,10:30,85
+50339,2026-07-23,Theatre 6,Ophthalmology,67036,Vitrectomy,08:14,08:38,35
+50355,2026-07-23,Theatre 6,Ophthalmology,67036,Vitrectomy,09:23,09:46,35
+50380,2026-07-23,Theatre 6,Urology,52601,TURP,09:39,10:34,70
+50302,2026-07-23,Theatre 6,General Surgery,47562,Laparoscopic cholecystectomy,12:05,13:59,95
+50372,2026-07-23,Theatre 6,Urology,50590,Lithotripsy,13:27,14:38,70
+50333,2026-07-23,Theatre 6,ENT,30520,Septoplasty,14:17,15:34,60
+50400,2026-07-24,Theatre 1,OBGYN,59510,Caesarean delivery,13:19,15:06,85
+50392,2026-07-24,Theatre 1,OBGYN,59510,Caesarean delivery,13:49,15:36,85
+50290,2026-07-24,Theatre 2,Orthopedics,27130,Total hip arthroplasty,09:14,11:12,125
+50347,2026-07-24,Theatre 2,Ophthalmology,66984,Cataract extraction with IOL,09:46,10:17,35
+50301,2026-07-24,Theatre 2,General Surgery,47562,Laparoscopic cholecystectomy,11:50,13:17,95
+50374,2026-07-24,Theatre 2,Urology,52601,TURP,14:20,15:40,70
+50283,2026-07-24,Theatre 3,Orthopedics,29881,Knee arthroscopy/meniscectomy,10:08,11:17,125
+50386,2026-07-24,Theatre 3,Urology,50590,Lithotripsy,12:54,13:57,70
+50370,2026-07-24,Theatre 3,Urology,52000,Cystoscopy,12:56,14:27,70
+50286,2026-07-24,Theatre 3,Orthopedics,27447,Total knee arthroplasty,15:08,17:53,125
+50291,2026-07-24,Theatre 4,General Surgery,47562,Laparoscopic cholecystectomy,08:51,11:04,95
+50312,2026-07-24,Theatre 4,General Surgery,44970,Laparoscopic appendectomy,11:31,12:51,95
+50327,2026-07-24,Theatre 4,ENT,69436,Tympanostomy tubes,14:45,15:39,60
+50341,2026-07-24,Theatre 5,Ophthalmology,66984,Cataract extraction with IOL,08:57,09:19,35
+50349,2026-07-24,Theatre 5,Ophthalmology,66984,Cataract extraction with IOL,10:28,11:06,35
+50278,2026-07-24,Theatre 5,Orthopedics,27447,Total knee arthroplasty,13:22,16:14,125
+50282,2026-07-24,Theatre 6,Orthopedics,27130,Total hip arthroplasty,07:54,09:26,125
+50299,2026-07-24,Theatre 6,General Surgery,44970,Laparoscopic appendectomy,09:10,10:55,95
+50344,2026-07-24,Theatre 6,Ophthalmology,66984,Cataract extraction with IOL,10:15,10:47,35
+50307,2026-07-24,Theatre 6,General Surgery,49505,Inguinal hernia repair,11:13,12:26,95
+50300,2026-07-24,Theatre 6,General Surgery,49505,Inguinal hernia repair,12:58,14:46,95
+50362,2026-07-24,Theatre 6,Ophthalmology,66984,Cataract extraction with IOL,13:08,13:47,35
+50391,2026-07-24,Theatre 6,OBGYN,58571,Laparoscopic hysterectomy,14:39,15:57,85
+50474,2026-07-27,Theatre 1,Ophthalmology,67036,Vitrectomy,08:44,09:17,35
+50427,2026-07-27,Theatre 1,General Surgery,47562,Laparoscopic cholecystectomy,09:21,11:04,95
+50534,2026-07-27,Theatre 1,OBGYN,59510,Caesarean delivery,12:34,14:15,85
+50530,2026-07-27,Theatre 1,OBGYN,59510,Caesarean delivery,14:53,15:31,85
+50433,2026-07-27,Theatre 1,General Surgery,47562,Laparoscopic cholecystectomy,15:02,16:10,95
+50489,2026-07-27,Theatre 2,Ophthalmology,66984,Cataract extraction with IOL,11:52,12:42,35
+50442,2026-07-27,Theatre 2,General Surgery,49505,Inguinal hernia repair,12:37,13:39,95
+50513,2026-07-27,Theatre 2,Urology,52601,TURP,12:46,13:59,70
+50475,2026-07-27,Theatre 2,Ophthalmology,67036,Vitrectomy,13:16,13:50,35
+50484,2026-07-27,Theatre 2,Ophthalmology,67036,Vitrectomy,13:35,14:06,35
+50412,2026-07-27,Theatre 2,Orthopedics,27130,Total hip arthroplasty,14:30,16:42,125
+50460,2026-07-27,Theatre 3,ENT,30520,Septoplasty,09:53,10:44,60
+50491,2026-07-27,Theatre 3,Ophthalmology,67036,Vitrectomy,13:56,14:33,35
+50473,2026-07-27,Theatre 3,Ophthalmology,67036,Vitrectomy,14:12,14:33,35
+50517,2026-07-27,Theatre 3,Urology,52601,TURP,14:55,16:15,70
+50426,2026-07-27,Theatre 4,General Surgery,47562,Laparoscopic cholecystectomy,07:32,08:53,95
+50476,2026-07-27,Theatre 4,Ophthalmology,67036,Vitrectomy,10:15,10:39,35
+50482,2026-07-27,Theatre 4,Ophthalmology,67036,Vitrectomy,10:23,10:54,35
+50518,2026-07-27,Theatre 4,Urology,50590,Lithotripsy,11:42,12:58,70
+50535,2026-07-27,Theatre 4,OBGYN,58571,Laparoscopic hysterectomy,12:32,13:45,85
+50410,2026-07-27,Theatre 4,Orthopedics,29881,Knee arthroscopy/meniscectomy,13:40,16:42,125
+50417,2026-07-27,Theatre 4,Orthopedics,27447,Total knee arthroplasty,14:06,17:06,125
+50480,2026-07-27,Theatre 5,Ophthalmology,67036,Vitrectomy,14:53,15:30,35
+50432,2026-07-27,Theatre 6,General Surgery,47562,Laparoscopic cholecystectomy,07:46,08:54,95
+50502,2026-07-28,Theatre 1,Urology,50590,Lithotripsy,08:03,09:03,70
+50416,2026-07-28,Theatre 1,Orthopedics,27447,Total knee arthroplasty,13:09,15:57,125
+50486,2026-07-28,Theatre 2,Ophthalmology,67036,Vitrectomy,07:43,08:13,35
+50492,2026-07-28,Theatre 2,Ophthalmology,67036,Vitrectomy,08:19,09:01,35
+50478,2026-07-28,Theatre 2,Ophthalmology,66984,Cataract extraction with IOL,15:18,15:58,35
+50515,2026-07-28,Theatre 3,Urology,52601,TURP,07:39,09:03,70
+50471,2026-07-28,Theatre 3,Ophthalmology,66984,Cataract extraction with IOL,09:30,10:10,35
+50496,2026-07-28,Theatre 3,Ophthalmology,66984,Cataract extraction with IOL,11:12,11:47,35
+50450,2026-07-28,Theatre 3,General Surgery,47562,Laparoscopic cholecystectomy,12:40,13:59,95
+50481,2026-07-28,Theatre 4,Ophthalmology,66984,Cataract extraction with IOL,08:19,09:01,35
+50483,2026-07-28,Theatre 4,Ophthalmology,66984,Cataract extraction with IOL,08:29,09:00,35
+50529,2026-07-28,Theatre 4,OBGYN,58571,Laparoscopic hysterectomy,10:53,12:25,85
+50526,2026-07-28,Theatre 4,OBGYN,58571,Laparoscopic hysterectomy,13:09,14:44,85
+50424,2026-07-28,Theatre 4,Orthopedics,27130,Total hip arthroplasty,14:04,15:32,125
+50499,2026-07-28,Theatre 5,Ophthalmology,67036,Vitrectomy,08:10,08:52,35
+50494,2026-07-28,Theatre 6,Ophthalmology,67036,Vitrectomy,07:38,08:25,35
+50521,2026-07-28,Theatre 6,OBGYN,58571,Laparoscopic hysterectomy,12:23,13:28,85
+50430,2026-07-28,Theatre 6,General Surgery,47562,Laparoscopic cholecystectomy,13:58,15:40,95
+50438,2026-07-28,Theatre 6,General Surgery,49505,Inguinal hernia repair,14:20,16:30,95
+50507,2026-07-29,Theatre 1,Urology,52000,Cystoscopy,08:53,09:55,70
+50420,2026-07-29,Theatre 1,Orthopedics,29881,Knee arthroscopy/meniscectomy,11:10,13:00,125
+50532,2026-07-29,Theatre 1,OBGYN,58571,Laparoscopic hysterectomy,11:56,13:09,85
+50527,2026-07-29,Theatre 1,OBGYN,58571,Laparoscopic hysterectomy,12:01,13:32,85
+50511,2026-07-29,Theatre 1,Urology,50590,Lithotripsy,13:44,14:30,70
+50403,2026-07-29,Theatre 1,Orthopedics,29881,Knee arthroscopy/meniscectomy,14:51,16:41,125
+50465,2026-07-29,Theatre 2,ENT,42820,Tonsillectomy and adenoidectomy,09:02,09:59,60
+50506,2026-07-29,Theatre 2,Urology,50590,Lithotripsy,09:05,10:33,70
+50500,2026-07-29,Theatre 2,Ophthalmology,66984,Cataract extraction with IOL,09:15,09:35,35
+50418,2026-07-29,Theatre 2,Orthopedics,27130,Total hip arthroplasty,14:12,16:57,125
+50472,2026-07-29,Theatre 3,Ophthalmology,66984,Cataract extraction with IOL,08:00,08:34,35
+50440,2026-07-29,Theatre 3,General Surgery,47562,Laparoscopic cholecystectomy,09:53,10:29,95
+50463,2026-07-29,Theatre 3,ENT,30520,Septoplasty,11:08,12:21,60
+50469,2026-07-29,Theatre 3,ENT,30520,Septoplasty,12:19,13:19,60
+50456,2026-07-29,Theatre 3,ENT,30520,Septoplasty,12:25,13:34,60
+50504,2026-07-29,Theatre 3,Urology,50590,Lithotripsy,14:41,15:44,70
+50477,2026-07-29,Theatre 4,Ophthalmology,67036,Vitrectomy,08:33,09:02,35
+50405,2026-07-29,Theatre 4,Orthopedics,27130,Total hip arthroplasty,09:38,10:50,125
+50406,2026-07-29,Theatre 4,Orthopedics,27130,Total hip arthroplasty,10:56,12:42,125
+50457,2026-07-29,Theatre 4,ENT,42820,Tonsillectomy and adenoidectomy,14:09,15:00,60
+50493,2026-07-29,Theatre 4,Ophthalmology,67036,Vitrectomy,15:08,15:50,35
+50488,2026-07-29,Theatre 4,Ophthalmology,67036,Vitrectomy,15:12,15:41,35
+50454,2026-07-29,Theatre 5,ENT,69436,Tympanostomy tubes,10:14,11:19,60
+50436,2026-07-29,Theatre 5,General Surgery,49505,Inguinal hernia repair,13:42,14:47,95
+50508,2026-07-29,Theatre 5,Urology,52601,TURP,15:27,16:12,70
+50445,2026-07-29,Theatre 6,General Surgery,47562,Laparoscopic cholecystectomy,07:30,08:56,95
+50409,2026-07-29,Theatre 6,Orthopedics,27447,Total knee arthroplasty,10:03,13:04,125
+50459,2026-07-29,Theatre 6,ENT,30520,Septoplasty,11:27,12:29,60
+50431,2026-07-29,Theatre 6,General Surgery,49505,Inguinal hernia repair,12:15,13:42,95
+50428,2026-07-29,Theatre 6,General Surgery,47562,Laparoscopic cholecystectomy,12:21,13:46,95
+50423,2026-07-30,Theatre 1,Orthopedics,29881,Knee arthroscopy/meniscectomy,07:37,09:24,125
+50505,2026-07-30,Theatre 1,Urology,52000,Cystoscopy,07:37,08:18,70
+50408,2026-07-30,Theatre 1,Orthopedics,27447,Total knee arthroplasty,10:19,12:20,125
+50468,2026-07-30,Theatre 1,ENT,42820,Tonsillectomy and adenoidectomy,13:31,14:28,60
+50523,2026-07-30,Theatre 1,OBGYN,59510,Caesarean delivery,14:07,15:18,85
+50533,2026-07-30,Theatre 2,OBGYN,58571,Laparoscopic hysterectomy,07:50,09:11,85
+50497,2026-07-30,Theatre 2,Ophthalmology,66984,Cataract extraction with IOL,09:51,10:22,35
+50434,2026-07-30,Theatre 3,General Surgery,44970,Laparoscopic appendectomy,10:09,11:06,95
+50448,2026-07-30,Theatre 3,General Surgery,47562,Laparoscopic cholecystectomy,12:03,13:31,95
+50458,2026-07-30,Theatre 3,ENT,42820,Tonsillectomy and adenoidectomy,14:53,15:52,60
+50452,2026-07-30,Theatre 4,General Surgery,47562,Laparoscopic cholecystectomy,12:06,13:59,95
+50451,2026-07-30,Theatre 4,General Surgery,47562,Laparoscopic cholecystectomy,13:32,15:12,95
+50439,2026-07-30,Theatre 4,General Surgery,44970,Laparoscopic appendectomy,14:08,15:56,95
+50467,2026-07-30,Theatre 4,ENT,30520,Septoplasty,14:42,15:46,60
+50525,2026-07-30,Theatre 5,OBGYN,59510,Caesarean delivery,07:57,09:16,85
+50414,2026-07-30,Theatre 5,Orthopedics,29881,Knee arthroscopy/meniscectomy,08:45,09:46,125
+50462,2026-07-30,Theatre 5,ENT,42820,Tonsillectomy and adenoidectomy,12:20,13:29,60
+50411,2026-07-30,Theatre 5,Orthopedics,27447,Total knee arthroplasty,12:23,14:52,125
+50422,2026-07-30,Theatre 5,Orthopedics,27130,Total hip arthroplasty,13:26,15:27,125
+50510,2026-07-30,Theatre 5,Urology,52000,Cystoscopy,13:54,15:15,70
+50524,2026-07-30,Theatre 5,OBGYN,59510,Caesarean delivery,14:21,16:01,85
+50437,2026-07-30,Theatre 6,General Surgery,49505,Inguinal hernia repair,08:55,10:57,95
+50522,2026-07-30,Theatre 6,OBGYN,58571,Laparoscopic hysterectomy,11:05,12:34,85
+50429,2026-07-30,Theatre 6,General Surgery,44970,Laparoscopic appendectomy,13:51,15:29,95
+50479,2026-07-30,Theatre 6,Ophthalmology,66984,Cataract extraction with IOL,15:17,15:52,35
+50514,2026-07-31,Theatre 1,Urology,52000,Cystoscopy,07:39,08:57,70
+50425,2026-07-31,Theatre 1,General Surgery,47562,Laparoscopic cholecystectomy,08:12,09:36,95
+50461,2026-07-31,Theatre 1,ENT,30520,Septoplasty,08:18,10:02,60
+50509,2026-07-31,Theatre 1,Urology,52601,TURP,08:31,09:31,70
+50446,2026-07-31,Theatre 1,General Surgery,47562,Laparoscopic cholecystectomy,09:57,11:49,95
+50421,2026-07-31,Theatre 1,Orthopedics,27447,Total knee arthroplasty,11:44,13:41,125
+50512,2026-07-31,Theatre 2,Urology,52000,Cystoscopy,07:40,08:50,70
+50464,2026-07-31,Theatre 2,ENT,42820,Tonsillectomy and adenoidectomy,09:40,10:49,60
+50447,2026-07-31,Theatre 2,General Surgery,44970,Laparoscopic appendectomy,09:50,12:09,95
+50404,2026-07-31,Theatre 2,Orthopedics,27130,Total hip arthroplasty,09:55,11:36,125
+50485,2026-07-31,Theatre 2,Ophthalmology,67036,Vitrectomy,11:14,11:53,35
+50516,2026-07-31,Theatre 2,Urology,52601,TURP,13:29,14:14,70
+50498,2026-07-31,Theatre 2,Ophthalmology,66984,Cataract extraction with IOL,13:34,14:07,35
+50444,2026-07-31,Theatre 2,General Surgery,49505,Inguinal hernia repair,14:23,16:22,95
+50435,2026-07-31,Theatre 2,General Surgery,49505,Inguinal hernia repair,14:50,16:42,95
+50536,2026-07-31,Theatre 2,OBGYN,59510,Caesarean delivery,15:03,16:25,85
+50519,2026-07-31,Theatre 3,Urology,52000,Cystoscopy,08:26,09:50,70
+50487,2026-07-31,Theatre 3,Ophthalmology,66984,Cataract extraction with IOL,10:21,10:58,35
+50495,2026-07-31,Theatre 3,Ophthalmology,67036,Vitrectomy,11:51,12:26,35
+50531,2026-07-31,Theatre 3,OBGYN,58571,Laparoscopic hysterectomy,12:51,13:32,85
+50453,2026-07-31,Theatre 3,ENT,30520,Septoplasty,14:05,15:18,60
+50466,2026-07-31,Theatre 3,ENT,30520,Septoplasty,14:55,15:57,60
+50407,2026-07-31,Theatre 3,Orthopedics,29881,Knee arthroscopy/meniscectomy,14:56,15:39,125
+50470,2026-07-31,Theatre 4,ENT,69436,Tympanostomy tubes,09:03,10:09,60
+50490,2026-07-31,Theatre 4,Ophthalmology,67036,Vitrectomy,14:37,15:17,35
+50503,2026-07-31,Theatre 4,Urology,52601,TURP,14:40,15:48,70
+50443,2026-07-31,Theatre 4,General Surgery,49505,Inguinal hernia repair,15:04,16:39,95
+50455,2026-07-31,Theatre 5,ENT,42820,Tonsillectomy and adenoidectomy,09:13,10:16,60
+50520,2026-07-31,Theatre 5,Urology,52000,Cystoscopy,09:26,10:50,70
+50449,2026-07-31,Theatre 5,General Surgery,44970,Laparoscopic appendectomy,11:38,13:17,95
+50528,2026-07-31,Theatre 6,OBGYN,58571,Laparoscopic hysterectomy,07:40,09:21,85
+50413,2026-07-31,Theatre 6,Orthopedics,29881,Knee arthroscopy/meniscectomy,08:00,10:20,125
+50415,2026-07-31,Theatre 6,Orthopedics,27130,Total hip arthroplasty,08:12,10:27,125
+50419,2026-07-31,Theatre 6,Orthopedics,27447,Total knee arthroplasty,09:42,11:59,125
+50441,2026-07-31,Theatre 6,General Surgery,44970,Laparoscopic appendectomy,13:30,15:15,95
+50501,2026-07-31,Theatre 6,Urology,52601,TURP,13:32,14:32,70
