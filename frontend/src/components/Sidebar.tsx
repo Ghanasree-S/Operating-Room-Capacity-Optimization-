@@ -51,12 +51,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
       icon: BarChart3,
     },
     {
-      id: 'planner' as ActiveTab,
-      label: 'Capacity Planner',
-      sublabel: 'Plan your week from your own inputs',
-      icon: CalendarCheck,
-    },
-    {
       id: 'lp_model' as ActiveTab,
       label: 'Linear Programming',
       sublabel: 'Throughput optimization model',
@@ -67,6 +61,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
       label: 'Goal Programming',
       sublabel: 'Throughput vs overtime trade-off',
       icon: Target,
+    },
+    {
+      id: 'planner' as ActiveTab,
+      label: 'Capacity Planner',
+      sublabel: 'Plan your week from your own inputs',
+      icon: CalendarCheck,
     },
   ];
 
